@@ -2,25 +2,33 @@
 
 import * as React from "react";
 import { motion } from "motion/react";
-import { CopyIcon } from "lucide-react";
+import { CopyIcon, PauseIcon, PlayIcon } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { useTokens } from "@/lib/token-context";
 
 const PRESETS = [
-  { key: "quiet", usage: "hovers, presses, chevrons" },
-  { key: "standard", usage: "entrances, layout shifts" },
-  { key: "playful", usage: "one hero moment per view" },
+  { key: "snappy", usage: "hovers, presses, chevrons" },
+  { key: "smooth", usage: "entrances, layout shifts" },
+  { key: "bouncy", usage: "one hero moment per view" },
 ] as const;
 
 export function SpringDemo() {
   const { values } = useTokens();
   const [side, setSide] = React.useState(false);
+  const [looping, setLooping] = React.useState(true);
+
+  React.useEffect(() => {
+    if (!looping) return;
+    const id = setInterval(() => setSide((s) => !s), 1400);
+    return () => clearInterval(id);
+  }, [looping]);
 
   const copyPreset = async (key: string) => {
-    const vd = values[`springs.${key}.visualDuration`];
-    const bounce = values[`springs.${key}.bounce`];
-    const snippet = `{ type: "spring", visualDuration: ${vd}, bounce: ${bounce} }`;
+    const s = values[`spring.${key}.stiffness`];
+    const d = values[`spring.${key}.damping`];
+    const m = values[`spring.${key}.mass`];
+    const snippet = `{ type: "spring", stiffness: ${s}, damping: ${d}, mass: ${m} }`;
     try {
       await navigator.clipboard.writeText(snippet);
       toast(`${key} spring copied.`, { description: snippet });
@@ -33,8 +41,9 @@ export function SpringDemo() {
     <div className="rounded-md border border-rule bg-surface-sunken/60 p-8">
       <div className="space-y-6">
         {PRESETS.map((preset) => {
-          const vd = Number(values[`springs.${preset.key}.visualDuration`]);
-          const bounce = Number(values[`springs.${preset.key}.bounce`]);
+          const stiffness = Number(values[`spring.${preset.key}.stiffness`]);
+          const damping = Number(values[`spring.${preset.key}.damping`]);
+          const mass = Number(values[`spring.${preset.key}.mass`]);
           return (
             <div key={preset.key}>
               <div className="mb-2 flex items-baseline justify-between gap-4">
@@ -52,7 +61,8 @@ export function SpringDemo() {
                   </button>
                 </span>
                 <span className="hidden font-mono text-xs text-slate sm:inline">
-                  {vd}s · bounce {bounce} — {preset.usage}
+                  stiffness {stiffness} · damping {damping} · mass {mass} —{" "}
+                  {preset.usage}
                 </span>
               </div>
               <div className="relative h-8 rounded-sm border border-rule bg-surface-elevated">
@@ -60,20 +70,31 @@ export function SpringDemo() {
                   className="absolute top-1 size-6 rounded-sm bg-ink"
                   initial={false}
                   animate={{ left: side ? "calc(100% - 28px)" : "4px" }}
-                  transition={{
-                    type: "spring",
-                    visualDuration: vd,
-                    bounce,
-                  }}
+                  transition={{ type: "spring", stiffness, damping, mass }}
                 />
               </div>
             </div>
           );
         })}
       </div>
-      <Button variant="outline" className="mt-8" onClick={() => setSide((s) => !s)}>
-        Play
-      </Button>
+      <div className="mt-8 flex items-center gap-2">
+        <Button variant="outline" onClick={() => setLooping((l) => !l)}>
+          {looping ? (
+            <>
+              <PauseIcon data-icon="inline-start" /> Pause loop
+            </>
+          ) : (
+            <>
+              <PlayIcon data-icon="inline-start" /> Loop
+            </>
+          )}
+        </Button>
+        {!looping ? (
+          <Button variant="ghost" onClick={() => setSide((s) => !s)}>
+            Play once
+          </Button>
+        ) : null}
+      </div>
     </div>
   );
 }

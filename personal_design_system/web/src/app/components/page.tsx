@@ -13,7 +13,7 @@ export default function ComponentsPage() {
       <h1 className="font-serif text-5xl tracking-[-0.02em]">Components</h1>
       <p className="mt-4 max-w-[52ch] text-base text-graphite">
         Fifteen pieces. The static ones hold the page together; the dynamic
-        ones move on spring tokens — quiet, standard, playful — and exit on a
+        ones move on real spring physics — stiffness, damping, mass — and exit on a
         fast fade.
       </p>
 

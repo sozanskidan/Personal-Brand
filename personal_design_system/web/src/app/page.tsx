@@ -26,7 +26,7 @@ const sections = [
   {
     href: "/foundations",
     title: "Foundations",
-    body: "Colors, type, spacing, and the spring tokens that move everything.",
+    body: "Colors, type, spacing, and the spring physics that move everything.",
   },
   {
     href: "/components",

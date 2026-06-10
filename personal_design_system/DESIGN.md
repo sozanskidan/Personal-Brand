@@ -100,11 +100,12 @@ spacing:
   xxl: 48px
   xxxl: 64px
 motion:
+  # Motion (motion.dev) native spring physics: stiffness, damping, mass.
   springs:
-    quiet:    { type: spring, visualDuration: 0.18s, bounce: 0 }    # micro-interactions: hovers, presses, chevrons
-    standard: { type: spring, visualDuration: 0.3s, bounce: 0.1 }   # default: entrances, layout shifts, indicator glides
-    playful:  { type: spring, visualDuration: 0.45s, bounce: 0.15 } # one hero moment per view, max
-  exit: { duration: 0.15s, easing: ease-in }                        # exits never spring; quick opacity fade
+    snappy: { type: spring, stiffness: 700, damping: 50, mass: 1 } # micro-interactions: hovers, presses, chevrons
+    smooth: { type: spring, stiffness: 300, damping: 28, mass: 1 } # default: entrances, layout shifts, indicator glides
+    bouncy: { type: spring, stiffness: 170, damping: 14, mass: 1 } # one hero moment per view, max
+  exit: { duration: 0.15s, easing: ease-in }                       # exits never spring; quick opacity fade
 components:
   page:
     backgroundColor: "{colors.surface}"
@@ -151,17 +152,17 @@ components:
     padding: 24px
     border: 1px solid {colors.rule}
     overlay: rgba(10, 10, 10, 0.2)               # ink at 20%, no blur
-    enter: "{motion.springs.standard}"           # scale 0.96 -> 1 plus fade
+    enter: "{motion.springs.smooth}"             # scale 0.96 -> 1 plus fade
     exit: "{motion.exit}"
   sheet:
     backgroundColor: "{colors.surface-elevated}"
     borderLeft: 1px solid {colors.rule}
     padding: 24px
-    enter: "{motion.springs.standard}"           # slides from the right
+    enter: "{motion.springs.smooth}"             # slides from the right
     exit: { duration: 0.2s, easing: ease-in }
   tabs:
     indicator: 1px solid {colors.ink}            # hairline underline, not a filled pill
-    indicatorMotion: "{motion.springs.standard}" # shared-layout glide between tabs
+    indicatorMotion: "{motion.springs.smooth}"   # shared-layout glide between tabs
     inactiveColor: "{colors.slate}"
     activeColor: "{colors.ink}"
   toast:
@@ -293,34 +294,36 @@ No drop shadows. No blurs. No glows.
 
 ## Motion
 
-Second-order dynamics. Movement comes from springs, not duration curves,
-because springs settle the way physical things do. Three named springs do
-all the work; nothing animates outside them.
+Second-order dynamics, expressed in Motion's native spring physics:
+**stiffness**, **damping**, and **mass**. No duration curves, no easing
+names — the physics is the spec. Three presets do all the work; nothing
+animates outside them.
 
-- **quiet** (visualDuration 0.18s, bounce 0) — micro-interactions: hovers,
-  presses, chevron rotations. No overshoot, ever.
-- **standard** (visualDuration 0.3s, bounce 0.1) — the default: entrances,
-  layout shifts, tab-indicator glides.
-- **playful** (visualDuration 0.45s, bounce 0.15) — one hero moment per
+- **snappy** (stiffness 700, damping 50, mass 1) — micro-interactions:
+  hovers, presses, chevron rotations. Heavily damped; no overshoot, ever.
+- **smooth** (stiffness 300, damping 28, mass 1) — the default:
+  entrances, layout shifts, tab-indicator glides. A whisper of settle.
+- **bouncy** (stiffness 170, damping 14, mass 1) — one hero moment per
   view, max. The text reveal on a landing headline, and that's about it.
 
 **Rules**
 
-- Bounce is seasoning, not flavor. Capped at 0.15, and only `playful`
-  carries it visibly.
+- Visible overshoot is seasoning, not flavor. Only `bouncy` carries it.
 - Exits never spring. They fade out in 150ms ease-in. A dialog that
   bounces on the way out overstays its welcome.
 - Respect `prefers-reduced-motion`, always. On the web this is
   `MotionConfig reducedMotion="user"` at the root.
 - Implemented with Motion (motion.dev) only, imported from `motion/react`.
-  The presets live in `web/src/lib/motion.ts`.
+  Factory values live in `web/src/lib/defaults.ts`; the presets are
+  tunable live from the site's Motion panel and surface as quick-apply
+  chips in every motion panel.
 
 ## States & Interaction
 
 - **Hover** — tonal shift, one step (`surface` -> `surface-sunken` for
   ghost fills, toward white for cards), or text color toward `ink`.
-  May pair with a scale up to 1.02. Animated on `quiet`.
-- **Press** — scale 0.98 on `quiet`. Physical, tiny, quiet.
+  May pair with a scale up to 1.02. Animated on `snappy`.
+- **Press** — scale 0.98 on `snappy`. Physical, tiny, quiet.
 - **Interactive elements never translate.** No y-axis lifts, no nudges.
   Movement on hover and press reads as depth (scale toward or away from
   the viewer), never as displacement. Translation is reserved for
@@ -371,20 +374,20 @@ inside data views only.
   1px-outline fills. For status in data views; the accent variant can be
   the view's one accent moment.
 - **Dialog** — `surface-elevated`, `md` rounded, 1px `rule` border.
-  Enters on `standard` (scale 0.96 to 1 plus fade), exits on a 150ms
+  Enters on `smooth` (scale 0.96 to 1 plus fade), exits on a 150ms
   fade. Overlay is ink at 20%, no blur.
 - **Sheet** — side panel on `surface-elevated` with a 1px `rule` left
-  border. Slides in on `standard`, exits 200ms ease-in. For secondary
+  border. Slides in on `smooth`, exits 200ms ease-in. For secondary
   tasks that shouldn't steal the page.
 - **Tabs** — inactive labels in `slate`, active in `ink`, with a 1px
-  `ink` underline that glides between tabs on `standard`. The indicator
+  `ink` underline that glides between tabs on `smooth`. The indicator
   is a hairline, never a filled pill.
 - **Accordion** — hairline-divided rows, chevron rotates 180° on
-  `quiet`-equivalent timing. Content height animates quietly.
+  `snappy`-equivalent timing. Content height animates quietly.
 - **Hover-lift card** — depth without shadows: scale to 1.02 plus a
-  tonal step toward white, on `quiet`. Nothing moves on the y axis.
-- **Text reveal** — per-word serif reveal, 50ms stagger on `standard`.
-  One per view; this is the `playful` budget spent.
+  tonal step toward white, on `snappy`. Nothing moves on the y axis.
+- **Text reveal** — per-word serif reveal, 50ms stagger on `smooth`.
+  One per view; this is the `bouncy` budget spent.
 - **Toast** — `surface-elevated`, 1px `rule`, no shadow, bottom corner.
   Quiet confirmations only; errors deserve a dialog.
 - **List (bulleted or numbered)** — Lists breathe. They are not paragraphs
@@ -432,9 +435,9 @@ inside data views only.
 - No drop shadows, gradients, or glows. Depth is tonal (`surface` ->
   `surface-elevated` -> `surface-sunken`) plus 1px `rule` hairlines.
 - No dark mode. Light surfaces only.
-- Motion uses the named spring tokens (`quiet` / `standard` / `playful`),
-  bounce capped at 0.15; exits are 150ms opacity fades. See the Motion
-  section.
+- Motion uses spring physics (`stiffness` / `damping` / `mass`) via the
+  three presets (`snappy` / `smooth` / `bouncy`); exits are 150ms opacity
+  fades. See the Motion section.
 - Respect `prefers-reduced-motion`. No autoplay video above the fold.
 - The web surface is implemented in `personal_design_system/web/`:
   Next.js (App Router, TypeScript), Tailwind CSS v4 with `@theme` tokens
@@ -540,9 +543,9 @@ building artifacts in Dan's system, follow this guide.
 - Spacing: 4, 8, 16, 24, 32, 48, 64. Page padding 64px desktop, 24-48px mobile.
 - Corners: 8px default, 4px for chips, 16-24px for hero containers. No pills in docs.
 - Depth: tonal layers and hairlines only. No shadows, no gradients, no glows.
-- Motion: named springs only — quiet (0.18s/0), standard (0.3s/0.1),
-  playful (0.45s/0.15, once per view). Exits fade 150ms ease-in.
-  Respect `prefers-reduced-motion`.
+- Motion: spring physics only — snappy (700/50/1), smooth (300/28/1),
+  bouncy (170/14/1, once per view) as stiffness/damping/mass. Exits fade
+  150ms ease-in. Respect `prefers-reduced-motion`.
 - Light mode only. No dark theme.
 
 **Ready-to-use prompts**
@@ -588,6 +591,6 @@ building artifacts in Dan's system, follow this guide.
 - [ ] All animation uses the named spring tokens; nothing animates on
       ad-hoc durations or easings.
 - [ ] Exits fade (150ms ease-in); nothing springs on the way out.
-- [ ] `playful` (the only visible bounce) appears at most once per view.
+- [ ] `bouncy` (the only visible overshoot) appears at most once per view.
 - [ ] Focus rings are visible on every interactive element.
 

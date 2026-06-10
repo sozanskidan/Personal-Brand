@@ -106,6 +106,8 @@
      at runtime; untouched values keep following the token chain. */
   --btn-radius: 4px;
   --btn-font-size: 14px;
+  --btn-px: 12px;
+  --btn-py: 8px;
   --btn-primary-bg: var(--color-ink);
   --btn-primary-text: var(--color-surface);
   --btn-accent-bg: var(--color-accent);

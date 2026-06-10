@@ -146,7 +146,7 @@ export function DialogDemo() {
     <AnimatedDialog
       trigger={<Button variant="outline">Open dialog</Button>}
       title="A quiet entrance"
-      description="Scales from 96% on the standard spring. Exits are a fast fade, never a reverse bounce."
+      description="Scales in on spring physics. Exits are a fast fade, never a reverse bounce."
     >
       <p className="text-sm text-graphite">
         The overlay is ink at 20% opacity. No blur, no glow.
@@ -160,7 +160,7 @@ export function SheetDemo() {
     <AnimatedSheet
       trigger={<Button variant="outline">Open sheet</Button>}
       title="Side panel"
-      description="Slides on the standard spring and settles without fuss."
+      description="Slides in on spring physics and settles without fuss."
     >
       <p className="text-sm text-graphite">
         Use sheets for secondary tasks that should not steal the page.
@@ -241,7 +241,7 @@ export function HoverLiftDemo() {
       <HoverLiftCard>
         <Eyebrow className="mb-2">Me too</Eyebrow>
         <p className="text-sm text-graphite">
-          The quiet spring settles in about 180 milliseconds.
+          A stiff, damped spring settles it in a blink.
         </p>
       </HoverLiftCard>
     </div>
@@ -250,6 +250,14 @@ export function HoverLiftDemo() {
 
 export function TextRevealDemo() {
   const [runId, setRunId] = React.useState(0);
+  const [looping, setLooping] = React.useState(true);
+
+  React.useEffect(() => {
+    if (!looping) return;
+    const id = setInterval(() => setRunId((n) => n + 1), 2400);
+    return () => clearInterval(id);
+  }, [looping]);
+
   return (
     <div className="flex w-full max-w-lg flex-col items-start gap-6">
       <TextReveal
@@ -258,9 +266,14 @@ export function TextRevealDemo() {
         text="Whitespace is the brand."
         className="font-serif text-4xl tracking-[-0.02em]"
       />
-      <Button variant="ghost" onClick={() => setRunId((n) => n + 1)}>
-        Replay
-      </Button>
+      <div className="flex gap-2">
+        <Button variant="outline" onClick={() => setLooping((l) => !l)}>
+          {looping ? "Pause loop" : "Loop"}
+        </Button>
+        <Button variant="ghost" onClick={() => setRunId((n) => n + 1)}>
+          Replay
+        </Button>
+      </div>
     </div>
   );
 }

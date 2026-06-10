@@ -5,14 +5,113 @@ import { AnimatePresence, motion } from "motion/react";
 import { Settings2Icon, XIcon } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
-import { springs, fadeExit } from "@/lib/motion";
+import { uiSpring, fadeExit } from "@/lib/motion";
 import { getScope, type ControlDef } from "@/lib/defaults";
 import { useTokens } from "@/lib/token-context";
 import { Button } from "@/components/ui/button";
 
-function formatValue(def: ControlDef, v: string | number): string {
-  if (def.type === "color") return String(v);
-  return `${v}${def.unit ?? ""}`;
+const HEX_RE = /^#[0-9a-fA-F]{6}$/;
+
+function clamp(v: number, min?: number, max?: number): number {
+  if (min !== undefined && v < min) return min;
+  if (max !== undefined && v > max) return max;
+  return v;
+}
+
+/** Number field with a local buffer so partial input ("0.", "-") types cleanly. */
+function NumberField({
+  value,
+  min,
+  max,
+  step,
+  onCommit,
+}: {
+  value: number;
+  min?: number;
+  max?: number;
+  step?: number;
+  onCommit: (v: number) => void;
+}) {
+  const [text, setText] = React.useState(String(value));
+  const [lastValue, setLastValue] = React.useState(value);
+  const [focused, setFocused] = React.useState(false);
+  if (!focused && value !== lastValue) {
+    setLastValue(value);
+    setText(String(value));
+  }
+
+  const commit = (raw: string) => {
+    const n = Number(raw);
+    if (Number.isFinite(n)) {
+      const clamped = clamp(n, min, max);
+      onCommit(clamped);
+      setText(String(clamped));
+    } else {
+      setText(String(value));
+    }
+  };
+
+  return (
+    <input
+      type="number"
+      inputMode="decimal"
+      min={min}
+      max={max}
+      step={step}
+      value={text}
+      onFocus={() => setFocused(true)}
+      onChange={(e) => {
+        setText(e.target.value);
+        const n = Number(e.target.value);
+        if (e.target.value !== "" && Number.isFinite(n)) {
+          onCommit(clamp(n, min, max));
+        }
+      }}
+      onBlur={(e) => {
+        setFocused(false);
+        commit(e.target.value);
+      }}
+      onKeyDown={(e) => {
+        if (e.key === "Enter") commit((e.target as HTMLInputElement).value);
+      }}
+      className="w-18 rounded-sm border border-rule bg-transparent px-1.5 py-0.5 text-right font-mono text-xs text-ink outline-none focus:border-graphite [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+    />
+  );
+}
+
+/** Hex field with a local buffer; commits only valid #rrggbb. */
+function HexField({
+  value,
+  onCommit,
+}: {
+  value: string;
+  onCommit: (v: string) => void;
+}) {
+  const [text, setText] = React.useState(value);
+  const [lastValue, setLastValue] = React.useState(value);
+  const [focused, setFocused] = React.useState(false);
+  if (!focused && value !== lastValue) {
+    setLastValue(value);
+    setText(value);
+  }
+
+  return (
+    <input
+      type="text"
+      spellCheck={false}
+      value={text}
+      onFocus={() => setFocused(true)}
+      onChange={(e) => {
+        setText(e.target.value);
+        if (HEX_RE.test(e.target.value)) onCommit(e.target.value.toLowerCase());
+      }}
+      onBlur={(e) => {
+        setFocused(false);
+        if (!HEX_RE.test(e.target.value)) setText(value);
+      }}
+      className="w-20 rounded-sm border border-rule bg-transparent px-1.5 py-0.5 font-mono text-xs text-ink outline-none focus:border-graphite"
+    />
+  );
 }
 
 function Control({ scope, def }: { scope: string; def: ControlDef }) {
@@ -25,7 +124,7 @@ function Control({ scope, def }: { scope: string; def: ControlDef }) {
       <label className="flex items-center justify-between gap-3 py-1.5">
         <span className="text-sm text-graphite">{def.label}</span>
         <span className="flex items-center gap-2">
-          <span className="font-mono text-xs text-slate">{String(value)}</span>
+          <HexField value={String(value)} onCommit={(v) => setValue(key, v)} />
           <input
             type="color"
             value={String(value)}
@@ -39,10 +138,19 @@ function Control({ scope, def }: { scope: string; def: ControlDef }) {
 
   return (
     <div className="py-1.5">
-      <div className="flex items-baseline justify-between gap-3">
+      <div className="flex items-center justify-between gap-3">
         <span className="text-sm text-graphite">{def.label}</span>
-        <span className="font-mono text-xs text-slate">
-          {formatValue(def, value)}
+        <span className="flex items-center gap-1">
+          <NumberField
+            value={Number(value)}
+            min={def.min}
+            max={def.max}
+            step={def.step}
+            onCommit={(v) => setValue(key, v)}
+          />
+          {def.unit ? (
+            <span className="font-mono text-xs text-slate">{def.unit}</span>
+          ) : null}
         </span>
       </div>
       <input
@@ -59,6 +167,52 @@ function Control({ scope, def }: { scope: string; def: ControlDef }) {
   );
 }
 
+const SPRING_PRESETS = ["snappy", "smooth", "bouncy"] as const;
+const SPRING_KEYS = ["stiffness", "damping", "mass"] as const;
+
+/**
+ * Preset chips shown in any motion panel. Clicking applies the preset's
+ * current values (as tuned on the Foundations page) to this scope; any
+ * manual tweak flips the selection to Custom, inheriting the numbers.
+ */
+function SpringPresetChips({ scope }: { scope: string }) {
+  const { values, setValue } = useTokens();
+
+  const active = SPRING_PRESETS.find((p) =>
+    SPRING_KEYS.every(
+      (k) => Number(values[`${scope}.${k}`]) === Number(values[`spring.${p}.${k}`]),
+    ),
+  );
+
+  const apply = (p: (typeof SPRING_PRESETS)[number]) => {
+    for (const k of SPRING_KEYS) {
+      setValue(`${scope}.${k}`, Number(values[`spring.${p}.${k}`]));
+    }
+  };
+
+  const chip = (label: string, isActive: boolean, onClick?: () => void) => (
+    <button
+      key={label}
+      onClick={onClick}
+      className={cn(
+        "label-caps rounded-(--chip-radius) px-2 py-1 transition-colors",
+        isActive
+          ? "bg-ink text-surface"
+          : "bg-surface-sunken text-graphite hover:text-ink",
+      )}
+    >
+      {label}
+    </button>
+  );
+
+  return (
+    <div className="flex flex-wrap gap-1.5 border-b border-rule pb-3 pt-1.5">
+      {SPRING_PRESETS.map((p) => chip(p, active === p, () => apply(p)))}
+      {chip("custom", active === undefined)}
+    </div>
+  );
+}
+
 export function ParamPanel({
   scope,
   className,
@@ -71,6 +225,15 @@ export function ParamPanel({
   const [open, setOpen] = React.useState(false);
 
   if (!def) return null;
+
+  const hasSpring =
+    scope !== "spring" && def.controls.some((c) => c.key === "stiffness");
+  const springControls = hasSpring
+    ? def.controls.filter((c) => SPRING_KEYS.includes(c.key as never))
+    : [];
+  const otherControls = hasSpring
+    ? def.controls.filter((c) => !SPRING_KEYS.includes(c.key as never))
+    : def.controls;
 
   return (
     <div className={className}>
@@ -89,7 +252,7 @@ export function ParamPanel({
         {open && (
           <motion.aside
             initial={{ opacity: 0, x: 16 }}
-            animate={{ opacity: 1, x: 0, transition: springs.standard }}
+            animate={{ opacity: 1, x: 0, transition: uiSpring }}
             exit={{ opacity: 0, x: 16, transition: fadeExit }}
             className="fixed right-4 top-20 z-50 flex max-h-[75vh] w-80 flex-col rounded-md border border-rule bg-surface-elevated"
           >
@@ -111,7 +274,16 @@ export function ParamPanel({
               {def.note ? (
                 <p className="mb-2 text-[0.8125rem] text-slate">{def.note}</p>
               ) : null}
-              {def.controls.map((c) => (
+              {hasSpring ? (
+                <>
+                  <SpringPresetChips scope={scope} />
+                  {springControls.map((c) => (
+                    <Control key={c.key} scope={scope} def={c} />
+                  ))}
+                  <div className="my-1.5 border-t border-rule" />
+                </>
+              ) : null}
+              {otherControls.map((c) => (
                 <Control key={c.key} scope={scope} def={c} />
               ))}
             </div>

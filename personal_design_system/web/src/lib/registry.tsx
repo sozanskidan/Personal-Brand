@@ -116,9 +116,9 @@ export const registry: RegistryEntry[] = [
     slug: "dialog",
     name: "Dialog",
     category: "Dynamic",
-    description: "Scales in on the standard spring, exits on a fast fade.",
+    description: "Scales in on spring physics, exits on a fast fade.",
     notes: [
-      "Enter: scale 0.96 to 1 plus fade, springs.standard.",
+      "Enter: scale 0.96 to 1 plus fade on the smooth spring.",
       "Exit: 150ms opacity fade. Exits never spring.",
       "Overlay is ink at 20%. No blur.",
     ],
@@ -128,9 +128,9 @@ export const registry: RegistryEntry[] = [
     slug: "sheet",
     name: "Sheet",
     category: "Dynamic",
-    description: "A side panel that slides on the standard spring.",
+    description: "A side panel that slides in on spring physics.",
     notes: [
-      "Slides from the right, settles with the standard spring.",
+      "Slides from the right, settles on the smooth spring.",
       "Border-left hairline separates it from the page.",
     ],
     Demo: SheetDemo,
@@ -152,7 +152,7 @@ export const registry: RegistryEntry[] = [
     category: "Dynamic",
     description: "A 1px ink underline glides between tabs.",
     notes: [
-      "Shared-layout underline on springs.standard.",
+      "Shared-layout underline gliding on the smooth spring.",
       "The indicator is a hairline, not a filled pill.",
     ],
     Demo: TabsDemo,
@@ -164,7 +164,7 @@ export const registry: RegistryEntry[] = [
     description: "Depth without shadows: a 2% scale plus a tonal shift.",
     notes: [
       "whileHover: scale 1.02, background brightens one step.",
-      "springs.quiet — no overshoot on micro-interactions.",
+      "Snappy spring — stiff and damped, no overshoot on micro-interactions.",
     ],
     Demo: HoverLiftDemo,
   },
@@ -174,8 +174,8 @@ export const registry: RegistryEntry[] = [
     category: "Dynamic",
     description: "Per-word serif reveal for the headline that matters.",
     notes: [
-      "Words stagger 50ms apart on springs.standard.",
-      "One per view. It is the playful moment.",
+      "Words stagger 50ms apart on the smooth spring.",
+      "One per view. Spend the bouncy spring here if anywhere.",
     ],
     Demo: TextRevealDemo,
   },

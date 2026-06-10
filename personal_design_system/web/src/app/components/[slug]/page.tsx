@@ -1,8 +1,8 @@
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Eyebrow } from "@/components/ds/eyebrow";
 import { Chip } from "@/components/ds/chip";
 import { ComponentPreview } from "@/components/site/component-preview";
+import { ComponentSwitcher } from "@/components/site/component-switcher";
 import { registry, getEntry } from "@/lib/registry";
 
 export function generateStaticParams() {
@@ -28,15 +28,11 @@ export default async function ComponentPage({
   if (!entry) notFound();
 
   const { Demo } = entry;
+  const items = registry.map((e) => ({ slug: e.slug, name: e.name }));
 
   return (
     <div className="mx-auto max-w-5xl px-6 py-24">
-      <Link
-        href="/components"
-        className="text-sm text-slate transition-colors hover:text-ink"
-      >
-        ← Components
-      </Link>
+      <ComponentSwitcher items={items} current={entry.slug} />
 
       <div className="mt-8 flex items-start justify-between gap-4">
         <div>

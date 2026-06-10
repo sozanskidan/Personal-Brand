@@ -147,8 +147,8 @@ export default function FoundationsPage() {
       <Section
         eyebrow="05 · Motion"
         title="Second-order dynamics"
-        lede="Three named springs move everything. Bounce is capped at 0.15 in the spec and exits never spring. Copy a preset with the icon, or open the cog and tune the physics live."
-        action={<ParamPanel scope="springs" />}
+        lede="Three spring presets — stiffness, damping, mass — move everything, and they loop below so you can feel your edits. Copy a preset with the icon, or open the cog and tune the physics live. Exits never spring."
+        action={<ParamPanel scope="spring" />}
       >
         <SpringDemo />
       </Section>

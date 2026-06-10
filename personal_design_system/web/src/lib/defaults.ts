@@ -2,6 +2,8 @@
  * The playground's source of truth. Every tweakable parameter is declared
  * here with its factory default (mirroring DESIGN.md). "Reset" in a panel
  * returns to these values; "Save" persists overrides to localStorage.
+ *
+ * Springs use Motion's native physics parameters: stiffness, damping, mass.
  */
 
 export type ControlDef = {
@@ -25,26 +27,10 @@ export type ScopeDef = {
   controls: ControlDef[];
 };
 
-const springControls = (vd: number, bounce: number): ControlDef[] => [
-  {
-    key: "visualDuration",
-    label: "Spring duration",
-    type: "range",
-    def: vd,
-    min: 0.08,
-    max: 0.8,
-    step: 0.01,
-    unit: "s",
-  },
-  {
-    key: "bounce",
-    label: "Spring bounce",
-    type: "range",
-    def: bounce,
-    min: 0,
-    max: 0.5,
-    step: 0.01,
-  },
+const springControls = (stiffness: number, damping: number): ControlDef[] => [
+  { key: "stiffness", label: "Stiffness", type: "range", def: stiffness, min: 20, max: 1000, step: 5 },
+  { key: "damping", label: "Damping", type: "range", def: damping, min: 1, max: 80, step: 1 },
+  { key: "mass", label: "Mass", type: "range", def: 1, min: 0.25, max: 3, step: 0.05 },
 ];
 
 export const SCOPES: ScopeDef[] = [
@@ -66,17 +52,20 @@ export const SCOPES: ScopeDef[] = [
     ],
   },
   {
-    scope: "springs",
-    title: "Motion springs",
-    note: "The three named presets. Components carry their own copies you can tune per component.",
+    scope: "spring",
+    title: "Motion presets",
+    note: "Motion's native spring physics. These three presets appear as chips in every motion panel; tune them here and the chips follow.",
     controls: [
-      { key: "quiet.visualDuration", label: "Quiet · duration", type: "range", def: 0.18, min: 0.08, max: 0.8, step: 0.01, unit: "s" },
-      { key: "quiet.bounce", label: "Quiet · bounce", type: "range", def: 0, min: 0, max: 0.5, step: 0.01 },
-      { key: "standard.visualDuration", label: "Standard · duration", type: "range", def: 0.3, min: 0.08, max: 0.8, step: 0.01, unit: "s" },
-      { key: "standard.bounce", label: "Standard · bounce", type: "range", def: 0.1, min: 0, max: 0.5, step: 0.01 },
-      { key: "playful.visualDuration", label: "Playful · duration", type: "range", def: 0.45, min: 0.08, max: 0.8, step: 0.01, unit: "s" },
-      { key: "playful.bounce", label: "Playful · bounce", type: "range", def: 0.15, min: 0, max: 0.5, step: 0.01 },
-      { key: "exit.duration", label: "Exit fade", type: "range", def: 0.15, min: 0.05, max: 0.4, step: 0.01, unit: "s" },
+      { key: "snappy.stiffness", label: "Snappy · stiffness", type: "range", def: 700, min: 20, max: 1000, step: 5 },
+      { key: "snappy.damping", label: "Snappy · damping", type: "range", def: 50, min: 1, max: 80, step: 1 },
+      { key: "snappy.mass", label: "Snappy · mass", type: "range", def: 1, min: 0.25, max: 3, step: 0.05 },
+      { key: "smooth.stiffness", label: "Smooth · stiffness", type: "range", def: 300, min: 20, max: 1000, step: 5 },
+      { key: "smooth.damping", label: "Smooth · damping", type: "range", def: 28, min: 1, max: 80, step: 1 },
+      { key: "smooth.mass", label: "Smooth · mass", type: "range", def: 1, min: 0.25, max: 3, step: 0.05 },
+      { key: "bouncy.stiffness", label: "Bouncy · stiffness", type: "range", def: 170, min: 20, max: 1000, step: 5 },
+      { key: "bouncy.damping", label: "Bouncy · damping", type: "range", def: 14, min: 1, max: 80, step: 1 },
+      { key: "bouncy.mass", label: "Bouncy · mass", type: "range", def: 1, min: 0.25, max: 3, step: 0.05 },
+      { key: "exitDuration", label: "Exit fade", type: "range", def: 0.15, min: 0.05, max: 0.4, step: 0.01, unit: "s" },
     ],
   },
   {
@@ -96,13 +85,15 @@ export const SCOPES: ScopeDef[] = [
     controls: [
       { key: "radius", label: "Corner radius", type: "range", def: 4, min: 0, max: 24, step: 1, unit: "px", cssVar: "--btn-radius" },
       { key: "fontSize", label: "Text size", type: "range", def: 14, min: 11, max: 18, step: 0.5, unit: "px", cssVar: "--btn-font-size" },
+      { key: "paddingX", label: "Padding · horizontal", type: "range", def: 12, min: 4, max: 40, step: 1, unit: "px", cssVar: "--btn-px" },
+      { key: "paddingY", label: "Padding · vertical", type: "range", def: 8, min: 2, max: 24, step: 1, unit: "px", cssVar: "--btn-py" },
       { key: "primaryBg", label: "Primary fill", type: "color", def: "#0a0a0a", cssVar: "--btn-primary-bg" },
       { key: "primaryText", label: "Primary text", type: "color", def: "#fafaf7", cssVar: "--btn-primary-text" },
       { key: "accentBg", label: "Accent fill", type: "color", def: "#9bb0c9", cssVar: "--btn-accent-bg" },
       { key: "accentText", label: "Accent text", type: "color", def: "#0a0a0a", cssVar: "--btn-accent-text" },
-      { key: "hoverScale", label: "Hover scale", type: "range", def: 1, min: 1, max: 1.1, step: 0.005 },
-      { key: "pressScale", label: "Press scale", type: "range", def: 0.98, min: 0.85, max: 1, step: 0.005 },
-      ...springControls(0.18, 0),
+      { key: "hoverScale", label: "Hover scale", type: "range", def: 1, min: 1, max: 1.15, step: 0.005 },
+      { key: "pressScale", label: "Press scale", type: "range", def: 0.98, min: 0.8, max: 1, step: 0.005 },
+      ...springControls(700, 50),
     ],
   },
   {
@@ -164,7 +155,7 @@ export const SCOPES: ScopeDef[] = [
     scope: "dialog",
     title: "Dialog",
     controls: [
-      ...springControls(0.3, 0.1),
+      ...springControls(300, 28),
       { key: "initialScale", label: "Enter from scale", type: "range", def: 0.96, min: 0.8, max: 1, step: 0.01 },
       { key: "overlayOpacity", label: "Overlay opacity", type: "range", def: 20, min: 0, max: 60, step: 1, unit: "%" },
       { key: "radius", label: "Corner radius", type: "range", def: 8, min: 0, max: 24, step: 1, unit: "px", cssVar: "--dialog-radius" },
@@ -174,7 +165,7 @@ export const SCOPES: ScopeDef[] = [
     scope: "sheet",
     title: "Sheet",
     controls: [
-      ...springControls(0.3, 0.1),
+      ...springControls(300, 28),
       { key: "width", label: "Panel width", type: "range", def: 384, min: 280, max: 520, step: 8, unit: "px" },
     ],
   },
@@ -189,7 +180,7 @@ export const SCOPES: ScopeDef[] = [
     scope: "tabs",
     title: "Animated Tabs",
     controls: [
-      ...springControls(0.3, 0.1),
+      ...springControls(300, 28),
       { key: "thickness", label: "Indicator thickness", type: "range", def: 1, min: 1, max: 4, step: 1, unit: "px" },
     ],
   },
@@ -197,10 +188,10 @@ export const SCOPES: ScopeDef[] = [
     scope: "hover-lift-card",
     title: "Hover-lift Card",
     controls: [
-      { key: "hoverScale", label: "Hover scale", type: "range", def: 1.02, min: 1, max: 1.1, step: 0.005 },
-      { key: "tapScale", label: "Press scale", type: "range", def: 0.99, min: 0.85, max: 1, step: 0.005 },
+      { key: "hoverScale", label: "Hover scale", type: "range", def: 1.02, min: 1, max: 1.15, step: 0.005 },
+      { key: "tapScale", label: "Press scale", type: "range", def: 0.99, min: 0.8, max: 1, step: 0.005 },
       { key: "hoverBg", label: "Hover fill", type: "color", def: "#ffffff" },
-      ...springControls(0.18, 0),
+      ...springControls(700, 50),
     ],
   },
   {
@@ -209,7 +200,7 @@ export const SCOPES: ScopeDef[] = [
     controls: [
       { key: "staggerMs", label: "Word stagger", type: "range", def: 50, min: 0, max: 150, step: 5, unit: "ms" },
       { key: "riseEm", label: "Rise distance", type: "range", def: 0.4, min: 0, max: 0.8, step: 0.05, unit: "em" },
-      ...springControls(0.3, 0.1),
+      ...springControls(300, 28),
     ],
   },
   {

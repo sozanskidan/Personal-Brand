@@ -167,7 +167,7 @@ function LandingTemplate() {
       <div className="mt-16 grid gap-4 sm:grid-cols-3">
         {[
           { title: "Tonal depth", body: "Three surfaces and a hairline. No shadows." },
-          { title: "Spring motion", body: "Settles naturally. Bounce capped at 0.15." },
+          { title: "Spring motion", body: "Real physics: stiffness, damping, mass. Settles naturally." },
           { title: "Type-led", body: "Serif carries emotion, sans carries information." },
         ].map((f) => (
           <HoverLiftCard key={f.title}>

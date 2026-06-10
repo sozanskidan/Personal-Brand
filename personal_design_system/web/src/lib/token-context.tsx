@@ -6,7 +6,7 @@ import { SCOPES, FACTORY, type ControlDef } from "@/lib/defaults";
 
 type Values = Record<string, string | number>;
 
-const STORAGE_KEY = "pds-overrides-v1";
+const STORAGE_KEY = "pds-overrides-v2";
 
 const CONTROL_INDEX: Record<string, ControlDef> = {};
 for (const s of SCOPES) {
@@ -136,18 +136,19 @@ export function useTokenNumber(key: string): number {
   return Number(values[key]);
 }
 
-/** Spring transition from a scope's visualDuration/bounce controls. */
+/** Spring transition from a scope's stiffness/damping/mass controls. */
 export function useSpringToken(prefix: string): Transition {
   const { values } = useTokens();
   return {
     type: "spring",
-    visualDuration: Number(values[`${prefix}.visualDuration`]),
-    bounce: Number(values[`${prefix}.bounce`]),
+    stiffness: Number(values[`${prefix}.stiffness`]),
+    damping: Number(values[`${prefix}.damping`]),
+    mass: Number(values[`${prefix}.mass`]),
   };
 }
 
 /** The global exit fade, editable from the Motion panel. */
 export function useExitFade(): Transition {
   const { values } = useTokens();
-  return { duration: Number(values["springs.exit.duration"]), ease: "easeIn" };
+  return { duration: Number(values["spring.exitDuration"]), ease: "easeIn" };
 }
