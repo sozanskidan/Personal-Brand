@@ -99,6 +99,12 @@ spacing:
   xl: 32px
   xxl: 48px
   xxxl: 64px
+motion:
+  springs:
+    quiet:    { type: spring, visualDuration: 0.18s, bounce: 0 }    # micro-interactions: hovers, presses, chevrons
+    standard: { type: spring, visualDuration: 0.3s, bounce: 0.1 }   # default: entrances, layout shifts, indicator glides
+    playful:  { type: spring, visualDuration: 0.45s, bounce: 0.15 } # one hero moment per view, max
+  exit: { duration: 0.15s, easing: ease-in }                        # exits never spring; quick opacity fade
 components:
   page:
     backgroundColor: "{colors.surface}"
@@ -133,6 +139,35 @@ components:
     textColor: "{colors.ink}"
     rounded: "{rounded.md}"
     padding: 16px
+  chip:
+    backgroundColor: "{colors.surface-sunken}"   # variants: accent-muted fill, or 1px rule outline
+    textColor: "{colors.graphite}"
+    rounded: "{rounded.sm}"
+    padding: 4px 8px
+    typography: "{typography.label-caps}"
+  dialog:
+    backgroundColor: "{colors.surface-elevated}"
+    rounded: "{rounded.md}"
+    padding: 24px
+    border: 1px solid {colors.rule}
+    overlay: rgba(10, 10, 10, 0.2)               # ink at 20%, no blur
+    enter: "{motion.springs.standard}"           # scale 0.96 -> 1 plus fade
+    exit: "{motion.exit}"
+  sheet:
+    backgroundColor: "{colors.surface-elevated}"
+    borderLeft: 1px solid {colors.rule}
+    padding: 24px
+    enter: "{motion.springs.standard}"           # slides from the right
+    exit: { duration: 0.2s, easing: ease-in }
+  tabs:
+    indicator: 1px solid {colors.ink}            # hairline underline, not a filled pill
+    indicatorMotion: "{motion.springs.standard}" # shared-layout glide between tabs
+    inactiveColor: "{colors.slate}"
+    activeColor: "{colors.ink}"
+  toast:
+    backgroundColor: "{colors.surface-elevated}"
+    border: 1px solid {colors.rule}
+    rounded: "{rounded.md}"                      # no shadow, light theme only
   table-header:
     backgroundColor: "{colors.surface-sunken}"
     textColor: "{colors.graphite}"
@@ -256,6 +291,53 @@ Subtle tonal layers, not shadows. Depth comes from three things:
 
 No drop shadows. No blurs. No glows.
 
+## Motion
+
+Second-order dynamics. Movement comes from springs, not duration curves,
+because springs settle the way physical things do. Three named springs do
+all the work; nothing animates outside them.
+
+- **quiet** (visualDuration 0.18s, bounce 0) — micro-interactions: hovers,
+  presses, chevron rotations. No overshoot, ever.
+- **standard** (visualDuration 0.3s, bounce 0.1) — the default: entrances,
+  layout shifts, tab-indicator glides.
+- **playful** (visualDuration 0.45s, bounce 0.15) — one hero moment per
+  view, max. The text reveal on a landing headline, and that's about it.
+
+**Rules**
+
+- Bounce is seasoning, not flavor. Capped at 0.15, and only `playful`
+  carries it visibly.
+- Exits never spring. They fade out in 150ms ease-in. A dialog that
+  bounces on the way out overstays its welcome.
+- Respect `prefers-reduced-motion`, always. On the web this is
+  `MotionConfig reducedMotion="user"` at the root.
+- Implemented with Motion (motion.dev) only, imported from `motion/react`.
+  The presets live in `web/src/lib/motion.ts`.
+
+## States & Interaction
+
+- **Hover** — tonal shift, one step (`surface` -> `surface-sunken` for
+  ghost fills, toward white for cards), or text color toward `ink`.
+  Animated on `quiet`.
+- **Press** — 1px translate-down or scale 0.98. Physical, tiny, quiet.
+- **Focus** — visible focus ring in `accent` at ~50% opacity, 3px. The
+  one place the accent may repeat. Never remove focus styles.
+- **Disabled** — 50% opacity, no pointer events. No grayed-out custom
+  palettes.
+- **Selected / active** — `ink` text plus a 1px `ink` underline or
+  `surface-sunken` fill. Never an accent fill.
+
+## Layering
+
+Layers are few and fixed. Tonal surfaces handle depth inside the page;
+z-index handles depth above it.
+
+- `0` — page content.
+- `40` — sticky chrome (site header), `surface` at 90% with light blur.
+- `50` — overlays and modals (dialog, sheet, toast). Overlay scrim is
+  ink at 20%, no backdrop blur.
+
 ## Shapes
 
 Corners are gentle but never round. Default is `8px`. Small chips and tags
@@ -281,6 +363,26 @@ inside data views only.
 - **Table** — `table-header` row in `surface-sunken` with `label-caps`
   type; `table-cell` rows in `surface-elevated` with `body-sm`. No banded
   rows. 1px `rule` hairlines only.
+- **Chip** — `sm` rounded, `label-caps` type. Sunken, accent-muted, or
+  1px-outline fills. For status in data views; the accent variant can be
+  the view's one accent moment.
+- **Dialog** — `surface-elevated`, `md` rounded, 1px `rule` border.
+  Enters on `standard` (scale 0.96 to 1 plus fade), exits on a 150ms
+  fade. Overlay is ink at 20%, no blur.
+- **Sheet** — side panel on `surface-elevated` with a 1px `rule` left
+  border. Slides in on `standard`, exits 200ms ease-in. For secondary
+  tasks that shouldn't steal the page.
+- **Tabs** — inactive labels in `slate`, active in `ink`, with a 1px
+  `ink` underline that glides between tabs on `standard`. The indicator
+  is a hairline, never a filled pill.
+- **Accordion** — hairline-divided rows, chevron rotates 180° on
+  `quiet`-equivalent timing. Content height animates quietly.
+- **Hover-lift card** — depth without shadows: 2px lift plus a tonal
+  step toward white, on `quiet`.
+- **Text reveal** — per-word serif reveal, 50ms stagger on `standard`.
+  One per view; this is the `playful` budget spent.
+- **Toast** — `surface-elevated`, 1px `rule`, no shadow, bottom corner.
+  Quiet confirmations only; errors deserve a dialog.
 - **List (bulleted or numbered)** — Lists breathe. They are not paragraphs
   with bullets glued on. The rule is uniform: every list item gets the same
   space-above and the same space-below. Consecutive bullets sum to a real
@@ -326,9 +428,14 @@ inside data views only.
 - No drop shadows, gradients, or glows. Depth is tonal (`surface` ->
   `surface-elevated` -> `surface-sunken`) plus 1px `rule` hairlines.
 - No dark mode. Light surfaces only.
-- Motion is small and quiet: 150-250ms, ease-out for entrances, ease-in
-  for exits. Never spring-bouncy.
+- Motion uses the named spring tokens (`quiet` / `standard` / `playful`),
+  bounce capped at 0.15; exits are 150ms opacity fades. See the Motion
+  section.
 - Respect `prefers-reduced-motion`. No autoplay video above the fold.
+- The web surface is implemented in `personal_design_system/web/`:
+  Next.js (App Router, TypeScript), Tailwind CSS v4 with `@theme` tokens
+  generated from this file, shadcn/ui restyled to these tokens, and
+  Motion via `motion/react`. Spring presets: `web/src/lib/motion.ts`.
 - Em-dashes banned in copy. Use commas, periods, or parentheses.
 
 **Google Docs**
@@ -429,7 +536,9 @@ building artifacts in Dan's system, follow this guide.
 - Spacing: 4, 8, 16, 24, 32, 48, 64. Page padding 64px desktop, 24-48px mobile.
 - Corners: 8px default, 4px for chips, 16-24px for hero containers. No pills in docs.
 - Depth: tonal layers and hairlines only. No shadows, no gradients, no glows.
-- Motion: 150-250ms, ease-out in, ease-in out. Respect `prefers-reduced-motion`.
+- Motion: named springs only — quiet (0.18s/0), standard (0.3s/0.1),
+  playful (0.45s/0.15, once per view). Exits fade 150ms ease-in.
+  Respect `prefers-reduced-motion`.
 - Light mode only. No dark theme.
 
 **Ready-to-use prompts**
@@ -472,4 +581,9 @@ building artifacts in Dan's system, follow this guide.
       `24px` left in web.
 - [ ] All spacing applied via style definitions, never via blank lines
       or hard returns.
+- [ ] All animation uses the named spring tokens; nothing animates on
+      ad-hoc durations or easings.
+- [ ] Exits fade (150ms ease-in); nothing springs on the way out.
+- [ ] `playful` (the only visible bounce) appears at most once per view.
+- [ ] Focus rings are visible on every interactive element.
 
