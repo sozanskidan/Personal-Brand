@@ -101,6 +101,30 @@
   --sidebar-accent-foreground: var(--color-ink);
   --sidebar-border: var(--color-rule);
   --sidebar-ring: var(--color-accent);
+
+  /* Component parameter defaults. The playground panels override these
+     at runtime; untouched values keep following the token chain. */
+  --btn-radius: 4px;
+  --btn-font-size: 14px;
+  --btn-primary-bg: var(--color-ink);
+  --btn-primary-text: var(--color-surface);
+  --btn-accent-bg: var(--color-accent);
+  --btn-accent-text: var(--color-on-accent);
+  --card-radius: 8px;
+  --callout-bg: var(--color-accent-muted);
+  --callout-radius: 8px;
+  --chip-radius: 4px;
+  --divider-color: var(--color-rule);
+  --divider-thickness: 1px;
+  --label-caps-size: 0.75rem;
+  --label-caps-tracking: 0.08em;
+  --link-color: var(--color-accent);
+  --link-underline-offset: 4px;
+  --table-header-bg: var(--color-surface-sunken);
+  --table-font-size: 14px;
+  --accordion-chevron-ms: 200ms;
+  --dialog-radius: 8px;
+  --toast-radius: 8px;
 }
 
 @layer base {
@@ -166,10 +190,10 @@
   /* Eyebrow / label-caps type */
   .label-caps {
     font-family: var(--font-mono);
-    font-size: 0.75rem;
+    font-size: var(--label-caps-size, 0.75rem);
     font-weight: 500;
     line-height: 1.2;
-    letter-spacing: 0.08em;
+    letter-spacing: var(--label-caps-tracking, 0.08em);
     text-transform: uppercase;
   }
 }

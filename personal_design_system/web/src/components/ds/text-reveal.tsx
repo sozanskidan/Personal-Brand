@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "motion/react";
-import { springs } from "@/lib/motion";
+import { useSpringToken, useTokenNumber } from "@/lib/token-context";
 
 /** Per-word serif reveal. One per view, on the headline that matters. */
 export function TextReveal({
@@ -16,6 +16,9 @@ export function TextReveal({
   delay?: number;
 }) {
   const words = text.split(" ");
+  const spring = useSpringToken("text-reveal");
+  const stagger = useTokenNumber("text-reveal.staggerMs") / 1000;
+  const rise = useTokenNumber("text-reveal.riseEm");
 
   return (
     <Tag className={className} aria-label={text}>
@@ -23,12 +26,12 @@ export function TextReveal({
         <span key={i} className="inline-block overflow-hidden align-bottom">
           <motion.span
             className="inline-block"
-            initial={{ opacity: 0, y: "0.4em" }}
+            initial={{ opacity: 0, y: `${rise}em` }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ ...springs.standard, delay: delay + i * 0.05 }}
+            transition={{ ...spring, delay: delay + i * stagger }}
           >
             {word}
-            {i < words.length - 1 ? " " : null}
+            {i < words.length - 1 ? " " : null}
           </motion.span>
         </span>
       ))}

@@ -5,7 +5,7 @@ import { Dialog as DialogPrimitive } from "radix-ui";
 import { AnimatePresence, motion } from "motion/react";
 import { XIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { springs, fadeExit } from "@/lib/motion";
+import { useSpringToken, useExitFade, useTokenNumber } from "@/lib/token-context";
 
 interface AnimatedSheetProps {
   trigger: React.ReactNode;
@@ -23,6 +23,9 @@ export function AnimatedSheet({
   className,
 }: AnimatedSheetProps) {
   const [open, setOpen] = React.useState(false);
+  const spring = useSpringToken("sheet");
+  const exit = useExitFade();
+  const width = useTokenNumber("sheet.width");
 
   return (
     <DialogPrimitive.Root open={open} onOpenChange={setOpen}>
@@ -34,18 +37,19 @@ export function AnimatedSheet({
               <motion.div
                 className="fixed inset-0 z-50 bg-ink/20"
                 initial={{ opacity: 0 }}
-                animate={{ opacity: 1, transition: springs.quiet }}
-                exit={{ opacity: 0, transition: fadeExit }}
+                animate={{ opacity: 1, transition: { duration: 0.15, ease: "easeOut" } }}
+                exit={{ opacity: 0, transition: exit }}
               />
             </DialogPrimitive.Overlay>
             <DialogPrimitive.Content asChild forceMount>
               <motion.div
                 className={cn(
-                  "fixed inset-y-0 right-0 z-50 flex w-full max-w-sm flex-col border-l border-rule bg-surface-elevated p-6",
+                  "fixed inset-y-0 right-0 z-50 flex w-full flex-col border-l border-rule bg-surface-elevated p-6",
                   className,
                 )}
+                style={{ maxWidth: width }}
                 initial={{ x: "100%" }}
-                animate={{ x: 0, transition: springs.standard }}
+                animate={{ x: 0, transition: spring }}
                 exit={{ x: "100%", transition: { duration: 0.2, ease: "easeIn" } }}
               >
                 <DialogPrimitive.Title className="font-serif text-2xl font-normal tracking-[-0.02em] text-ink">

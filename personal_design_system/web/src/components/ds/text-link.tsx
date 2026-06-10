@@ -8,7 +8,7 @@ export function TextLink({
   return (
     <Link
       className={cn(
-        "text-accent no-underline decoration-1 underline-offset-4 transition-colors hover:underline hover:text-[color-mix(in_oklch,var(--color-accent),var(--color-ink)_25%)]",
+        "text-(--link-color) no-underline decoration-1 underline-offset-(--link-underline-offset) transition-colors hover:underline hover:text-[color-mix(in_oklch,var(--color-accent),var(--color-ink)_25%)]",
         className,
       )}
       {...props}

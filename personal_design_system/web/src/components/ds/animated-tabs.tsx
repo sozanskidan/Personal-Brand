@@ -3,7 +3,7 @@
 import * as React from "react";
 import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
-import { springs } from "@/lib/motion";
+import { useSpringToken, useTokenNumber } from "@/lib/token-context";
 
 interface TabItem {
   value: string;
@@ -22,6 +22,8 @@ export function AnimatedTabs({
 }) {
   const [active, setActive] = React.useState(defaultValue ?? items[0]?.value);
   const layoutId = React.useId();
+  const spring = useSpringToken("tabs");
+  const thickness = useTokenNumber("tabs.thickness");
 
   return (
     <div className={className}>
@@ -43,8 +45,9 @@ export function AnimatedTabs({
             {active === item.value && (
               <motion.span
                 layoutId={layoutId}
-                className="absolute inset-x-0 -bottom-px h-px bg-ink"
-                transition={springs.standard}
+                className="absolute inset-x-0 bg-ink"
+                style={{ bottom: -((thickness + 1) / 2), height: thickness }}
+                transition={spring}
               />
             )}
           </button>

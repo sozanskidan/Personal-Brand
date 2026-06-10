@@ -1,20 +1,11 @@
 import { Eyebrow } from "@/components/ds/eyebrow";
 import { Separator } from "@/components/ui/separator";
 import { SpringDemo } from "@/components/site/spring-demo";
+import { ColorGrid } from "@/components/playground/color-grid";
+import { RadiiGrid } from "@/components/playground/radii-grid";
+import { ParamPanel } from "@/components/playground/param-panel";
 
 export const metadata = { title: "Foundations · Dan Sozanski" };
-
-const colors = [
-  { name: "Ink", hex: "#0A0A0A", usage: "Headlines, body text. The voice of the document.", className: "bg-ink" },
-  { name: "Graphite", hex: "#3D3D3D", usage: "Sub-headings, strong borders. Quiet authority.", className: "bg-graphite" },
-  { name: "Slate", hex: "#6B6B6B", usage: "Captions, metadata, secondary labels.", className: "bg-slate" },
-  { name: "Rule", hex: "#E5E5E5", usage: "Hairlines, table grids. Should almost disappear.", className: "bg-rule" },
-  { name: "Surface", hex: "#FAFAF7", usage: "The page itself. Warm, almost-white, never pure.", className: "bg-surface border border-rule" },
-  { name: "Surface elevated", hex: "#FFFFFF", usage: "Cards, slide canvases, table cells.", className: "bg-surface-elevated border border-rule" },
-  { name: "Surface sunken", hex: "#F2F1ED", usage: "Tonal depth, table headers, code blocks.", className: "bg-surface-sunken border border-rule" },
-  { name: "Accent", hex: "#9BB0C9", usage: "Pastel grey-blue. Use it once. Make it count.", className: "bg-accent" },
-  { name: "Accent muted", hex: "#E8EEF4", usage: "Callout fills and highlight backgrounds.", className: "bg-accent-muted border border-rule" },
-];
 
 const spacing = [
   { name: "xs", px: 4 },
@@ -26,28 +17,28 @@ const spacing = [
   { name: "xxxl", px: 64 },
 ];
 
-const radii = [
-  { name: "sm", px: 4, usage: "Buttons, chips" },
-  { name: "md", px: 8, usage: "Cards, callouts, dialogs" },
-  { name: "lg", px: 16, usage: "Large containers" },
-  { name: "xl", px: 24, usage: "Hero features" },
-];
-
 function Section({
   eyebrow,
   title,
   lede,
+  action,
   children,
 }: {
   eyebrow: string;
   title: string;
   lede?: string;
+  action?: React.ReactNode;
   children: React.ReactNode;
 }) {
   return (
     <section className="py-20">
-      <Eyebrow className="mb-4">{eyebrow}</Eyebrow>
-      <h2 className="font-serif text-4xl tracking-[-0.02em]">{title}</h2>
+      <div className="flex items-start justify-between gap-4">
+        <div>
+          <Eyebrow className="mb-4">{eyebrow}</Eyebrow>
+          <h2 className="font-serif text-4xl tracking-[-0.02em]">{title}</h2>
+        </div>
+        {action}
+      </div>
       {lede ? (
         <p className="mt-4 max-w-[60ch] text-base text-graphite">{lede}</p>
       ) : null}
@@ -64,7 +55,9 @@ export default function FoundationsPage() {
         Tokens, not taste.
       </h1>
       <p className="mt-4 max-w-[52ch] text-base text-graphite">
-        Every value on this page comes from DESIGN.md. Nothing improvised.
+        Every value on this page comes from DESIGN.md. Click a swatch to copy
+        it; use the cogs to play with the tokens. Saved edits become your
+        defaults in this browser.
       </p>
 
       <Separator className="mt-20" />
@@ -72,20 +65,10 @@ export default function FoundationsPage() {
       <Section
         eyebrow="01 · Color"
         title="Grayscale, one scalpel"
-        lede="No secondary brand color, no gradients. The accent appears at most once per view."
+        lede="No secondary brand color, no gradients. The accent appears at most once per view. Click any swatch to copy its hex."
+        action={<ParamPanel scope="colors" />}
       >
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {colors.map((c) => (
-            <div key={c.name} className="rounded-md border border-rule bg-surface-elevated p-4">
-              <div className={`h-16 rounded-sm ${c.className}`} />
-              <div className="mt-3 flex items-baseline justify-between">
-                <p className="text-sm text-ink">{c.name}</p>
-                <p className="font-mono text-xs text-slate">{c.hex}</p>
-              </div>
-              <p className="mt-1 text-[0.8125rem] text-slate">{c.usage}</p>
-            </div>
-          ))}
-        </div>
+        <ColorGrid />
       </Section>
 
       <Separator />
@@ -94,6 +77,7 @@ export default function FoundationsPage() {
         eyebrow="02 · Typography"
         title="Two families do the work"
         lede="Davinci (Instrument Serif fallback) carries the emotion. SF Pro (DM Sans fallback) carries the information. Roboto Mono marks the structure."
+        action={<ParamPanel scope="eyebrow" />}
       >
         <div className="space-y-10">
           <div>
@@ -134,7 +118,7 @@ export default function FoundationsPage() {
       <Section
         eyebrow="03 · Spacing"
         title="The 8px grid"
-        lede="Margins, paddings, and gaps come from the scale. Nothing improvised."
+        lede="Margins, paddings, and gaps come from the scale. Nothing improvised, so nothing to tweak here."
       >
         <div className="space-y-3">
           {spacing.map((s) => (
@@ -153,21 +137,9 @@ export default function FoundationsPage() {
         eyebrow="04 · Shape"
         title="Gentle, never round"
         lede="Default 8px. Pills are reserved for inline status chips inside data views only."
+        action={<ParamPanel scope="radii" />}
       >
-        <div className="grid gap-4 sm:grid-cols-4">
-          {radii.map((r) => (
-            <div key={r.name} className="text-center">
-              <div
-                className="mx-auto size-20 border border-graphite bg-surface-elevated"
-                style={{ borderRadius: r.px }}
-              />
-              <p className="mt-3 font-mono text-xs text-slate">
-                {r.name} · {r.px}px
-              </p>
-              <p className="text-[0.8125rem] text-slate">{r.usage}</p>
-            </div>
-          ))}
-        </div>
+        <RadiiGrid />
       </Section>
 
       <Separator />
@@ -175,7 +147,8 @@ export default function FoundationsPage() {
       <Section
         eyebrow="05 · Motion"
         title="Second-order dynamics"
-        lede="Three named springs move everything. Bounce is capped at 0.15 and exits never spring — they fade in 150ms. Reduced motion is always respected."
+        lede="Three named springs move everything. Bounce is capped at 0.15 in the spec and exits never spring. Copy a preset with the icon, or open the cog and tune the physics live."
+        action={<ParamPanel scope="springs" />}
       >
         <SpringDemo />
       </Section>

@@ -14,7 +14,7 @@ export function Chip({
   return (
     <span
       className={cn(
-        "label-caps inline-flex items-center gap-1 rounded-sm px-2 py-1",
+        "label-caps inline-flex items-center gap-1 rounded-(--chip-radius) px-2 py-1",
         chipVariants[variant],
         className,
       )}

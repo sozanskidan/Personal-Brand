@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { davinci, instrumentSerif, dmSans, robotoMono } from "@/lib/fonts";
 import { SiteHeader } from "@/components/site/site-header";
 import { Toaster } from "@/components/ui/sonner";
+import { TokenProvider } from "@/lib/token-context";
 
 export const metadata: Metadata = {
   title: "Dan Sozanski · Design System",
@@ -29,11 +30,13 @@ export default function RootLayout({
       )}
     >
       <body className="min-h-full flex flex-col">
-        <MotionConfig reducedMotion="user">
-          <SiteHeader />
-          <main className="flex-1">{children}</main>
-          <Toaster />
-        </MotionConfig>
+        <TokenProvider>
+          <MotionConfig reducedMotion="user">
+            <SiteHeader />
+            <main className="flex-1">{children}</main>
+            <Toaster />
+          </MotionConfig>
+        </TokenProvider>
       </body>
     </html>
   );

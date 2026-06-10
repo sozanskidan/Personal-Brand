@@ -52,7 +52,7 @@ export default async function ComponentPage({
         </Chip>
       </div>
 
-      <ComponentPreview className="mt-12 min-h-64">
+      <ComponentPreview scope={entry.slug} className="mt-12 min-h-64">
         <Demo />
       </ComponentPreview>
 
