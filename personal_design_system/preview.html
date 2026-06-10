@@ -7,7 +7,7 @@
   <meta name="description" content="A personal design system for documents, slides, sheets, and the web. Apple-esque restraint, gallery-quiet, professional casual.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Inter:wght@400;500;600&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=DM+Sans:wght@400;500;600&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
     /* ───────────────────────────────────────────────
        Davinci Font Sourcing
@@ -29,7 +29,8 @@
       src: local('Davinci'),
            local('Davinci-Regular'),
            url('./fonts/Davinci-Regular.woff2') format('woff2'),
-           url('./fonts/Davinci.woff2') format('woff2');
+           url('./fonts/Davinci.woff2') format('woff2'),
+           url('./fonts/DaVinci/TRJNDaVinci-Regular-Trial.otf') format('opentype');
       font-weight: 400;
       font-style: normal;
       font-display: swap;
@@ -55,12 +56,12 @@
       --surface:          #FAFAF7;
       --surface-elevated: #FFFFFF;
       --surface-sunken:   #F2F1ED;
-      --accent:           #0866FF;
-      --accent-muted:     #E6EEFF;
-      --on-accent:        #FFFFFF;
+      --accent:           #9BB0C9;
+      --accent-muted:     #E8EEF4;
+      --on-accent:        #0A0A0A;
 
       --font-serif: 'Davinci', 'Instrument Serif', Georgia, 'Times New Roman', serif;
-      --font-body:  'Optimistic', 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+      --font-body:  -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'DM Sans', system-ui, sans-serif;
       --font-mono:  'Roboto Mono', 'SF Mono', 'Fira Code', monospace;
 
       --xs:   4px;
@@ -877,13 +878,13 @@
         <div class="principle">
           <p class="principle-number">02</p>
           <h2 class="h2">One accent per view</h2>
-          <p class="body">Meta blue is a scalpel, not a highlighter.</p>
+          <p class="body">The grey-blue accent is a scalpel, not a highlighter.</p>
         </div>
 
         <div class="principle">
           <p class="principle-number">03</p>
           <h2 class="h2">Type does the design</h2>
-          <p class="body">Instrument Serif headings against Optimistic body is the entire mood. Don't decorate it.</p>
+          <p class="body">Davinci headings against SF Pro body is the entire mood. Don't decorate it.</p>
         </div>
       </div>
     </section>
@@ -950,14 +951,14 @@
           <div class="swatch">
             <div class="swatch-color" style="background-color: var(--accent);"></div>
             <p class="swatch-name">Accent</p>
-            <p class="swatch-hex">#0866FF</p>
-            <p class="swatch-usage">Meta blue. Use it once. Make it count.</p>
+            <p class="swatch-hex">#9BB0C9</p>
+            <p class="swatch-usage">Pastel grey-blue. Use it once. Make it count.</p>
           </div>
 
           <div class="swatch">
             <div class="swatch-color swatch-color-bordered" style="background-color: var(--accent-muted);"></div>
             <p class="swatch-name">Accent Muted</p>
-            <p class="swatch-hex">#E6EEFF</p>
+            <p class="swatch-hex">#E8EEF4</p>
             <p class="swatch-usage">Callout fills and highlight backgrounds.</p>
           </div>
 
@@ -980,7 +981,7 @@
       <div class="divider"></div>
       <div class="section-inner">
         <p class="label-caps" style="margin-bottom: var(--xxl);">Typography</p>
-        <p class="body text-graphite measure" style="margin-bottom: var(--xxl);">Two type families do all the work. Davinci (or Instrument Serif) carries the emotion. Optimistic carries the information. Roboto Mono marks the structure.</p>
+        <p class="body text-graphite measure" style="margin-bottom: var(--xxl);">Two type families do all the work. Davinci (or Instrument Serif) carries the emotion. SF Pro carries the information. Roboto Mono marks the structure.</p>
 
         <div class="specimen">
           <p class="specimen-label">Display · Davinci / Instrument Serif · 4.5rem</p>
@@ -1001,31 +1002,31 @@
         </div>
 
         <div class="specimen">
-          <p class="specimen-label">Heading 3 · Optimistic · 1.25rem</p>
+          <p class="specimen-label">Heading 3 · SF Pro · 1.25rem</p>
           <p class="h3">Serious about the craft, warm about the reader</p>
           <p class="specimen-meta">weight 600 · line-height 1.3 · tracking -0.01em</p>
         </div>
 
         <div class="specimen">
-          <p class="specimen-label">Body Large · Optimistic · 1.125rem</p>
+          <p class="specimen-label">Body Large · SF Pro · 1.125rem</p>
           <p class="body-lg measure">Reading something built in this system should feel like walking into a quiet, well-lit room. Confident serifs, generous whitespace, near-monochrome surfaces, and a single restrained accent doing the work of ten.</p>
           <p class="specimen-meta">weight 400 · line-height 1.55 · tracking 0</p>
         </div>
 
         <div class="specimen">
-          <p class="specimen-label">Body · Optimistic · 1rem</p>
+          <p class="specimen-label">Body · SF Pro · 1rem</p>
           <p class="body measure">The personality stays constant across every surface. Same tokens, four contexts. Strip until it feels too sparse, then add one thing back.</p>
           <p class="specimen-meta">weight 400 · line-height 1.55 · tracking 0 · measure ~70ch</p>
         </div>
 
         <div class="specimen">
-          <p class="specimen-label">Body Small · Optimistic · 0.875rem</p>
+          <p class="specimen-label">Body Small · SF Pro · 0.875rem</p>
           <p class="body-sm">Table cells, compact UI, secondary content.</p>
           <p class="specimen-meta">weight 400 · line-height 1.5</p>
         </div>
 
         <div class="specimen">
-          <p class="specimen-label">Caption · Optimistic · 0.8125rem</p>
+          <p class="specimen-label">Caption · SF Pro · 0.8125rem</p>
           <p class="caption">Design system v0.1 alpha · Last updated May 2026</p>
           <p class="specimen-meta">weight 400 · line-height 1.4 · color slate</p>
         </div>
@@ -1168,7 +1169,7 @@
                 </tr>
                 <tr>
                   <td>Body</td>
-                  <td>Optimistic</td>
+                  <td>SF Pro / DM Sans</td>
                   <td>1rem</td>
                 </tr>
                 <tr>
@@ -1188,7 +1189,7 @@
             <p class="body-sm text-graphite" style="margin-bottom: var(--md);">Lists breathe. Every item gets the same space above and below, so consecutive bullets share a real gap and isolated bullets sit with the same calm.</p>
             <ul>
               <li>Whitespace is the brand. When in doubt, remove.</li>
-              <li>One accent per view. Meta blue is a scalpel.</li>
+              <li>One accent per view. The grey-blue accent is a scalpel.</li>
               <li>Type does the design. Don't decorate the serifs.
                 <ul>
                   <li>Nested items get tighter spacing (4px), one indent deeper.</li>
@@ -1211,7 +1212,7 @@
       <div class="divider"></div>
       <div class="section-inner">
         <p class="label-caps" style="margin-bottom: var(--lg);">Docs Type Scale</p>
-        <p class="body text-graphite measure" style="margin-bottom: var(--xl);">Canonical Google Docs values. Apply once, save as default styles, inherit forever. The TL;DR accent is the one place Meta blue lives in a doc.</p>
+        <p class="body text-graphite measure" style="margin-bottom: var(--xl);">Canonical Google Docs values. Apply once, save as default styles, inherit forever. The TL;DR accent is the one place the accent lives in a doc.</p>
 
         <div style="border-radius: 8px; overflow: hidden; border: 1px solid var(--rule);">
           <table class="docs-scale">
@@ -1225,17 +1226,17 @@
               </tr>
             </thead>
             <tbody>
-              <tr><td>Title</td><td>Instrument Serif</td><td class="num">32pt</td><td>Regular</td><td class="num">1.5</td></tr>
+              <tr><td>Title</td><td>Davinci / Instrument Serif</td><td class="num">32pt</td><td>Regular</td><td class="num">1.5</td></tr>
               <tr><td>Eyebrow</td><td>Roboto Mono</td><td class="num">8pt</td><td>Regular</td><td class="num">1.5</td></tr>
-              <tr><td>Subtitle / lede</td><td>Instrument Serif</td><td class="num">16pt</td><td>Regular</td><td class="num">1.5</td></tr>
-              <tr><td>H1 (page title)</td><td>Instrument Serif</td><td class="num">24pt</td><td>Regular</td><td class="num">1.5</td></tr>
-              <tr><td>H2 (section)</td><td>Instrument Serif</td><td class="num">20pt</td><td>Regular</td><td class="num">1.5</td></tr>
-              <tr><td>H3 (sub-section)</td><td>Optimistic</td><td class="num">12pt</td><td>Regular</td><td class="num">1.5</td></tr>
-              <tr><td>H4 (grouping)</td><td>Optimistic</td><td class="num">11pt</td><td>Medium</td><td class="num">1.5</td></tr>
+              <tr><td>Subtitle / lede</td><td>Davinci / Instrument Serif</td><td class="num">16pt</td><td>Regular</td><td class="num">1.5</td></tr>
+              <tr><td>H1 (page title)</td><td>Davinci / Instrument Serif</td><td class="num">24pt</td><td>Regular</td><td class="num">1.5</td></tr>
+              <tr><td>H2 (section)</td><td>Davinci / Instrument Serif</td><td class="num">20pt</td><td>Regular</td><td class="num">1.5</td></tr>
+              <tr><td>H3 (sub-section)</td><td>DM Sans</td><td class="num">12pt</td><td>Regular</td><td class="num">1.5</td></tr>
+              <tr><td>H4 (grouping)</td><td>DM Sans</td><td class="num">11pt</td><td>Medium</td><td class="num">1.5</td></tr>
               <tr><td>H5 (callout label)</td><td>Roboto Mono</td><td class="num">8pt</td><td>Regular</td><td class="num">1.5</td></tr>
-              <tr><td>Body</td><td>Optimistic</td><td class="num">10pt</td><td>Regular</td><td class="num">1.5</td></tr>
-              <tr><td>List item</td><td>Optimistic</td><td class="num">10pt</td><td>Regular</td><td class="num">1.15</td></tr>
-              <tr><td>TL;DR accent</td><td>Optimistic</td><td class="num">10pt</td><td>Bold · <span style="color: var(--accent);">#0866FF</span></td><td class="num">1.5</td></tr>
+              <tr><td>Body</td><td>DM Sans</td><td class="num">10pt</td><td>Regular</td><td class="num">1.5</td></tr>
+              <tr><td>List item</td><td>DM Sans</td><td class="num">10pt</td><td>Regular</td><td class="num">1.15</td></tr>
+              <tr><td>TL;DR accent</td><td>DM Sans</td><td class="num">10pt</td><td>Bold · <span style="color: var(--accent);">#9BB0C9</span></td><td class="num">1.5</td></tr>
             </tbody>
           </table>
         </div>
@@ -1354,7 +1355,7 @@
             <div class="rule-item">Lead every document with a TL;DR.</div>
             <div class="rule-item">Use one accent moment per view. Make it the most important thing.</div>
             <div class="rule-item">Default to whitespace. Strip until it feels too sparse, then add one thing back.</div>
-            <div class="rule-item">Let Instrument Serif headlines carry the emotional weight.</div>
+            <div class="rule-item">Let Davinci (or Instrument Serif) headlines carry the emotional weight.</div>
             <div class="rule-item">Right-align numbers. Always.</div>
           </div>
 
@@ -1364,7 +1365,7 @@
             <p class="label-caps">Don't</p>
             <div class="rule-item">Use em-dashes. Use commas, periods, or parentheses instead.</div>
             <div class="rule-item">Mix more than two type families on a single surface.</div>
-            <div class="rule-item">Use Meta blue more than once per slide or section.</div>
+            <div class="rule-item">Use the accent more than once per slide or section.</div>
             <div class="rule-item">Add drop shadows, gradients, or glows.</div>
             <div class="rule-item">Use banded rows in tables.</div>
             <div class="rule-item">Bold a heading. Size and serif are enough.</div>
