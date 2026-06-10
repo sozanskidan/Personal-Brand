@@ -4,7 +4,11 @@ import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
 import { springs } from "@/lib/motion";
 
-/** Depth without shadows: lift 2px and shift one tonal step toward white. */
+/**
+ * Depth without shadows: scale up 2% and shift one tonal step toward
+ * white. Interactive elements never translate on the y axis — movement
+ * reads as depth (scale), not displacement.
+ */
 export function HoverLiftCard({
   className,
   children,
@@ -15,7 +19,8 @@ export function HoverLiftCard({
   return (
     <motion.div
       initial={{ backgroundColor: "#FAFAF7" }}
-      whileHover={{ y: -2, backgroundColor: "#FFFFFF" }}
+      whileHover={{ scale: 1.02, backgroundColor: "#FFFFFF" }}
+      whileTap={{ scale: 0.99 }}
       transition={springs.quiet}
       className={cn("rounded-md border border-rule p-6", className)}
     >

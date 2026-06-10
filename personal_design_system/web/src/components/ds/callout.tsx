@@ -9,7 +9,7 @@ export function Callout({
 }: React.ComponentProps<"aside"> & { label?: string }) {
   return (
     <aside
-      className={cn("rounded-md bg-accent-muted p-md text-ink", className)}
+      className={cn("rounded-md bg-accent-muted p-4 text-ink", className)}
       {...props}
     >
       {label ? <Eyebrow className="mb-2 text-graphite">{label}</Eyebrow> : null}

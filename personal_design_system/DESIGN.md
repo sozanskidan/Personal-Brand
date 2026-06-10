@@ -319,8 +319,12 @@ all the work; nothing animates outside them.
 
 - **Hover** — tonal shift, one step (`surface` -> `surface-sunken` for
   ghost fills, toward white for cards), or text color toward `ink`.
-  Animated on `quiet`.
-- **Press** — 1px translate-down or scale 0.98. Physical, tiny, quiet.
+  May pair with a scale up to 1.02. Animated on `quiet`.
+- **Press** — scale 0.98 on `quiet`. Physical, tiny, quiet.
+- **Interactive elements never translate.** No y-axis lifts, no nudges.
+  Movement on hover and press reads as depth (scale toward or away from
+  the viewer), never as displacement. Translation is reserved for
+  entrances and exits (dialogs, sheets, reveals).
 - **Focus** — visible focus ring in `accent` at ~50% opacity, 3px. The
   one place the accent may repeat. Never remove focus styles.
 - **Disabled** — 50% opacity, no pointer events. No grayed-out custom
@@ -377,8 +381,8 @@ inside data views only.
   is a hairline, never a filled pill.
 - **Accordion** — hairline-divided rows, chevron rotates 180° on
   `quiet`-equivalent timing. Content height animates quietly.
-- **Hover-lift card** — depth without shadows: 2px lift plus a tonal
-  step toward white, on `quiet`.
+- **Hover-lift card** — depth without shadows: scale to 1.02 plus a
+  tonal step toward white, on `quiet`. Nothing moves on the y axis.
 - **Text reveal** — per-word serif reveal, 50ms stagger on `standard`.
   One per view; this is the `playful` budget spent.
 - **Toast** — `surface-elevated`, 1px `rule`, no shadow, bottom corner.

@@ -24,14 +24,10 @@
   --radius-lg: 16px;
   --radius-xl: 24px;
 
-  /* Semantic spacing aliases (8px grid, names from DESIGN.md) */
-  --spacing-xs: 4px;
-  --spacing-sm: 8px;
-  --spacing-md: 16px;
-  --spacing-lg: 24px;
-  --spacing-xl: 32px;
-  --spacing-xxl: 48px;
-  --spacing-xxxl: 64px;
+  /* Spacing stays on Tailwind's numeric 4px scale (p-1/2/4/6/8/12/16
+     maps to DESIGN.md's 4/8/16/24/32/48/64). Named aliases like
+     --spacing-md are intentionally NOT defined: they shadow the
+     --container scale and collapse max-w-md and friends. */
 
   /* No shadows. Depth is tonal + hairlines only. */
   --shadow-2xs: 0 0 #0000;
@@ -139,6 +135,12 @@
   .copy ol {
     margin: 16px 0;
     padding-left: 24px;
+  }
+  .copy ul {
+    list-style: disc;
+  }
+  .copy ol {
+    list-style: decimal;
   }
   .copy li {
     margin-bottom: 8px;

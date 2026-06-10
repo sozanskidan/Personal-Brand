@@ -34,7 +34,7 @@ export const registry: RegistryEntry[] = [
     description: "Ink fill for primary, accent at most once per view.",
     notes: [
       "Primary is ink on surface; accent is the grey-blue, used once per view.",
-      "4px corners, regular weight, press feedback is a 1px translate.",
+      "4px corners, regular weight, press feedback is a scale to 0.98.",
     ],
     Demo: ButtonDemo,
   },
@@ -161,9 +161,9 @@ export const registry: RegistryEntry[] = [
     slug: "hover-lift-card",
     name: "Hover-lift Card",
     category: "Dynamic",
-    description: "Depth without shadows: 2px lift plus a tonal shift.",
+    description: "Depth without shadows: a 2% scale plus a tonal shift.",
     notes: [
-      "whileHover: y -2px, background brightens one step.",
+      "whileHover: scale 1.02, background brightens one step.",
       "springs.quiet — no overshoot on micro-interactions.",
     ],
     Demo: HoverLiftDemo,

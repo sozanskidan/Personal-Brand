@@ -235,7 +235,7 @@ export function HoverLiftDemo() {
       <HoverLiftCard>
         <Eyebrow className="mb-2">Hover me</Eyebrow>
         <p className="text-sm text-graphite">
-          Lifts 2px and brightens one tonal step. No shadow.
+          Scales up 2% and brightens one tonal step. No shadow.
         </p>
       </HoverLiftCard>
       <HoverLiftCard>
