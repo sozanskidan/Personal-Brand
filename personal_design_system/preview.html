@@ -1,0 +1,1541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dan Sozanski · Personal Design System</title>
+  <meta name="description" content="A personal design system for documents, slides, sheets, and the web. Apple-esque restraint, gallery-quiet, professional casual.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Inter:wght@400;500;600&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    /* ───────────────────────────────────────────────
+       Davinci Font Sourcing
+       ───────────────────────────────────────────────
+       Davinci sourcing attempts (May 2026):
+       1. Adobe Fonts (Typekit) — Davinci is not in the public Adobe Fonts library.
+          If you have it synced via Creative Cloud, embed your kit:
+          <link rel="stylesheet" href="https://use.typekit.net/{your-kit-id}.css">
+       2. Pangram Pangram — No "PP Davinci" found in their catalog. Searched
+          PP Editorial, PP Neue Machina, PP Agrandir, PP Monument Extended.
+          None match "Davinci" by name.
+       3. Resolution: @font-face below will activate automatically if you place
+          Davinci-Regular.woff2 (or Davinci.woff2) at ./fonts/.
+          Until then, Instrument Serif (loaded from Google Fonts) handles
+          display duties cleanly. The fallback chain is seamless.
+       ─────────────────────────────────────────────── */
+    @font-face {
+      font-family: 'Davinci';
+      src: local('Davinci'),
+           local('Davinci-Regular'),
+           url('./fonts/Davinci-Regular.woff2') format('woff2'),
+           url('./fonts/Davinci.woff2') format('woff2');
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    /* ───────────────────────────────────────────────
+       Reset
+       ─────────────────────────────────────────────── */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* ───────────────────────────────────────────────
+       Tokens
+       ─────────────────────────────────────────────── */
+    :root {
+      --ink:              #0A0A0A;
+      --graphite:         #3D3D3D;
+      --slate:            #6B6B6B;
+      --rule:             #E5E5E5;
+      --surface:          #FAFAF7;
+      --surface-elevated: #FFFFFF;
+      --surface-sunken:   #F2F1ED;
+      --accent:           #0866FF;
+      --accent-muted:     #E6EEFF;
+      --on-accent:        #FFFFFF;
+
+      --font-serif: 'Davinci', 'Instrument Serif', Georgia, 'Times New Roman', serif;
+      --font-body:  'Optimistic', 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+      --font-mono:  'Roboto Mono', 'SF Mono', 'Fira Code', monospace;
+
+      --xs:   4px;
+      --sm:   8px;
+      --md:   16px;
+      --lg:   24px;
+      --xl:   32px;
+      --xxl:  48px;
+      --xxxl: 64px;
+    }
+
+    /* ───────────────────────────────────────────────
+       Base
+       ─────────────────────────────────────────────── */
+    html {
+      font-size: 16px;
+      scroll-behavior: smooth;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    ::selection {
+      background: var(--accent-muted);
+      color: var(--ink);
+    }
+
+    body {
+      background-color: var(--surface);
+      color: var(--ink);
+      font-family: var(--font-body);
+      font-size: 1rem;
+      font-weight: 400;
+      line-height: 1.55;
+    }
+
+    /* ───────────────────────────────────────────────
+       Layout
+       ─────────────────────────────────────────────── */
+    main {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 0 var(--xl);
+    }
+
+    .measure { max-width: 70ch; }
+
+    .section {
+      padding-top: 96px;
+      padding-bottom: 96px;
+    }
+
+    .section-inner {
+      padding-top: var(--xxl);
+    }
+
+    /* ───────────────────────────────────────────────
+       Typography
+       ─────────────────────────────────────────────── */
+    .display {
+      font-family: var(--font-serif);
+      font-size: 4.5rem;
+      font-weight: 400;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+    }
+
+    .h1 {
+      font-family: var(--font-serif);
+      font-size: 3rem;
+      font-weight: 400;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+    }
+
+    .h2 {
+      font-family: var(--font-serif);
+      font-size: 2rem;
+      font-weight: 400;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+    }
+
+    .h3 {
+      font-family: var(--font-body);
+      font-size: 1.25rem;
+      font-weight: 600;
+      line-height: 1.3;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+    }
+
+    .body-lg {
+      font-family: var(--font-body);
+      font-size: 1.125rem;
+      font-weight: 400;
+      line-height: 1.55;
+    }
+
+    .body {
+      font-family: var(--font-body);
+      font-size: 1rem;
+      font-weight: 400;
+      line-height: 1.55;
+    }
+
+    .body-sm {
+      font-family: var(--font-body);
+      font-size: 0.875rem;
+      font-weight: 400;
+      line-height: 1.5;
+    }
+
+    .caption {
+      font-family: var(--font-body);
+      font-size: 0.8125rem;
+      font-weight: 400;
+      line-height: 1.4;
+      color: var(--slate);
+    }
+
+    .label-caps {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 500;
+      line-height: 1.2;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--slate);
+    }
+
+    .mono {
+      font-family: var(--font-mono);
+      font-size: 0.875rem;
+      font-weight: 400;
+      line-height: 1.5;
+    }
+
+    .text-graphite { color: var(--graphite); }
+    .text-slate    { color: var(--slate); }
+    .text-ink      { color: var(--ink); }
+
+    /* ───────────────────────────────────────────────
+       Divider
+       ─────────────────────────────────────────────── */
+    .divider {
+      height: 1px;
+      background-color: var(--rule);
+      border: none;
+      width: 100%;
+    }
+
+    /* ───────────────────────────────────────────────
+       Components
+       ─────────────────────────────────────────────── */
+    .card {
+      background-color: var(--surface-elevated);
+      border-radius: 8px;
+      padding: var(--lg);
+    }
+
+    .callout {
+      background-color: var(--accent-muted);
+      color: var(--ink);
+      border-radius: 8px;
+      padding: var(--md);
+    }
+
+    .link {
+      color: var(--accent);
+      text-decoration: none;
+      transition: text-decoration-color 0.2s ease;
+    }
+    .link:hover {
+      text-decoration: underline;
+    }
+
+    .btn {
+      display: inline-block;
+      font-family: var(--font-body);
+      font-size: 0.875rem;
+      font-weight: 400;
+      line-height: 1.5;
+      padding: 12px 24px;
+      border-radius: 4px;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      will-change: transform;
+    }
+
+    .btn-primary {
+      background-color: var(--ink);
+      color: var(--surface);
+    }
+
+    .btn-accent {
+      background-color: var(--accent);
+      color: var(--on-accent);
+    }
+
+    /* ───────────────────────────────────────────────
+       Hero
+       ─────────────────────────────────────────────── */
+    .hero {
+      padding-top: 176px;
+      padding-bottom: 128px;
+    }
+
+    .hero .label-caps {
+      margin-bottom: var(--md);
+    }
+
+    .hero .display {
+      margin-bottom: var(--lg);
+    }
+
+    .hero .subtitle {
+      font-family: var(--font-body);
+      font-size: 1.125rem;
+      font-weight: 400;
+      line-height: 1.55;
+      color: var(--graphite);
+      max-width: 52ch;
+    }
+
+    /* ───────────────────────────────────────────────
+       Principles
+       ─────────────────────────────────────────────── */
+    .principle {
+      padding: var(--xxl) 0;
+    }
+
+    .principle:first-of-type {
+      padding-top: 0;
+    }
+
+    .principle-number {
+      font-family: var(--font-mono);
+      font-size: 0.875rem;
+      font-weight: 400;
+      color: var(--slate);
+      margin-bottom: var(--sm);
+    }
+
+    .principle .h2 {
+      margin-bottom: var(--md);
+    }
+
+    .principle p {
+      color: var(--graphite);
+      max-width: 55ch;
+    }
+
+    /* ───────────────────────────────────────────────
+       Color Swatches
+       ─────────────────────────────────────────────── */
+    .swatch-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--lg);
+    }
+
+    .swatch {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .swatch-color {
+      width: 100%;
+      height: 80px;
+      border-radius: 8px;
+      margin-bottom: 12px;
+    }
+
+    .swatch-color-bordered {
+      border: 1px solid var(--rule);
+    }
+
+    .swatch-name {
+      font-family: var(--font-body);
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--ink);
+      margin-bottom: 2px;
+    }
+
+    .swatch-hex {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 400;
+      color: var(--slate);
+      margin-bottom: 4px;
+    }
+
+    .swatch-usage {
+      font-family: var(--font-body);
+      font-size: 0.8125rem;
+      font-weight: 400;
+      line-height: 1.4;
+      color: var(--slate);
+    }
+
+    /* Text hierarchy demo */
+    .text-hierarchy {
+      margin-top: var(--xxl);
+      padding: var(--lg);
+      background-color: var(--surface-elevated);
+      border-radius: 8px;
+    }
+
+    .text-hierarchy p {
+      margin-bottom: var(--sm);
+    }
+
+    .text-hierarchy p:last-child {
+      margin-bottom: 0;
+    }
+
+    /* ───────────────────────────────────────────────
+       Typography Specimens
+       ─────────────────────────────────────────────── */
+    .specimen {
+      padding: var(--xl) 0;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .specimen:last-of-type {
+      border-bottom: none;
+    }
+
+    .specimen-label {
+      font-family: var(--font-mono);
+      font-size: 0.6875rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--slate);
+      margin-bottom: var(--sm);
+    }
+
+    .specimen-meta {
+      font-family: var(--font-mono);
+      font-size: 0.6875rem;
+      font-weight: 400;
+      color: var(--slate);
+      opacity: 0.5;
+      margin-top: var(--sm);
+    }
+
+    /* ───────────────────────────────────────────────
+       Spacing Scale
+       ─────────────────────────────────────────────── */
+    .spacing-row {
+      display: flex;
+      align-items: center;
+      gap: var(--md);
+      padding: 10px 0;
+    }
+
+    .spacing-label {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: var(--slate);
+      width: 40px;
+      flex-shrink: 0;
+      text-align: right;
+    }
+
+    .spacing-value {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 400;
+      color: var(--slate);
+      width: 36px;
+      flex-shrink: 0;
+    }
+
+    .spacing-bar {
+      height: 20px;
+      background-color: var(--ink);
+      border-radius: 4px;
+      opacity: 0.08;
+      max-width: 100%;
+    }
+
+    /* ───────────────────────────────────────────────
+       Component Demos
+       ─────────────────────────────────────────────── */
+    .demo-group {
+      margin-bottom: var(--xxl);
+    }
+
+    .demo-group:last-child {
+      margin-bottom: 0;
+    }
+
+    .demo-label {
+      font-family: var(--font-mono);
+      font-size: 0.6875rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--slate);
+      margin-bottom: var(--md);
+    }
+
+    .demo-buttons {
+      display: flex;
+      gap: var(--md);
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    /* Table demo */
+    .demo-table {
+      width: 100%;
+      border-collapse: collapse;
+      border-spacing: 0;
+    }
+
+    .demo-table th {
+      background-color: var(--surface-sunken);
+      color: var(--graphite);
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 500;
+      line-height: 1.2;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-align: left;
+      padding: var(--sm) 12px;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .demo-table th:last-child {
+      text-align: right;
+    }
+
+    .demo-table td {
+      background-color: var(--surface-elevated);
+      color: var(--ink);
+      font-family: var(--font-body);
+      font-size: 0.875rem;
+      font-weight: 400;
+      line-height: 1.5;
+      padding: var(--sm) 12px;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .demo-table td:last-child {
+      text-align: right;
+      font-family: var(--font-mono);
+      font-size: 0.8125rem;
+    }
+
+    .demo-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    /* ───────────────────────────────────────────────
+       Lists (canonical web spec)
+       ─────────────────────────────────────────────── */
+    .spec-list ul,
+    .spec-list ol {
+      margin: var(--md) 0;
+      padding-left: var(--lg);
+    }
+
+    .spec-list li {
+      font-family: var(--font-body);
+      font-size: 1rem;
+      line-height: 1.15;
+      margin-bottom: var(--sm);
+      color: var(--ink);
+    }
+
+    .spec-list li::marker {
+      color: var(--slate);
+    }
+
+    .spec-list li:last-child {
+      margin-bottom: 0;
+    }
+
+    .spec-list ul ul,
+    .spec-list ol ol,
+    .spec-list ul ol,
+    .spec-list ol ul {
+      margin: var(--sm) 0 0 0;
+    }
+
+    .spec-list li li {
+      margin-bottom: var(--xs);
+    }
+
+    /* ───────────────────────────────────────────────
+       Docs Type Scale Table
+       ─────────────────────────────────────────────── */
+    .docs-scale {
+      width: 100%;
+      border-collapse: collapse;
+      border-spacing: 0;
+    }
+
+    .docs-scale th,
+    .docs-scale td {
+      padding: var(--sm) 12px;
+      border-bottom: 1px solid var(--rule);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .docs-scale th {
+      background-color: var(--surface-sunken);
+      color: var(--graphite);
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 500;
+      line-height: 1.2;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .docs-scale td {
+      background-color: var(--surface-elevated);
+      color: var(--ink);
+      font-family: var(--font-body);
+      font-size: 0.875rem;
+      line-height: 1.5;
+    }
+
+    .docs-scale td.num {
+      font-family: var(--font-mono);
+      font-size: 0.8125rem;
+      color: var(--graphite);
+      text-align: right;
+    }
+
+    .docs-scale tr:last-child td {
+      border-bottom: none;
+    }
+
+    /* ───────────────────────────────────────────────
+       Surface Convention Cards (clickable)
+       ─────────────────────────────────────────────── */
+    .surfaces-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--lg);
+      margin-top: var(--xl);
+    }
+
+    .surface-card-link {
+      display: flex;
+      flex-direction: column;
+      text-decoration: none;
+      color: inherit;
+      border-radius: 8px;
+      will-change: transform;
+      cursor: pointer;
+    }
+
+    .surface-card-link:hover .surface-card-cta {
+      color: var(--accent);
+    }
+
+    .surface-card-title {
+      font-family: var(--font-body);
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: var(--xs);
+    }
+
+    .surface-card-desc {
+      font-family: var(--font-body);
+      font-size: 0.8125rem;
+      line-height: 1.4;
+      color: var(--slate);
+      margin-bottom: var(--md);
+    }
+
+    .surface-card-cta {
+      font-family: var(--font-mono);
+      font-size: 0.6875rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--slate);
+      margin-top: auto;
+      padding-top: var(--md);
+      transition: color 0.15s ease;
+    }
+
+    .mockup {
+      background-color: var(--surface-elevated);
+      border: 1px solid var(--rule);
+      border-radius: 8px;
+      overflow: hidden;
+      padding: var(--md);
+    }
+
+    .mockup-slide {
+      aspect-ratio: 16 / 9;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: var(--md);
+    }
+
+    /* Abstract bars for mockup text */
+    .mock-bar {
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+
+    .mock-bar-dark    { background-color: var(--ink); opacity: 0.75; }
+    .mock-bar-medium  { background-color: var(--graphite); opacity: 0.3; }
+    .mock-bar-light   { background-color: var(--slate); opacity: 0.15; }
+    .mock-bar-accent  { background-color: var(--accent-muted); }
+    .mock-bar-sunken  { background-color: var(--surface-sunken); }
+    .mock-bar-rule    { background-color: var(--rule); height: 1px !important; }
+
+    /* Sheets mockup */
+    .mock-grid {
+      display: grid;
+      gap: 1px;
+      background-color: var(--rule);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .mock-grid-3 {
+      grid-template-columns: 2fr 2fr 1fr;
+    }
+
+    .mock-cell {
+      padding: 6px 8px;
+      background-color: var(--surface-elevated);
+    }
+
+    .mock-cell-header {
+      background-color: var(--surface-sunken);
+    }
+
+    .mock-cell-accent {
+      background-color: var(--accent-muted);
+    }
+
+    .mock-cell-bar {
+      height: 4px;
+      border-radius: 1px;
+      margin: 2px 0;
+    }
+
+    /* Web mockup */
+    .mockup-web {
+      padding: 20px 24px;
+      min-height: 200px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ───────────────────────────────────────────────
+       Do's & Don'ts
+       ─────────────────────────────────────────────── */
+    .dos-donts {
+      display: grid;
+      grid-template-columns: 1fr 1px 1fr;
+      gap: 0;
+    }
+
+    .dos-col, .donts-col {
+      padding: var(--lg);
+    }
+
+    .dos-donts-divider {
+      background-color: var(--rule);
+    }
+
+    .dos-col .label-caps {
+      color: var(--ink);
+      margin-bottom: var(--lg);
+    }
+
+    .donts-col .label-caps {
+      color: var(--slate);
+      margin-bottom: var(--lg);
+    }
+
+    .rule-item {
+      font-family: var(--font-body);
+      font-size: 0.875rem;
+      font-weight: 400;
+      line-height: 1.5;
+      color: var(--graphite);
+      padding: 10px 0;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .rule-item:last-child {
+      border-bottom: none;
+    }
+
+    /* ───────────────────────────────────────────────
+       Footer
+       ─────────────────────────────────────────────── */
+    .footer {
+      padding: var(--xxl) 0 var(--xxxl);
+      text-align: center;
+    }
+
+    /* ───────────────────────────────────────────────
+       Spring buttons
+       ─────────────────────────────────────────────── */
+    .spring-btn {
+      will-change: transform;
+    }
+
+    /* ───────────────────────────────────────────────
+       Responsive
+       ─────────────────────────────────────────────── */
+    @media (max-width: 768px) {
+      main {
+        padding: 0 var(--md);
+      }
+
+      .hero {
+        padding-top: 96px;
+        padding-bottom: 72px;
+      }
+
+      .display {
+        font-size: 2.75rem;
+      }
+
+      .h1 {
+        font-size: 2.25rem;
+      }
+
+      .h2 {
+        font-size: 1.5rem;
+      }
+
+      .section {
+        padding-top: 64px;
+        padding-bottom: 64px;
+      }
+
+      .swatch-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .surfaces-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .dos-donts {
+        grid-template-columns: 1fr;
+      }
+
+      .dos-donts-divider {
+        height: 1px;
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .display {
+        font-size: 2.25rem;
+      }
+
+      .swatch-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <main>
+
+    <!-- ═══════════════════════════════════════════════
+         Hero
+         ═══════════════════════════════════════════════ -->
+    <header class="hero">
+      <p class="label-caps">Personal Design System</p>
+      <h1 class="display">Dan Sozanski</h1>
+      <p class="subtitle">Apple-esque restraint, gallery-quiet, professional casual. A system for documents, slides, sheets, and the web.</p>
+    </header>
+
+    <div class="callout measure" style="margin-bottom: 0;">
+      <p class="body-sm" style="color: var(--graphite);">Reading something built in this system should leave the audience feeling relieved, informed, motivated.</p>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════
+         Principles
+         ═══════════════════════════════════════════════ -->
+    <section class="section">
+      <div class="divider"></div>
+      <div class="section-inner">
+        <p class="label-caps" style="margin-bottom: var(--xxl);">Principles</p>
+
+        <div class="principle">
+          <p class="principle-number">01</p>
+          <h2 class="h2">Whitespace is the brand</h2>
+          <p class="body">When in doubt, remove. Density signals panic.</p>
+        </div>
+
+        <div class="principle">
+          <p class="principle-number">02</p>
+          <h2 class="h2">One accent per view</h2>
+          <p class="body">Meta blue is a scalpel, not a highlighter.</p>
+        </div>
+
+        <div class="principle">
+          <p class="principle-number">03</p>
+          <h2 class="h2">Type does the design</h2>
+          <p class="body">Instrument Serif headings against Optimistic body is the entire mood. Don't decorate it.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════
+         Color Palette
+         ═══════════════════════════════════════════════ -->
+    <section class="section" style="padding-top: 0;">
+      <div class="divider"></div>
+      <div class="section-inner">
+        <p class="label-caps" style="margin-bottom: var(--xxl);">Color Palette</p>
+
+        <div class="swatch-grid">
+
+          <div class="swatch">
+            <div class="swatch-color" style="background-color: var(--ink);"></div>
+            <p class="swatch-name">Ink</p>
+            <p class="swatch-hex">#0A0A0A</p>
+            <p class="swatch-usage">Headlines, body text. The voice of the document.</p>
+          </div>
+
+          <div class="swatch">
+            <div class="swatch-color" style="background-color: var(--graphite);"></div>
+            <p class="swatch-name">Graphite</p>
+            <p class="swatch-hex">#3D3D3D</p>
+            <p class="swatch-usage">Sub-headings, strong borders. Quiet authority.</p>
+          </div>
+
+          <div class="swatch">
+            <div class="swatch-color" style="background-color: var(--slate);"></div>
+            <p class="swatch-name">Slate</p>
+            <p class="swatch-hex">#6B6B6B</p>
+            <p class="swatch-usage">Captions, metadata, secondary labels.</p>
+          </div>
+
+          <div class="swatch">
+            <div class="swatch-color swatch-color-bordered" style="background-color: var(--rule);"></div>
+            <p class="swatch-name">Rule</p>
+            <p class="swatch-hex">#E5E5E5</p>
+            <p class="swatch-usage">Hairlines, table grids. Should almost disappear.</p>
+          </div>
+
+          <div class="swatch">
+            <div class="swatch-color swatch-color-bordered" style="background-color: var(--surface);"></div>
+            <p class="swatch-name">Surface</p>
+            <p class="swatch-hex">#FAFAF7</p>
+            <p class="swatch-usage">The page itself. Warm, almost-white, never pure.</p>
+          </div>
+
+          <div class="swatch">
+            <div class="swatch-color swatch-color-bordered" style="background-color: var(--surface-elevated);"></div>
+            <p class="swatch-name">Surface Elevated</p>
+            <p class="swatch-hex">#FFFFFF</p>
+            <p class="swatch-usage">Cards, slide canvases, table cells.</p>
+          </div>
+
+          <div class="swatch">
+            <div class="swatch-color swatch-color-bordered" style="background-color: var(--surface-sunken);"></div>
+            <p class="swatch-name">Surface Sunken</p>
+            <p class="swatch-hex">#F2F1ED</p>
+            <p class="swatch-usage">Tonal depth, table headers, code blocks.</p>
+          </div>
+
+          <div class="swatch">
+            <div class="swatch-color" style="background-color: var(--accent);"></div>
+            <p class="swatch-name">Accent</p>
+            <p class="swatch-hex">#0866FF</p>
+            <p class="swatch-usage">Meta blue. Use it once. Make it count.</p>
+          </div>
+
+          <div class="swatch">
+            <div class="swatch-color swatch-color-bordered" style="background-color: var(--accent-muted);"></div>
+            <p class="swatch-name">Accent Muted</p>
+            <p class="swatch-hex">#E6EEFF</p>
+            <p class="swatch-usage">Callout fills and highlight backgrounds.</p>
+          </div>
+
+        </div>
+
+        <!-- Text hierarchy demo -->
+        <div class="text-hierarchy">
+          <p class="label-caps" style="margin-bottom: var(--md);">Text Hierarchy</p>
+          <p class="h2" style="color: var(--ink); margin-bottom: var(--sm);">Headlines in Ink carry the voice</p>
+          <p class="body" style="color: var(--graphite); margin-bottom: var(--sm);">Supporting text in Graphite provides quiet authority without competing with the primary message.</p>
+          <p class="caption" style="color: var(--slate);">Metadata and captions in Slate recede to the background. May 2026 · Design System v0.1</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════
+         Typography
+         ═══════════════════════════════════════════════ -->
+    <section class="section" style="padding-top: 0;">
+      <div class="divider"></div>
+      <div class="section-inner">
+        <p class="label-caps" style="margin-bottom: var(--xxl);">Typography</p>
+        <p class="body text-graphite measure" style="margin-bottom: var(--xxl);">Two type families do all the work. Davinci (or Instrument Serif) carries the emotion. Optimistic carries the information. Roboto Mono marks the structure.</p>
+
+        <div class="specimen">
+          <p class="specimen-label">Display · Davinci / Instrument Serif · 4.5rem</p>
+          <p class="display">The quiet room</p>
+          <p class="specimen-meta">weight 400 · line-height 1.05 · tracking -0.02em</p>
+        </div>
+
+        <div class="specimen">
+          <p class="specimen-label">Heading 1 · Davinci / Instrument Serif · 3rem</p>
+          <p class="h1">Whitespace is the brand</p>
+          <p class="specimen-meta">weight 400 · line-height 1.1 · tracking -0.02em</p>
+        </div>
+
+        <div class="specimen">
+          <p class="specimen-label">Heading 2 · Davinci / Instrument Serif · 2rem</p>
+          <p class="h2">Professional casual</p>
+          <p class="specimen-meta">weight 400 · line-height 1.15 · tracking -0.02em</p>
+        </div>
+
+        <div class="specimen">
+          <p class="specimen-label">Heading 3 · Optimistic · 1.25rem</p>
+          <p class="h3">Serious about the craft, warm about the reader</p>
+          <p class="specimen-meta">weight 600 · line-height 1.3 · tracking -0.01em</p>
+        </div>
+
+        <div class="specimen">
+          <p class="specimen-label">Body Large · Optimistic · 1.125rem</p>
+          <p class="body-lg measure">Reading something built in this system should feel like walking into a quiet, well-lit room. Confident serifs, generous whitespace, near-monochrome surfaces, and a single restrained accent doing the work of ten.</p>
+          <p class="specimen-meta">weight 400 · line-height 1.55 · tracking 0</p>
+        </div>
+
+        <div class="specimen">
+          <p class="specimen-label">Body · Optimistic · 1rem</p>
+          <p class="body measure">The personality stays constant across every surface. Same tokens, four contexts. Strip until it feels too sparse, then add one thing back.</p>
+          <p class="specimen-meta">weight 400 · line-height 1.55 · tracking 0 · measure ~70ch</p>
+        </div>
+
+        <div class="specimen">
+          <p class="specimen-label">Body Small · Optimistic · 0.875rem</p>
+          <p class="body-sm">Table cells, compact UI, secondary content.</p>
+          <p class="specimen-meta">weight 400 · line-height 1.5</p>
+        </div>
+
+        <div class="specimen">
+          <p class="specimen-label">Caption · Optimistic · 0.8125rem</p>
+          <p class="caption">Design system v0.1 alpha · Last updated May 2026</p>
+          <p class="specimen-meta">weight 400 · line-height 1.4 · color slate</p>
+        </div>
+
+        <div class="specimen">
+          <p class="specimen-label">Label Caps · Roboto Mono · 0.75rem</p>
+          <p class="label-caps" style="color: var(--graphite);">SECTION EYEBROW</p>
+          <p class="specimen-meta">weight 500 · line-height 1.2 · tracking 0.08em · uppercase</p>
+        </div>
+
+        <div class="specimen">
+          <p class="specimen-label">Monospace · Roboto Mono · 0.875rem</p>
+          <p class="mono" style="color: var(--graphite);">--surface: #FAFAF7; /* warm off-white, never pure */</p>
+          <p class="specimen-meta">weight 400 · line-height 1.5</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════
+         Spacing
+         ═══════════════════════════════════════════════ -->
+    <section class="section" style="padding-top: 0;">
+      <div class="divider"></div>
+      <div class="section-inner">
+        <p class="label-caps" style="margin-bottom: var(--lg);">Spacing Scale</p>
+        <p class="body text-graphite measure" style="margin-bottom: var(--xl);">Everything lives on an 8px grid, with 4px for fine adjustments. Nothing improvised.</p>
+
+        <div class="spacing-row">
+          <span class="spacing-label">xs</span>
+          <span class="spacing-value">4px</span>
+          <div class="spacing-bar" style="width: 32px;"></div>
+        </div>
+        <div class="spacing-row">
+          <span class="spacing-label">sm</span>
+          <span class="spacing-value">8px</span>
+          <div class="spacing-bar" style="width: 64px;"></div>
+        </div>
+        <div class="spacing-row">
+          <span class="spacing-label">md</span>
+          <span class="spacing-value">16px</span>
+          <div class="spacing-bar" style="width: 128px;"></div>
+        </div>
+        <div class="spacing-row">
+          <span class="spacing-label">lg</span>
+          <span class="spacing-value">24px</span>
+          <div class="spacing-bar" style="width: 192px;"></div>
+        </div>
+        <div class="spacing-row">
+          <span class="spacing-label">xl</span>
+          <span class="spacing-value">32px</span>
+          <div class="spacing-bar" style="width: 256px;"></div>
+        </div>
+        <div class="spacing-row">
+          <span class="spacing-label">xxl</span>
+          <span class="spacing-value">48px</span>
+          <div class="spacing-bar" style="width: 384px;"></div>
+        </div>
+        <div class="spacing-row">
+          <span class="spacing-label">xxxl</span>
+          <span class="spacing-value">64px</span>
+          <div class="spacing-bar" style="width: 512px;"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════
+         Components
+         ═══════════════════════════════════════════════ -->
+    <section class="section" style="padding-top: 0;">
+      <div class="divider"></div>
+      <div class="section-inner">
+        <p class="label-caps" style="margin-bottom: var(--xxl);">Components</p>
+
+        <!-- Card -->
+        <div class="demo-group">
+          <p class="demo-label">Card</p>
+          <div class="card" style="max-width: 480px;">
+            <p class="h3" style="margin-bottom: var(--sm);">Quarterly design review</p>
+            <p class="body-sm text-graphite" style="margin-bottom: var(--md);">Group related content inside an elevated surface. Cards use surface-elevated backgrounds, 8px radius, and 24px padding.</p>
+            <p class="caption">3 items · Updated today</p>
+          </div>
+        </div>
+
+        <!-- Divider -->
+        <div class="demo-group">
+          <p class="demo-label">Divider</p>
+          <div style="max-width: 480px;">
+            <p class="body-sm text-graphite" style="margin-bottom: var(--md);">Content above</p>
+            <div class="divider"></div>
+            <p class="body-sm text-graphite" style="margin-top: var(--md);">Content below</p>
+          </div>
+        </div>
+
+        <!-- Link -->
+        <div class="demo-group">
+          <p class="demo-label">Link</p>
+          <p class="body"><a href="#" class="link" onclick="return false;">A quiet, well-lit room</a></p>
+        </div>
+
+        <!-- Buttons -->
+        <div class="demo-group">
+          <p class="demo-label">Buttons</p>
+          <div class="demo-buttons">
+            <button class="btn btn-primary spring-btn">Primary action</button>
+            <button class="btn btn-accent spring-btn">Accent action</button>
+          </div>
+          <p class="caption" style="margin-top: var(--sm);">The accent button is reserved for the single most important action per view. Hover and press to feel the second-order dynamics.</p>
+        </div>
+
+        <!-- Callout -->
+        <div class="demo-group">
+          <p class="demo-label">Callout</p>
+          <div class="callout" style="max-width: 480px;">
+            <p class="body-sm">Key insight: used to highlight a single takeaway per document or slide. Accent-muted background, ink text, 8px radius.</p>
+          </div>
+        </div>
+
+        <!-- Table -->
+        <div class="demo-group">
+          <p class="demo-label">Table</p>
+          <div style="max-width: 560px; border-radius: 8px; overflow: hidden; border: 1px solid var(--rule);">
+            <table class="demo-table">
+              <thead>
+                <tr>
+                  <th>Token</th>
+                  <th>Value</th>
+                  <th>Size</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Display</td>
+                  <td>Davinci / Instrument Serif</td>
+                  <td>4.5rem</td>
+                </tr>
+                <tr>
+                  <td>Heading 1</td>
+                  <td>Davinci / Instrument Serif</td>
+                  <td>3rem</td>
+                </tr>
+                <tr>
+                  <td>Body</td>
+                  <td>Optimistic</td>
+                  <td>1rem</td>
+                </tr>
+                <tr>
+                  <td>Label Caps</td>
+                  <td>Roboto Mono</td>
+                  <td>0.75rem</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- List -->
+        <div class="demo-group">
+          <p class="demo-label">List</p>
+          <div class="spec-list" style="max-width: 560px;">
+            <p class="body-sm text-graphite" style="margin-bottom: var(--md);">Lists breathe. Every item gets the same space above and below, so consecutive bullets share a real gap and isolated bullets sit with the same calm.</p>
+            <ul>
+              <li>Whitespace is the brand. When in doubt, remove.</li>
+              <li>One accent per view. Meta blue is a scalpel.</li>
+              <li>Type does the design. Don't decorate the serifs.
+                <ul>
+                  <li>Nested items get tighter spacing (4px), one indent deeper.</li>
+                  <li>Markers in slate, never ink.</li>
+                </ul>
+              </li>
+              <li>Cap at seven items. If you need more, you need sub-headings.</li>
+            </ul>
+            <p class="caption" style="margin-top: var(--sm);">Web: <span class="mono" style="font-size: 0.75rem;">margin: 16px 0</span> per item, <span class="mono" style="font-size: 0.75rem;">line-height: 1.15</span> inside. Docs: 12pt above and below every item, 1.15 line spacing.</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════
+         Google Docs Type Scale (canonical)
+         ═══════════════════════════════════════════════ -->
+    <section class="section" style="padding-top: 0;">
+      <div class="divider"></div>
+      <div class="section-inner">
+        <p class="label-caps" style="margin-bottom: var(--lg);">Docs Type Scale</p>
+        <p class="body text-graphite measure" style="margin-bottom: var(--xl);">Canonical Google Docs values. Apply once, save as default styles, inherit forever. The TL;DR accent is the one place Meta blue lives in a doc.</p>
+
+        <div style="border-radius: 8px; overflow: hidden; border: 1px solid var(--rule);">
+          <table class="docs-scale">
+            <thead>
+              <tr>
+                <th>Level</th>
+                <th>Family</th>
+                <th class="num" style="text-align: right;">Size</th>
+                <th>Weight</th>
+                <th class="num" style="text-align: right;">Line</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Title</td><td>Instrument Serif</td><td class="num">32pt</td><td>Regular</td><td class="num">1.5</td></tr>
+              <tr><td>Eyebrow</td><td>Roboto Mono</td><td class="num">8pt</td><td>Regular</td><td class="num">1.5</td></tr>
+              <tr><td>Subtitle / lede</td><td>Instrument Serif</td><td class="num">16pt</td><td>Regular</td><td class="num">1.5</td></tr>
+              <tr><td>H1 (page title)</td><td>Instrument Serif</td><td class="num">24pt</td><td>Regular</td><td class="num">1.5</td></tr>
+              <tr><td>H2 (section)</td><td>Instrument Serif</td><td class="num">20pt</td><td>Regular</td><td class="num">1.5</td></tr>
+              <tr><td>H3 (sub-section)</td><td>Optimistic</td><td class="num">12pt</td><td>Regular</td><td class="num">1.5</td></tr>
+              <tr><td>H4 (grouping)</td><td>Optimistic</td><td class="num">11pt</td><td>Medium</td><td class="num">1.5</td></tr>
+              <tr><td>H5 (callout label)</td><td>Roboto Mono</td><td class="num">8pt</td><td>Regular</td><td class="num">1.5</td></tr>
+              <tr><td>Body</td><td>Optimistic</td><td class="num">10pt</td><td>Regular</td><td class="num">1.5</td></tr>
+              <tr><td>List item</td><td>Optimistic</td><td class="num">10pt</td><td>Regular</td><td class="num">1.15</td></tr>
+              <tr><td>TL;DR accent</td><td>Optimistic</td><td class="num">10pt</td><td>Bold · <span style="color: var(--accent);">#0866FF</span></td><td class="num">1.5</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p class="caption" style="margin-top: var(--md);">Save once via Format → Paragraph styles → Update Heading X to match, then Options → Save as my default styles.</p>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════
+         Surface Conventions (clickable cards)
+         ═══════════════════════════════════════════════ -->
+    <section class="section" style="padding-top: 0;">
+      <div class="divider"></div>
+      <div class="section-inner">
+        <p class="label-caps" style="margin-bottom: var(--lg);">Surface Conventions</p>
+        <p class="body text-graphite measure" style="margin-bottom: var(--xl);">Same tokens, four contexts. The personality stays constant. Click each card to see a faithful, system-native example.</p>
+
+        <div class="surfaces-grid">
+
+          <!-- Google Docs -->
+          <a href="./templates/doc.html" class="surface-card-link spring-btn">
+            <p class="surface-card-title">Google Docs</p>
+            <p class="surface-card-desc">Title in display serif. TL;DR callout at top. Sections in h2. One accent moment per doc.</p>
+            <div class="mockup" style="padding: 24px; min-height: 220px;">
+              <div class="mock-bar mock-bar-dark" style="width: 60%; height: 10px; margin-bottom: 6px;"></div>
+              <div class="mock-bar mock-bar-medium" style="width: 28%; height: 3px; margin-bottom: 16px;"></div>
+              <div class="mock-bar mock-bar-accent" style="width: 100%; height: 24px; border-radius: 4px; margin-bottom: 16px;"></div>
+              <div class="mock-bar mock-bar-rule" style="width: 100%; margin-bottom: 16px;"></div>
+              <div class="mock-bar mock-bar-dark" style="width: 38%; height: 7px; margin-bottom: 12px;"></div>
+              <div class="mock-bar mock-bar-light" style="width: 100%; height: 3px; margin-bottom: 6px;"></div>
+              <div class="mock-bar mock-bar-light" style="width: 100%; height: 3px; margin-bottom: 6px;"></div>
+              <div class="mock-bar mock-bar-light" style="width: 82%; height: 3px; margin-bottom: 14px;"></div>
+              <div class="mock-bar mock-bar-dark" style="width: 32%; height: 7px; margin-bottom: 12px;"></div>
+              <div class="mock-bar mock-bar-light" style="width: 95%; height: 3px; margin-bottom: 6px;"></div>
+              <div class="mock-bar mock-bar-light" style="width: 100%; height: 3px; margin-bottom: 6px;"></div>
+              <div class="mock-bar mock-bar-light" style="width: 68%; height: 3px;"></div>
+            </div>
+            <p class="surface-card-cta">View example →</p>
+          </a>
+
+          <!-- Google Slides -->
+          <a href="./templates/slides.html" class="surface-card-link spring-btn">
+            <p class="surface-card-title">Google Slides</p>
+            <p class="surface-card-desc">16:9 only. Minimal text. Title-only and image-only slides. No transitions, cuts only.</p>
+            <div class="mockup mockup-slide" style="min-height: 180px;">
+              <div>
+                <div class="mock-bar mock-bar-dark" style="width: 50%; height: 9px; margin-bottom: 6px;"></div>
+                <div class="mock-bar mock-bar-medium" style="width: 30%; height: 4px;"></div>
+              </div>
+            </div>
+            <p class="surface-card-cta">View example →</p>
+          </a>
+
+          <!-- Google Sheets -->
+          <a href="./templates/sheets.html" class="surface-card-link spring-btn">
+            <p class="surface-card-title">Google Sheets</p>
+            <p class="surface-card-desc">Minimal gridlines. Label-caps headers. Numbers right-aligned. One accent highlight per sheet.</p>
+            <div class="mockup" style="padding: 0;">
+              <div class="mock-grid mock-grid-3">
+                <div class="mock-cell mock-cell-header"><div class="mock-cell-bar mock-bar-medium" style="width: 60%; height: 3px;"></div></div>
+                <div class="mock-cell mock-cell-header"><div class="mock-cell-bar mock-bar-medium" style="width: 50%; height: 3px;"></div></div>
+                <div class="mock-cell mock-cell-header"><div class="mock-cell-bar mock-bar-medium" style="width: 40%; height: 3px;"></div></div>
+                <div class="mock-cell"><div class="mock-cell-bar mock-bar-light" style="width: 70%; height: 3px;"></div></div>
+                <div class="mock-cell"><div class="mock-cell-bar mock-bar-light" style="width: 55%; height: 3px;"></div></div>
+                <div class="mock-cell"><div class="mock-cell-bar mock-bar-light" style="width: 45%; height: 3px;"></div></div>
+                <div class="mock-cell"><div class="mock-cell-bar mock-bar-light" style="width: 65%; height: 3px;"></div></div>
+                <div class="mock-cell"><div class="mock-cell-bar mock-bar-light" style="width: 50%; height: 3px;"></div></div>
+                <div class="mock-cell mock-cell-accent"><div class="mock-cell-bar mock-bar-medium" style="width: 50%; height: 3px;"></div></div>
+                <div class="mock-cell"><div class="mock-cell-bar mock-bar-light" style="width: 75%; height: 3px;"></div></div>
+                <div class="mock-cell"><div class="mock-cell-bar mock-bar-light" style="width: 60%; height: 3px;"></div></div>
+                <div class="mock-cell"><div class="mock-cell-bar mock-bar-light" style="width: 35%; height: 3px;"></div></div>
+                <div class="mock-cell"><div class="mock-cell-bar mock-bar-light" style="width: 58%; height: 3px;"></div></div>
+                <div class="mock-cell"><div class="mock-cell-bar mock-bar-light" style="width: 48%; height: 3px;"></div></div>
+                <div class="mock-cell"><div class="mock-cell-bar mock-bar-light" style="width: 42%; height: 3px;"></div></div>
+              </div>
+            </div>
+            <p class="surface-card-cta">View example →</p>
+          </a>
+
+          <!-- Web -->
+          <a href="./templates/web.html" class="surface-card-link spring-btn">
+            <p class="surface-card-title">Web</p>
+            <p class="surface-card-desc">Single-column reading at 720px. Eyebrow labels, serif headlines, generous padding. One accent per viewport.</p>
+            <div class="mockup mockup-web">
+              <div class="mock-bar mock-bar-medium" style="width: 24%; height: 3px; margin-bottom: 8px;"></div>
+              <div class="mock-bar mock-bar-dark" style="width: 55%; height: 12px; margin-bottom: 6px;"></div>
+              <div class="mock-bar mock-bar-dark" style="width: 40%; height: 12px; margin-bottom: 12px;"></div>
+              <div class="mock-bar mock-bar-light" style="width: 90%; height: 3px; margin-bottom: 5px;"></div>
+              <div class="mock-bar mock-bar-light" style="width: 85%; height: 3px; margin-bottom: 16px;"></div>
+              <div class="mock-bar mock-bar-sunken" style="width: 100%; height: 48px; border-radius: 4px; margin-bottom: 16px;"></div>
+              <div class="mock-bar mock-bar-rule" style="width: 100%; margin-bottom: 16px;"></div>
+              <div class="mock-bar mock-bar-dark" style="width: 36%; height: 7px; margin-bottom: 10px;"></div>
+              <div class="mock-bar mock-bar-light" style="width: 100%; height: 3px; margin-bottom: 5px;"></div>
+              <div class="mock-bar mock-bar-light" style="width: 95%; height: 3px; margin-bottom: 5px;"></div>
+              <div class="mock-bar mock-bar-light" style="width: 72%; height: 3px;"></div>
+            </div>
+            <p class="surface-card-cta">View example →</p>
+          </a>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════
+         Do's & Don'ts
+         ═══════════════════════════════════════════════ -->
+    <section class="section" style="padding-top: 0;">
+      <div class="divider"></div>
+      <div class="section-inner">
+        <p class="label-caps" style="margin-bottom: var(--xxl);">Do's &amp; Don'ts</p>
+
+        <div class="dos-donts card">
+
+          <div class="dos-col">
+            <p class="label-caps" style="color: var(--ink);">Do</p>
+            <div class="rule-item">Lead every document with a TL;DR.</div>
+            <div class="rule-item">Use one accent moment per view. Make it the most important thing.</div>
+            <div class="rule-item">Default to whitespace. Strip until it feels too sparse, then add one thing back.</div>
+            <div class="rule-item">Let Instrument Serif headlines carry the emotional weight.</div>
+            <div class="rule-item">Right-align numbers. Always.</div>
+          </div>
+
+          <div class="dos-donts-divider"></div>
+
+          <div class="donts-col">
+            <p class="label-caps">Don't</p>
+            <div class="rule-item">Use em-dashes. Use commas, periods, or parentheses instead.</div>
+            <div class="rule-item">Mix more than two type families on a single surface.</div>
+            <div class="rule-item">Use Meta blue more than once per slide or section.</div>
+            <div class="rule-item">Add drop shadows, gradients, or glows.</div>
+            <div class="rule-item">Use banded rows in tables.</div>
+            <div class="rule-item">Bold a heading. Size and serif are enough.</div>
+            <div class="rule-item">Center-align body copy.</div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════
+         Footer
+         ═══════════════════════════════════════════════ -->
+    <footer class="footer">
+      <p class="label-caps">v alpha · 2026</p>
+    </footer>
+
+  </main>
+
+<!-- ═══════════════════════════════════════════════════
+     Second-Order Dynamics — Spring Animation Module
+     ═══════════════════════════════════════════════════
+     Applies procedural second-order dynamics to all elements
+     with class "spring-btn". Uses the same math as the iOS 26
+     Motion Playground:
+
+       yd = yd + dt * (k3 * xd + (x - y) - k1 * yd) / k2
+       y  = y  + dt * yd
+
+     where k1 = zeta/(π·f), k2 = 1/(2π·f)², k3 = r·zeta/(2π·f)
+
+     States:
+       Hover:   target 1.03, f=3.5, ζ=0.7, r=1.5 (soft overshoot)
+       Active:  target 0.96, f=5,   ζ=1,   r=0   (critically damped)
+       Release: target 1,    f=4,   ζ=0.55, r=2   (satisfying snap)
+
+     Respects prefers-reduced-motion: reduce.
+     ═══════════════════════════════════════════════════ -->
+<script>
+(function() {
+  'use strict';
+
+  // ── Reduced motion: fall back to simple CSS transitions ──
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    var style = document.createElement('style');
+    style.textContent = [
+      '.spring-btn { transition: transform 0.15s ease; }',
+      '.spring-btn:hover { transform: scale(1.03); }',
+      '.spring-btn:active { transform: scale(0.96); }'
+    ].join('');
+    document.head.appendChild(style);
+    return;
+  }
+
+  // ── Second-order dynamics math ──
+  var PI = Math.PI;
+
+  function params(f, zeta, r) {
+    var w = 2 * PI * f;
+    return {
+      k1: zeta / (PI * f),
+      k2: 1 / (w * w),
+      k3: r * zeta / (2 * PI * f)
+    };
+  }
+
+  var HOVER   = params(3.5, 0.7, 1.5);   // soft anticipatory overshoot
+  var ACTIVE  = params(5, 1, 0);          // critically damped, immediate
+  var RELEASE = params(4, 0.55, 2);       // satisfying snap with overshoot
+
+  // ── Spring pool with single rAF loop ──
+  var springs = [];
+  var rafId = null;
+  var lastTime = 0;
+
+  function Spring(el) {
+    this.el = el;
+    this.y = 1;         // current value
+    this.yd = 0;        // current velocity
+    this.x = 1;         // target value
+    this.p = HOVER;     // active params
+    this.hovered = false;
+    this.pressed = false;
+
+    var self = this;
+
+    el.addEventListener('mouseenter', function() {
+      self.hovered = true;
+      self.x = 1.03;
+      self.p = HOVER;
+      wake();
+    });
+
+    el.addEventListener('mouseleave', function() {
+      self.hovered = false;
+      if (!self.pressed) {
+        self.x = 1;
+        self.p = RELEASE;
+        wake();
+      }
+    });
+
+    el.addEventListener('mousedown', function(e) {
+      self.pressed = true;
+      self.x = 0.96;
+      self.p = ACTIVE;
+      wake();
+    });
+
+    // Listen on window to catch mouseup outside element
+    window.addEventListener('mouseup', function() {
+      if (self.pressed) {
+        self.pressed = false;
+        self.x = self.hovered ? 1.03 : 1;
+        self.p = RELEASE;
+        wake();
+      }
+    });
+  }
+
+  function wake() {
+    if (!rafId) {
+      lastTime = performance.now();
+      rafId = requestAnimationFrame(tick);
+    }
+  }
+
+  function tick(now) {
+    var dt = Math.min((now - lastTime) / 1000, 0.02); // cap at 20ms
+    lastTime = now;
+
+    var anyMoving = false;
+
+    for (var i = 0; i < springs.length; i++) {
+      var s = springs[i];
+      var k1 = s.p.k1, k2 = s.p.k2, k3 = s.p.k3;
+
+      // Second-order dynamics step
+      s.yd = s.yd + dt * (k3 * 0 + (s.x - s.y) - k1 * s.yd) / k2;
+      s.y = s.y + dt * s.yd;
+
+      // Apply transform
+      s.el.style.transform = 'scale(' + s.y.toFixed(5) + ')';
+
+      // Check if still moving
+      if (Math.abs(s.y - s.x) > 0.0003 || Math.abs(s.yd) > 0.005) {
+        anyMoving = true;
+      } else {
+        // Settled — snap to target and clear transform if at rest (1)
+        s.y = s.x;
+        s.yd = 0;
+        s.el.style.transform = s.x === 1 ? '' : 'scale(' + s.x + ')';
+      }
+    }
+
+    if (anyMoving) {
+      rafId = requestAnimationFrame(tick);
+    } else {
+      rafId = null;
+    }
+  }
+
+  // ── Initialize springs on DOM ready ──
+  document.addEventListener('DOMContentLoaded', function() {
+    var els = document.querySelectorAll('.spring-btn');
+    for (var i = 0; i < els.length; i++) {
+      springs.push(new Spring(els[i]));
+    }
+  });
+})();
+</script>
+
+</body>
+</html>

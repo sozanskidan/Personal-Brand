@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spatial Vignettes · Design Review Deck</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Inter:wght@400;500;600&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    /* Davinci sourcing: see ../preview.html for details. Drop Davinci-Regular.woff2 at ../fonts/ to activate. */
+    @font-face {
+      font-family: 'Davinci';
+      src: local('Davinci'),
+           url('../fonts/Davinci-Regular.woff2') format('woff2'),
+           url('../fonts/Davinci.woff2') format('woff2');
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --ink: #0A0A0A;
+      --graphite: #3D3D3D;
+      --slate: #6B6B6B;
+      --rule: #E5E5E5;
+      --surface: #FAFAF7;
+      --surface-elevated: #FFFFFF;
+      --surface-sunken: #F2F1ED;
+      --accent: #0866FF;
+      --accent-muted: #E6EEFF;
+      --on-accent: #FFFFFF;
+      --font-serif: 'Davinci', 'Instrument Serif', Georgia, 'Times New Roman', serif;
+      --font-body: 'Optimistic Display', 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+      --font-mono: 'Roboto Mono', 'SF Mono', 'Fira Code', monospace;
+    }
+
+    html {
+      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    ::selection {
+      background: var(--accent-muted);
+      color: var(--ink);
+    }
+
+    body {
+      background-color: var(--surface-sunken);
+      color: var(--ink);
+      font-family: var(--font-body);
+      padding: 64px 24px;
+      min-height: 100vh;
+    }
+
+    /* ── Slide container ── */
+    .deck {
+      max-width: 960px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 48px;
+    }
+
+    .slide {
+      position: relative;
+      background: var(--surface-elevated);
+      border-radius: 8px;
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .slide-inner {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 48px;
+    }
+
+    /* ── Slide number ── */
+    .slide-num {
+      position: absolute;
+      bottom: 20px;
+      right: 24px;
+      font-family: var(--font-mono);
+      font-size: 0.6875rem;
+      font-weight: 400;
+      color: var(--slate);
+      opacity: 0.5;
+    }
+
+    /* ── Typography for slides ── */
+    .s-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.6875rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--slate);
+    }
+
+    .s-display {
+      font-family: var(--font-serif);
+      font-size: 3.5rem;
+      font-weight: 400;
+      line-height: 1.08;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+    }
+
+    .s-h1 {
+      font-family: var(--font-serif);
+      font-size: 2.5rem;
+      font-weight: 400;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+    }
+
+    .s-h2 {
+      font-family: var(--font-serif);
+      font-size: 1.75rem;
+      font-weight: 400;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+    }
+
+    .s-body {
+      font-family: var(--font-body);
+      font-size: 1rem;
+      font-weight: 400;
+      line-height: 1.5;
+      color: var(--graphite);
+    }
+
+    .s-caption {
+      font-family: var(--font-body);
+      font-size: 0.8125rem;
+      color: var(--slate);
+    }
+
+    .s-metric {
+      font-family: var(--font-serif);
+      font-size: 6rem;
+      font-weight: 400;
+      line-height: 1;
+      letter-spacing: -0.03em;
+      color: var(--accent);
+    }
+
+    .s-metric-label {
+      font-family: var(--font-body);
+      font-size: 1.125rem;
+      color: var(--graphite);
+      margin-top: 8px;
+    }
+
+    /* ── Image placeholder ── */
+    .img-placeholder {
+      background: var(--surface-sunken);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--slate);
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.04em;
+    }
+
+    /* ── Slide-specific layouts ── */
+
+    /* Title slide */
+    .slide-title .slide-inner {
+      justify-content: flex-end;
+    }
+
+    .slide-title .s-eyebrow { margin-bottom: 12px; }
+    .slide-title .s-display { margin-bottom: 16px; }
+
+    /* Quote slide */
+    .slide-quote .slide-inner {
+      justify-content: center;
+      padding: 48px 64px;
+    }
+
+    .slide-quote blockquote {
+      font-family: var(--font-serif);
+      font-size: 2.25rem;
+      font-weight: 400;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      max-width: 28ch;
+      margin-bottom: 16px;
+    }
+
+    .slide-quote cite {
+      font-family: var(--font-body);
+      font-size: 0.875rem;
+      font-style: normal;
+      color: var(--slate);
+    }
+
+    /* Image-first slide */
+    .slide-image-first {
+      flex-direction: row;
+    }
+
+    .slide-image-first .slide-inner {
+      flex: 0 0 45%;
+      justify-content: flex-end;
+    }
+
+    .slide-image-first .slide-image-area {
+      flex: 1;
+    }
+
+    .slide-image-first .s-h2 { margin-bottom: 8px; }
+
+    /* Two-up comparison */
+    .slide-two-up .slide-inner {
+      gap: 0;
+    }
+
+    .slide-two-up .two-up-header {
+      margin-bottom: 24px;
+    }
+
+    .slide-two-up .two-up-grid {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    .two-up-cell {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .two-up-cell .s-eyebrow { margin-bottom: 8px; }
+    .two-up-cell .img-placeholder { flex: 1; min-height: 0; }
+    .two-up-cell .s-caption { margin-top: 8px; }
+
+    /* Metric slide */
+    .slide-metric .slide-inner {
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    .slide-metric .s-eyebrow { margin-bottom: 16px; }
+
+    /* Table slide */
+    .slide-table .slide-inner {
+      gap: 0;
+    }
+
+    .slide-table .s-h2 { margin-bottom: 24px; }
+
+    .slide-table table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .slide-table th {
+      background: var(--surface-sunken);
+      font-family: var(--font-mono);
+      font-size: 0.6875rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--graphite);
+      text-align: left;
+      padding: 8px 12px;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .slide-table th.num { text-align: right; }
+
+    .slide-table td {
+      font-family: var(--font-body);
+      font-size: 0.875rem;
+      color: var(--ink);
+      padding: 8px 12px;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .slide-table td.num {
+      text-align: right;
+      font-family: var(--font-mono);
+      font-size: 0.8125rem;
+    }
+
+    .slide-table tr:last-child td { border-bottom: none; }
+    .slide-table tr.row-accent td { background: var(--accent-muted); }
+
+    /* Closing slide */
+    .slide-closing .slide-inner {
+      justify-content: center;
+    }
+
+    .slide-closing .s-h1 { margin-bottom: 8px; }
+
+    /* ── System footer ── */
+    .system-footer {
+      max-width: 960px;
+      margin: 48px auto 0;
+      text-align: center;
+    }
+
+    .system-footer a {
+      font-family: var(--font-mono);
+      font-size: 0.6875rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--slate);
+      text-decoration: none;
+    }
+
+    .system-footer a:hover { color: var(--accent); }
+
+    /* ── Spring buttons ── */
+    .spring-btn { will-change: transform; }
+
+    @media (max-width: 640px) {
+      body { padding: 24px 16px; }
+      .deck { gap: 24px; }
+      .slide-inner { padding: 24px; }
+      .s-display { font-size: 2.25rem; }
+      .s-h1 { font-size: 2rem; }
+      .s-h2 { font-size: 1.5rem; }
+      .s-metric { font-size: 3.5rem; }
+      .slide-quote blockquote { font-size: 1.5rem; }
+      .slide-image-first { flex-direction: column; }
+      .slide-image-first .slide-inner { flex: 0 0 auto; }
+      .slide-image-first .slide-image-area { min-height: 120px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="deck">
+
+    <!-- ── Slide 1: Title ── -->
+    <div class="slide slide-title">
+      <div class="slide-inner">
+        <p class="s-eyebrow">Design Review · June 2026</p>
+        <h1 class="s-display">Spatial Vignettes</h1>
+        <p class="s-body">Designing arrival moments for mixed reality.</p>
+      </div>
+      <span class="slide-num">01</span>
+    </div>
+
+    <!-- ── Slide 2: Big Quote ── -->
+    <div class="slide slide-quote">
+      <div class="slide-inner">
+        <blockquote>"It felt like walking into a room where someone already turned the lights on for you."</blockquote>
+        <cite>Research participant, Session 3</cite>
+      </div>
+      <span class="slide-num">02</span>
+    </div>
+
+    <!-- ── Slide 3: Image-First ── -->
+    <div class="slide slide-image-first">
+      <div class="slide-inner">
+        <h2 class="s-h2">The arrival moment</h2>
+        <p class="s-body">Audio fades in before the visual scene resolves.</p>
+      </div>
+      <div class="slide-image-area img-placeholder">[image]</div>
+      <span class="slide-num">03</span>
+    </div>
+
+    <!-- ── Slide 4: Two-Up Comparison ── -->
+    <div class="slide slide-two-up">
+      <div class="slide-inner">
+        <div class="two-up-header">
+          <h2 class="s-h2">Visual-first vs. audio-first</h2>
+        </div>
+        <div class="two-up-grid">
+          <div class="two-up-cell">
+            <p class="s-eyebrow">Visual First</p>
+            <div class="img-placeholder">[image]</div>
+            <p class="s-caption">Scene loads, then audio. Rated 3.1 / 5.</p>
+          </div>
+          <div class="two-up-cell">
+            <p class="s-eyebrow">Audio First</p>
+            <div class="img-placeholder">[image]</div>
+            <p class="s-caption">Audio cues, then scene. Rated 4.2 / 5.</p>
+          </div>
+        </div>
+      </div>
+      <span class="slide-num">04</span>
+    </div>
+
+    <!-- ── Slide 5: Single Metric ── -->
+    <div class="slide slide-metric">
+      <div class="slide-inner">
+        <p class="s-eyebrow">Desirability Score</p>
+        <p class="s-metric">4.2</p>
+        <p class="s-metric-label">Workspace entry vignette, highest rated of five.</p>
+      </div>
+      <span class="slide-num">05</span>
+    </div>
+
+    <!-- ── Slide 6: Table ── -->
+    <div class="slide slide-table">
+      <div class="slide-inner">
+        <h2 class="s-h2">Sprint status</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Vignette</th>
+              <th>Status</th>
+              <th class="num">Score</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Morning context</td>
+              <td>Complete</td>
+              <td class="num">3.8</td>
+            </tr>
+            <tr>
+              <td>Commute handoff</td>
+              <td>Complete</td>
+              <td class="num">3.5</td>
+            </tr>
+            <tr class="row-accent">
+              <td>Workspace entry</td>
+              <td>Complete</td>
+              <td class="num">4.2</td>
+            </tr>
+            <tr>
+              <td>Focus session</td>
+              <td>Blocked</td>
+              <td class="num">—</td>
+            </tr>
+            <tr>
+              <td>Wind-down</td>
+              <td>Blocked</td>
+              <td class="num">—</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <span class="slide-num">06</span>
+    </div>
+
+    <!-- ── Slide 7: Closing ── -->
+    <div class="slide slide-closing">
+      <div class="slide-inner">
+        <h1 class="s-h1">Sprint closes June 6.</h1>
+        <p class="s-body">Pending: spatial audio API access from platform team.</p>
+      </div>
+      <span class="slide-num">07</span>
+    </div>
+
+  </div>
+
+  <div class="system-footer">
+    <a href="../preview.html">Built with Dan Sozanski's design system ← back to system reference</a>
+  </div>
+
+<script>
+(function() {
+  'use strict';
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    var s = document.createElement('style');
+    s.textContent = '.spring-btn{transition:transform .15s ease}.spring-btn:hover{transform:scale(1.03)}.spring-btn:active{transform:scale(0.96)}';
+    document.head.appendChild(s);
+    return;
+  }
+  var PI = Math.PI;
+  function p(f,z,r){return{k1:z/(PI*f),k2:1/((2*PI*f)*(2*PI*f)),k3:r*z/(2*PI*f)};}
+  var HOVER=p(3.5,.7,1.5),ACTIVE=p(5,1,0),RELEASE=p(4,.55,2);
+  var springs=[],rafId=null,lastTime=0;
+  function Spring(el){
+    this.el=el;this.y=1;this.yd=0;this.x=1;this.p=HOVER;this.hovered=false;this.pressed=false;
+    var self=this;
+    el.addEventListener('mouseenter',function(){self.hovered=true;self.x=1.03;self.p=HOVER;wake();});
+    el.addEventListener('mouseleave',function(){self.hovered=false;if(!self.pressed){self.x=1;self.p=RELEASE;wake();}});
+    el.addEventListener('mousedown',function(){self.pressed=true;self.x=0.96;self.p=ACTIVE;wake();});
+    window.addEventListener('mouseup',function(){if(self.pressed){self.pressed=false;self.x=self.hovered?1.03:1;self.p=RELEASE;wake();}});
+  }
+  function wake(){if(!rafId){lastTime=performance.now();rafId=requestAnimationFrame(tick);}}
+  function tick(now){
+    var dt=Math.min((now-lastTime)/1000,0.02);lastTime=now;var any=false;
+    for(var i=0;i<springs.length;i++){
+      var s=springs[i],k1=s.p.k1,k2=s.p.k2,k3=s.p.k3;
+      s.yd=s.yd+dt*(k3*0+(s.x-s.y)-k1*s.yd)/k2;
+      s.y=s.y+dt*s.yd;
+      s.el.style.transform='scale('+s.y.toFixed(5)+')';
+      if(Math.abs(s.y-s.x)>0.0003||Math.abs(s.yd)>0.005){any=true;}
+      else{s.y=s.x;s.yd=0;s.el.style.transform=s.x===1?'':'scale('+s.x+')';}
+    }
+    rafId=any?requestAnimationFrame(tick):null;
+  }
+  document.addEventListener('DOMContentLoaded',function(){
+    var els=document.querySelectorAll('.spring-btn');
+    for(var i=0;i<els.length;i++) springs.push(new Spring(els[i]));
+  });
+})();
+</script>
+
+</body>
+</html>
