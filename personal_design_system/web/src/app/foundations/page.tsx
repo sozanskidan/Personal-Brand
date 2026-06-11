@@ -1,4 +1,5 @@
 import { Eyebrow } from "@/components/ds/eyebrow";
+import { HoverLiftCard } from "@/components/ds/hover-lift-card";
 import { Separator } from "@/components/ui/separator";
 import { SpringDemo } from "@/components/site/spring-demo";
 import { MotionExamples } from "@/components/site/motion-examples";
@@ -146,7 +147,40 @@ export default function FoundationsPage() {
       <Separator />
 
       <Section
-        eyebrow="05 · Motion"
+        eyebrow="05 · Elevation"
+        title="Flat until touched"
+        lede="Interactive cards rest on tonal separation alone; the shadow and scale arrive on hover, on the snappy spring. Hover the cards, then open the cog to tune drop, blur, opacity, radius, and the physics."
+        action={<ParamPanel scope="hover-lift-card" />}
+      >
+        <div className="grid gap-4 sm:grid-cols-3">
+          <HoverLiftCard>
+            <Eyebrow className="mb-2">Rest</Eyebrow>
+            <p className="text-sm text-graphite">
+              White on warm surface. No border, no shadow — the tone does
+              the separating.
+            </p>
+          </HoverLiftCard>
+          <HoverLiftCard>
+            <Eyebrow className="mb-2">Hover</Eyebrow>
+            <p className="text-sm text-graphite">
+              A soft ink shadow fades in while the card scales to 1.02.
+              Nothing moves on the y axis.
+            </p>
+          </HoverLiftCard>
+          <HoverLiftCard>
+            <Eyebrow className="mb-2">Press</Eyebrow>
+            <p className="text-sm text-graphite">
+              Scale dips to 0.99 — physical, tiny, quiet. Exits never
+              spring.
+            </p>
+          </HoverLiftCard>
+        </div>
+      </Section>
+
+      <Separator />
+
+      <Section
+        eyebrow="06 · Motion"
         title="Second-order dynamics"
         lede="Three spring presets — stiffness, damping, mass — move everything, and they loop below so you can feel your edits. Copy a preset with the icon, or open the cog and tune the physics live. Exits never spring."
         action={<ParamPanel scope="spring" />}

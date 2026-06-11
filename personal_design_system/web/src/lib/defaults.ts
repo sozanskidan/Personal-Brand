@@ -186,11 +186,16 @@ export const SCOPES: ScopeDef[] = [
   },
   {
     scope: "hover-lift-card",
-    title: "Hover-lift Card",
+    title: "Card · Hover & Shadow",
+    note: "The interactive card language: flat at rest, shadow and scale on hover. Shared by every lifting card on the site.",
     controls: [
       { key: "hoverScale", label: "Hover scale", type: "range", def: 1.02, min: 1, max: 1.15, step: 0.005 },
       { key: "tapScale", label: "Press scale", type: "range", def: 0.99, min: 0.8, max: 1, step: 0.005 },
       { key: "radius", label: "Corner radius", type: "range", def: 16, min: 0, max: 64, step: 1, unit: "px", cssVar: "--lift-radius" },
+      { key: "shadowY", label: "Shadow · drop", type: "range", def: 12, min: 0, max: 48, step: 1, unit: "px" },
+      { key: "shadowBlur", label: "Shadow · blur", type: "range", def: 32, min: 0, max: 80, step: 1, unit: "px" },
+      { key: "shadowOpacity", label: "Shadow · opacity", type: "range", def: 10, min: 0, max: 40, step: 1, unit: "%" },
+      { key: "restShadowOpacity", label: "Resting shadow", type: "range", def: 0, min: 0, max: 40, step: 1, unit: "%" },
       { key: "hoverBg", label: "Hover fill", type: "color", def: "#ffffff" },
       ...springControls(700, 50),
     ],

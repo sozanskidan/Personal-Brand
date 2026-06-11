@@ -5,10 +5,7 @@ import { motion } from "motion/react";
 import { toast } from "sonner";
 import { getScope } from "@/lib/defaults";
 import { useTokens, useSpringToken } from "@/lib/token-context";
-import {
-  LIFT_REST_SHADOW,
-  LIFT_HOVER_SHADOW,
-} from "@/components/ds/hover-lift-card";
+import { useLiftShadows } from "@/components/ds/hover-lift-card";
 
 const USAGE: Record<string, string> = {
   ink: "Headlines, body text. The voice of the document.",
@@ -26,6 +23,7 @@ const USAGE: Record<string, string> = {
 export function ColorGrid() {
   const { values } = useTokens();
   const spring = useSpringToken("spring.snappy");
+  const { rest, hover } = useLiftShadows();
   const colors = getScope("colors")?.controls ?? [];
 
   const copy = async (label: string, hex: string) => {
@@ -46,8 +44,9 @@ export function ColorGrid() {
             key={c.key}
             onClick={() => copy(c.label, hex)}
             title={`Copy ${hex}`}
-            initial={{ boxShadow: LIFT_REST_SHADOW }}
-            whileHover={{ scale: 1.02, boxShadow: LIFT_HOVER_SHADOW }}
+            initial={false}
+            animate={{ boxShadow: rest }}
+            whileHover={{ scale: 1.02, boxShadow: hover }}
             whileTap={{ scale: 0.99 }}
             transition={spring}
             className="flex h-full cursor-pointer flex-col items-stretch justify-start rounded-(--lift-radius) bg-surface-elevated p-4 text-left"

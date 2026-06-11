@@ -4,11 +4,23 @@ import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
 import { useSpringToken, useTokens } from "@/lib/token-context";
 
-/** Flat at rest (same layer count as hover so the spring interpolates). */
-export const LIFT_REST_SHADOW =
-  "0 0px 0px rgba(10,10,10,0), 0 0px 0px rgba(10,10,10,0)";
-export const LIFT_HOVER_SHADOW =
-  "0 12px 32px rgba(10,10,10,0.10), 0 4px 10px rgba(10,10,10,0.05)";
+/**
+ * Shadow pair built from the lift tokens. Rest and hover share the same
+ * two-layer structure so the spring interpolates instead of popping.
+ * Resting shadow defaults to 0% — flat until touched.
+ */
+export function useLiftShadows() {
+  const { values } = useTokens();
+  const y = Number(values["hover-lift-card.shadowY"]);
+  const blur = Number(values["hover-lift-card.shadowBlur"]);
+  const op = Number(values["hover-lift-card.shadowOpacity"]) / 100;
+  const restOp = Number(values["hover-lift-card.restShadowOpacity"]) / 100;
+
+  const layers = (opacity: number) =>
+    `0 ${y}px ${blur}px rgba(10,10,10,${opacity}), 0 ${Math.round(y / 3)}px ${Math.round(blur / 3.2)}px rgba(10,10,10,${opacity / 2})`;
+
+  return { rest: layers(restOp), hover: layers(op) };
+}
 
 /**
  * The card language for interactive surfaces: white and borderless,
@@ -25,13 +37,15 @@ export function HoverLiftCard({
 }) {
   const { values } = useTokens();
   const spring = useSpringToken("hover-lift-card");
+  const { rest, hover } = useLiftShadows();
 
   return (
     <motion.div
-      initial={{ boxShadow: LIFT_REST_SHADOW, backgroundColor: "#FFFFFF" }}
+      initial={false}
+      animate={{ boxShadow: rest, backgroundColor: "#FFFFFF" }}
       whileHover={{
         scale: Number(values["hover-lift-card.hoverScale"]),
-        boxShadow: LIFT_HOVER_SHADOW,
+        boxShadow: hover,
         backgroundColor: String(values["hover-lift-card.hoverBg"]),
       }}
       whileTap={{ scale: Number(values["hover-lift-card.tapScale"]) }}
