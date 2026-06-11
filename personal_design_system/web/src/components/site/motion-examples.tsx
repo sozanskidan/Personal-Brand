@@ -18,7 +18,7 @@ function Stage({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex flex-col rounded-(--lift-radius) bg-surface-elevated p-4 shadow-sm">
+    <div className="flex flex-col rounded-(--lift-radius) bg-surface-elevated p-4">
       <div className="relative h-44 overflow-hidden rounded-md bg-surface-sunken/50">
         {children}
       </div>

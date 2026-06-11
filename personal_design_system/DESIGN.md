@@ -300,9 +300,9 @@ Subtle tonal layers at rest. Depth comes from three things:
 3. **Whitespace** — More breathing room around an element is its own
    form of elevation.
 
-**Shadows are reserved for lift.** Interactive cards carry a soft,
-diffuse resting shadow that deepens on hover, paired with a slight
-scale — white, borderless, clean. Shadows are ink-based and low-alpha
+**Shadows are reserved for lift.** Interactive cards rest flat —
+tonal separation only — and grow a soft, diffuse shadow on hover,
+paired with a slight scale. Shadows are ink-based and low-alpha
 (4-12%), never hard-edged, never decorative on static content. No
 gradients. No glows.
 
@@ -399,8 +399,8 @@ inside data views only.
 - **Accordion** — hairline-divided rows, chevron rotates 180° on
   `snappy`-equivalent timing. Content height animates quietly.
 - **Hover-lift card** — the interactive card language: white,
-  borderless, 16px corners, soft resting shadow. On hover it scales to
-  1.02 and the shadow deepens, on `snappy`. Nothing moves on the y axis.
+  borderless, 16px corners, flat at rest. On hover it scales to
+  1.02 and a soft shadow appears, on `snappy`. Nothing moves on the y axis.
 - **Text reveal** — per-word serif reveal, 50ms stagger on `smooth`.
   One per view; this is the `bouncy` budget spent.
 - **Toast** — `surface-elevated`, 1px `rule`, no shadow, bottom corner.

@@ -4,15 +4,17 @@ import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
 import { useSpringToken, useTokens } from "@/lib/token-context";
 
+/** Flat at rest (same layer count as hover so the spring interpolates). */
 export const LIFT_REST_SHADOW =
-  "0 1px 2px rgba(10,10,10,0.04), 0 2px 6px rgba(10,10,10,0.05)";
+  "0 0px 0px rgba(10,10,10,0), 0 0px 0px rgba(10,10,10,0)";
 export const LIFT_HOVER_SHADOW =
   "0 12px 32px rgba(10,10,10,0.10), 0 4px 10px rgba(10,10,10,0.05)";
 
 /**
- * The card language for interactive surfaces: white, borderless, a soft
- * resting shadow that deepens on hover with a slight scale. Interactive
- * elements never translate on the y axis — movement reads as depth.
+ * The card language for interactive surfaces: white and borderless,
+ * flat at rest — tonal separation only. On hover a soft shadow appears
+ * with a slight scale. Interactive elements never translate on the
+ * y axis — movement reads as depth.
  */
 export function HoverLiftCard({
   className,

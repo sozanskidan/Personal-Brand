@@ -295,9 +295,9 @@ export const registry: RegistryEntry[] = [
     name: "Hover-lift Card",
     category: "Motion",
     kind: "dynamic",
-    description: "White card, soft shadow that deepens on hover with a slight scale.",
+    description: "White card, flat at rest; a soft shadow appears on hover with a slight scale.",
     notes: [
-      "whileHover: scale 1.02, shadow deepens. No borders, 16px corners.",
+      "whileHover: scale 1.02, shadow fades in. No borders, 16px corners.",
       "Snappy spring — stiff and damped, no overshoot on micro-interactions.",
     ],
     Demo: HoverLiftDemo,

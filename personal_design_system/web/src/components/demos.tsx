@@ -243,7 +243,7 @@ export function HoverLiftDemo() {
       <HoverLiftCard>
         <Eyebrow className="mb-2">Hover me</Eyebrow>
         <p className="text-sm text-graphite">
-          Scales up 2% while the shadow deepens. Clean lift.
+          Scales up 2% as a soft shadow appears. Clean lift.
         </p>
       </HoverLiftCard>
       <HoverLiftCard>
