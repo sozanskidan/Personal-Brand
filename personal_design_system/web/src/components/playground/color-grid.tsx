@@ -1,9 +1,14 @@
 "use client";
 
 import * as React from "react";
+import { motion } from "motion/react";
 import { toast } from "sonner";
 import { getScope } from "@/lib/defaults";
-import { useTokens } from "@/lib/token-context";
+import { useTokens, useSpringToken } from "@/lib/token-context";
+import {
+  LIFT_REST_SHADOW,
+  LIFT_HOVER_SHADOW,
+} from "@/components/ds/hover-lift-card";
 
 const USAGE: Record<string, string> = {
   ink: "Headlines, body text. The voice of the document.",
@@ -20,6 +25,7 @@ const USAGE: Record<string, string> = {
 
 export function ColorGrid() {
   const { values } = useTokens();
+  const spring = useSpringToken("spring.snappy");
   const colors = getScope("colors")?.controls ?? [];
 
   const copy = async (label: string, hex: string) => {
@@ -36,24 +42,28 @@ export function ColorGrid() {
       {colors.map((c) => {
         const hex = String(values[`colors.${c.key}`]);
         return (
-          <button
+          <motion.button
             key={c.key}
             onClick={() => copy(c.label, hex)}
             title={`Copy ${hex}`}
-            className="rounded-(--card-radius) border border-rule bg-surface-elevated p-4 text-left transition-colors hover:border-graphite/40"
+            initial={{ boxShadow: LIFT_REST_SHADOW }}
+            whileHover={{ scale: 1.02, boxShadow: LIFT_HOVER_SHADOW }}
+            whileTap={{ scale: 0.99 }}
+            transition={spring}
+            className="flex h-full cursor-pointer flex-col items-stretch justify-start rounded-(--lift-radius) bg-surface-elevated p-4 text-left"
           >
             <div
-              className="h-16 rounded-sm border border-rule"
+              className="h-16 w-full shrink-0 rounded-sm border border-rule"
               style={{ backgroundColor: hex }}
             />
             <div className="mt-3 flex items-baseline justify-between gap-2">
               <p className="text-sm text-ink">{c.label}</p>
               <p className="font-mono text-xs text-slate">{hex}</p>
             </div>
-            <p className="mt-1 text-[0.8125rem] text-slate">
+            <p className="mt-1 text-[0.8125rem] leading-normal text-slate">
               {USAGE[c.key] ?? ""}
             </p>
-          </button>
+          </motion.button>
         );
       })}
     </div>

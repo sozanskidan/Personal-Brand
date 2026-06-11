@@ -29,14 +29,15 @@
      --spacing-md are intentionally NOT defined: they shadow the
      --container scale and collapse max-w-md and friends. */
 
-  /* No shadows. Depth is tonal + hairlines only. */
+  /* Shadows: soft and diffuse, reserved for hover lift and floating
+     layers. Depth at rest stays tonal + hairlines. */
   --shadow-2xs: 0 0 #0000;
-  --shadow-xs: 0 0 #0000;
-  --shadow-sm: 0 0 #0000;
-  --shadow-md: 0 0 #0000;
-  --shadow-lg: 0 0 #0000;
-  --shadow-xl: 0 0 #0000;
-  --shadow-2xl: 0 0 #0000;
+  --shadow-xs: 0 1px 2px rgb(10 10 10 / 0.04);
+  --shadow-sm: 0 1px 2px rgb(10 10 10 / 0.04), 0 2px 6px rgb(10 10 10 / 0.05);
+  --shadow-md: 0 4px 14px rgb(10 10 10 / 0.08), 0 2px 4px rgb(10 10 10 / 0.04);
+  --shadow-lg: 0 12px 32px rgb(10 10 10 / 0.10), 0 4px 10px rgb(10 10 10 / 0.05);
+  --shadow-xl: 0 20px 48px rgb(10 10 10 / 0.12), 0 8px 16px rgb(10 10 10 / 0.06);
+  --shadow-2xl: 0 32px 64px rgb(10 10 10 / 0.14);
 }
 
 @theme inline {
@@ -113,6 +114,7 @@
   --btn-accent-bg: var(--color-accent);
   --btn-accent-text: var(--color-on-accent);
   --card-radius: 8px;
+  --lift-radius: 16px;
   --callout-bg: var(--color-accent-muted);
   --callout-radius: 8px;
   --chip-radius: 4px;

@@ -1,5 +1,6 @@
 "use client";
 
+import * as React from "react";
 import { motion } from "motion/react";
 import { useSpringToken, useTokenNumber } from "@/lib/token-context";
 
@@ -23,17 +24,24 @@ export function TextReveal({
   return (
     <Tag className={className} aria-label={text}>
       {words.map((word, i) => (
-        <span key={i} className="inline-block overflow-hidden align-bottom">
-          <motion.span
-            className="inline-block"
-            initial={{ opacity: 0, y: `${rise}em` }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ ...spring, delay: delay + i * stagger }}
+        <React.Fragment key={i}>
+          <span
+            // pb/-mb extend the rise mask below the baseline so tight
+            // line-heights don't clip descenders (y, q, p, g).
+            className="inline-block overflow-hidden align-bottom pb-[0.18em] -mb-[0.18em]"
           >
-            {word}
-            {i < words.length - 1 ? " " : null}
-          </motion.span>
-        </span>
+            <motion.span
+              className="inline-block"
+              initial={{ opacity: 0, y: `${rise}em` }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ ...spring, delay: delay + i * stagger }}
+            >
+              {word}
+            </motion.span>
+          </span>
+          {/* the space lives outside the mask so it isn't trimmed */}
+          {i < words.length - 1 ? " " : null}
+        </React.Fragment>
       ))}
     </Tag>
   );

@@ -190,6 +190,7 @@ export const SCOPES: ScopeDef[] = [
     controls: [
       { key: "hoverScale", label: "Hover scale", type: "range", def: 1.02, min: 1, max: 1.15, step: 0.005 },
       { key: "tapScale", label: "Press scale", type: "range", def: 0.99, min: 0.8, max: 1, step: 0.005 },
+      { key: "radius", label: "Corner radius", type: "range", def: 16, min: 0, max: 32, step: 1, unit: "px", cssVar: "--lift-radius" },
       { key: "hoverBg", label: "Hover fill", type: "color", def: "#ffffff" },
       ...springControls(700, 50),
     ],

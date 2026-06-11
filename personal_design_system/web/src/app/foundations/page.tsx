@@ -1,6 +1,7 @@
 import { Eyebrow } from "@/components/ds/eyebrow";
 import { Separator } from "@/components/ui/separator";
 import { SpringDemo } from "@/components/site/spring-demo";
+import { MotionExamples } from "@/components/site/motion-examples";
 import { ColorGrid } from "@/components/playground/color-grid";
 import { RadiiGrid } from "@/components/playground/radii-grid";
 import { ParamPanel } from "@/components/playground/param-panel";
@@ -151,6 +152,10 @@ export default function FoundationsPage() {
         action={<ParamPanel scope="spring" />}
       >
         <SpringDemo />
+        <div className="mt-10">
+          <p className="label-caps mb-4 text-slate">In action</p>
+          <MotionExamples />
+        </div>
       </Section>
     </div>
   );

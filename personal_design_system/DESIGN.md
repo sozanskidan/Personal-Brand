@@ -282,7 +282,7 @@ Margins, paddings, and gaps come from the spacing scale. Nothing improvised.
 
 ## Elevation & Depth
 
-Subtle tonal layers, not shadows. Depth comes from three things:
+Subtle tonal layers at rest. Depth comes from three things:
 
 1. **Tonal shift** — `surface` (page) → `surface-elevated` (card) →
    `surface-sunken` (table header / code block).
@@ -290,7 +290,11 @@ Subtle tonal layers, not shadows. Depth comes from three things:
 3. **Whitespace** — More breathing room around an element is its own
    form of elevation.
 
-No drop shadows. No blurs. No glows.
+**Shadows are reserved for lift.** Interactive cards carry a soft,
+diffuse resting shadow that deepens on hover, paired with a slight
+scale — white, borderless, clean. Shadows are ink-based and low-alpha
+(4-12%), never hard-edged, never decorative on static content. No
+gradients. No glows.
 
 ## Motion
 
@@ -384,8 +388,9 @@ inside data views only.
   is a hairline, never a filled pill.
 - **Accordion** — hairline-divided rows, chevron rotates 180° on
   `snappy`-equivalent timing. Content height animates quietly.
-- **Hover-lift card** — depth without shadows: scale to 1.02 plus a
-  tonal step toward white, on `snappy`. Nothing moves on the y axis.
+- **Hover-lift card** — the interactive card language: white,
+  borderless, 16px corners, soft resting shadow. On hover it scales to
+  1.02 and the shadow deepens, on `snappy`. Nothing moves on the y axis.
 - **Text reveal** — per-word serif reveal, 50ms stagger on `smooth`.
   One per view; this is the `bouncy` budget spent.
 - **Toast** — `surface-elevated`, 1px `rule`, no shadow, bottom corner.
@@ -432,7 +437,8 @@ inside data views only.
 - Section eyebrows use `label-caps`. Section headlines use `h1` or `h2`.
 - One accent moment per scroll-viewport. Most pages use the accent zero
   times above the fold and once below it.
-- No drop shadows, gradients, or glows. Depth is tonal (`surface` ->
+- Shadows only on interactive lift and floating layers, soft and
+  ink-based. No gradients or glows. Depth at rest is tonal (`surface` ->
   `surface-elevated` -> `surface-sunken`) plus 1px `rule` hairlines.
 - No dark mode. Light surfaces only.
 - Motion uses spring physics (`stiffness` / `damping` / `mass`) via the
@@ -524,7 +530,8 @@ the body face on Docs / Slides / Sheets.
   rule, em-dashes read as AI-authored.)
 - Mix more than two type families on a single surface.
 - Use the accent more than once per slide or section.
-- Add drop shadows, gradients, or glows.
+- Add gradients or glows. Shadows are allowed only as soft lift on
+  interactive cards and floating layers, never as static decoration.
 - Use banded rows in tables.
 - Bold a heading. Size and serif are enough.
 - Center-align body copy.
@@ -542,7 +549,9 @@ building artifacts in Dan's system, follow this guide.
 - Labels: Roboto Mono uppercase, 0.08em tracking.
 - Spacing: 4, 8, 16, 24, 32, 48, 64. Page padding 64px desktop, 24-48px mobile.
 - Corners: 8px default, 4px for chips, 16-24px for hero containers. No pills in docs.
-- Depth: tonal layers and hairlines only. No shadows, no gradients, no glows.
+- Depth: tonal layers and hairlines at rest; soft ink-based shadows
+  (4-12% alpha) for interactive lift and floating layers. No gradients,
+  no glows.
 - Motion: spring physics only — snappy (700/50/1), smooth (300/28/1),
   bouncy (170/14/1, once per view) as stiffness/damping/mass. Exits fade
   150ms ease-in. Respect `prefers-reduced-motion`.
@@ -575,7 +584,8 @@ building artifacts in Dan's system, follow this guide.
 - [ ] Accent `#9BB0C9` appears at most once per visible viewport.
 - [ ] Headings use Davinci or Instrument Serif. Never bolded.
 - [ ] Spacing values come from the 8px scale.
-- [ ] No drop shadows, gradients, or glows anywhere.
+- [ ] Shadows appear only as soft lift on interactive cards and
+      floating layers. No gradients or glows anywhere.
 - [ ] No em-dashes in any copy.
 - [ ] Tables have no banded rows. Numbers right-aligned.
 - [ ] Body measure capped near 65-75 characters.

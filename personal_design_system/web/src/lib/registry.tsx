@@ -45,7 +45,7 @@ export const registry: RegistryEntry[] = [
     description: "Elevated surface with a hairline. Never more than three stacked.",
     notes: [
       "surface-elevated background, 1px rule border, 8px corners.",
-      "Depth is tonal. No shadow, ever.",
+      "Static cards stay tonal; shadows belong to interactive lift.",
     ],
     Demo: CardDemo,
   },
@@ -161,9 +161,9 @@ export const registry: RegistryEntry[] = [
     slug: "hover-lift-card",
     name: "Hover-lift Card",
     category: "Dynamic",
-    description: "Depth without shadows: a 2% scale plus a tonal shift.",
+    description: "White card, soft shadow that deepens on hover with a slight scale.",
     notes: [
-      "whileHover: scale 1.02, background brightens one step.",
+      "whileHover: scale 1.02, shadow deepens. No borders, 16px corners.",
       "Snappy spring — stiff and damped, no overshoot on micro-interactions.",
     ],
     Demo: HoverLiftDemo,
