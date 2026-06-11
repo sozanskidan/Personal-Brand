@@ -73,17 +73,17 @@ export const SCOPES: ScopeDef[] = [
     title: "Corner radii",
     note: "Gentle, never round.",
     controls: [
-      { key: "sm", label: "sm · chips, buttons", type: "range", def: 4, min: 0, max: 12, step: 1, unit: "px", cssVar: "--radius-sm" },
-      { key: "md", label: "md · cards, dialogs", type: "range", def: 8, min: 0, max: 24, step: 1, unit: "px", cssVar: "--radius-md" },
-      { key: "lg", label: "lg · large containers", type: "range", def: 16, min: 0, max: 32, step: 1, unit: "px", cssVar: "--radius-lg" },
-      { key: "xl", label: "xl · hero features", type: "range", def: 24, min: 0, max: 48, step: 1, unit: "px", cssVar: "--radius-xl" },
+      { key: "sm", label: "sm · chips, buttons", type: "range", def: 4, min: 0, max: 64, step: 1, unit: "px", cssVar: "--radius-sm" },
+      { key: "md", label: "md · cards, dialogs", type: "range", def: 8, min: 0, max: 64, step: 1, unit: "px", cssVar: "--radius-md" },
+      { key: "lg", label: "lg · large containers", type: "range", def: 16, min: 0, max: 64, step: 1, unit: "px", cssVar: "--radius-lg" },
+      { key: "xl", label: "xl · hero features", type: "range", def: 24, min: 0, max: 64, step: 1, unit: "px", cssVar: "--radius-xl" },
     ],
   },
   {
     scope: "button",
     title: "Button",
     controls: [
-      { key: "radius", label: "Corner radius", type: "range", def: 4, min: 0, max: 24, step: 1, unit: "px", cssVar: "--btn-radius" },
+      { key: "radius", label: "Corner radius", type: "range", def: 4, min: 0, max: 64, step: 1, unit: "px", cssVar: "--btn-radius" },
       { key: "fontSize", label: "Text size", type: "range", def: 14, min: 11, max: 18, step: 0.5, unit: "px", cssVar: "--btn-font-size" },
       { key: "paddingX", label: "Padding · horizontal", type: "range", def: 12, min: 4, max: 40, step: 1, unit: "px", cssVar: "--btn-px" },
       { key: "paddingY", label: "Padding · vertical", type: "range", def: 8, min: 2, max: 24, step: 1, unit: "px", cssVar: "--btn-py" },
@@ -100,7 +100,7 @@ export const SCOPES: ScopeDef[] = [
     scope: "card",
     title: "Card",
     controls: [
-      { key: "radius", label: "Corner radius", type: "range", def: 8, min: 0, max: 24, step: 1, unit: "px", cssVar: "--card-radius" },
+      { key: "radius", label: "Corner radius", type: "range", def: 8, min: 0, max: 64, step: 1, unit: "px", cssVar: "--card-radius" },
     ],
   },
   {
@@ -108,7 +108,7 @@ export const SCOPES: ScopeDef[] = [
     title: "Callout",
     controls: [
       { key: "bg", label: "Fill", type: "color", def: "#e8eef4", cssVar: "--callout-bg" },
-      { key: "radius", label: "Corner radius", type: "range", def: 8, min: 0, max: 24, step: 1, unit: "px", cssVar: "--callout-radius" },
+      { key: "radius", label: "Corner radius", type: "range", def: 8, min: 0, max: 64, step: 1, unit: "px", cssVar: "--callout-radius" },
     ],
   },
   {
@@ -148,7 +148,7 @@ export const SCOPES: ScopeDef[] = [
     scope: "chip",
     title: "Chip",
     controls: [
-      { key: "radius", label: "Corner radius", type: "range", def: 4, min: 0, max: 16, step: 1, unit: "px", cssVar: "--chip-radius" },
+      { key: "radius", label: "Corner radius", type: "range", def: 4, min: 0, max: 64, step: 1, unit: "px", cssVar: "--chip-radius" },
     ],
   },
   {
@@ -158,7 +158,7 @@ export const SCOPES: ScopeDef[] = [
       ...springControls(300, 28),
       { key: "initialScale", label: "Enter from scale", type: "range", def: 0.96, min: 0.8, max: 1, step: 0.01 },
       { key: "overlayOpacity", label: "Overlay opacity", type: "range", def: 20, min: 0, max: 60, step: 1, unit: "%" },
-      { key: "radius", label: "Corner radius", type: "range", def: 8, min: 0, max: 24, step: 1, unit: "px", cssVar: "--dialog-radius" },
+      { key: "radius", label: "Corner radius", type: "range", def: 8, min: 0, max: 64, step: 1, unit: "px", cssVar: "--dialog-radius" },
     ],
   },
   {
@@ -190,7 +190,7 @@ export const SCOPES: ScopeDef[] = [
     controls: [
       { key: "hoverScale", label: "Hover scale", type: "range", def: 1.02, min: 1, max: 1.15, step: 0.005 },
       { key: "tapScale", label: "Press scale", type: "range", def: 0.99, min: 0.8, max: 1, step: 0.005 },
-      { key: "radius", label: "Corner radius", type: "range", def: 16, min: 0, max: 32, step: 1, unit: "px", cssVar: "--lift-radius" },
+      { key: "radius", label: "Corner radius", type: "range", def: 16, min: 0, max: 64, step: 1, unit: "px", cssVar: "--lift-radius" },
       { key: "hoverBg", label: "Hover fill", type: "color", def: "#ffffff" },
       ...springControls(700, 50),
     ],
@@ -208,7 +208,7 @@ export const SCOPES: ScopeDef[] = [
     scope: "toast",
     title: "Toast",
     controls: [
-      { key: "radius", label: "Corner radius", type: "range", def: 8, min: 0, max: 24, step: 1, unit: "px", cssVar: "--toast-radius" },
+      { key: "radius", label: "Corner radius", type: "range", def: 8, min: 0, max: 64, step: 1, unit: "px", cssVar: "--toast-radius" },
     ],
   },
   {
