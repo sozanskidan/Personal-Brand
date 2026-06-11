@@ -129,6 +129,15 @@
   --accordion-chevron-ms: 200ms;
   --dialog-radius: 8px;
   --toast-radius: 8px;
+
+  /* Chart palette: grayscale series, the accent reserved for the one
+     series that matters. Hairline grid. */
+  --chart-1: var(--color-ink);
+  --chart-2: var(--color-accent);
+  --chart-3: var(--color-slate);
+  --chart-4: var(--color-graphite);
+  --chart-5: var(--color-accent-muted);
+  --chart-grid: var(--color-rule);
 }
 
 @layer base {

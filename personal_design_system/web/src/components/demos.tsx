@@ -35,6 +35,14 @@ import { AnimatedSheet } from "@/components/ds/animated-sheet";
 import { AnimatedTabs } from "@/components/ds/animated-tabs";
 import { HoverLiftCard } from "@/components/ds/hover-lift-card";
 import { TextReveal } from "@/components/ds/text-reveal";
+import {
+  TokenAreaChart,
+  TokenBarChart,
+  TokenLineChart,
+  TokenDonutChart,
+  Sparkline,
+} from "@/components/ds/charts";
+import { StatCard } from "@/components/ds/stat-card";
 
 export function ButtonDemo() {
   return (
@@ -286,5 +294,55 @@ export function ToastDemo() {
     >
       Show toast
     </Button>
+  );
+}
+
+export function AreaChartDemo() {
+  return (
+    <div className="w-full max-w-md">
+      <TokenAreaChart />
+    </div>
+  );
+}
+
+export function BarChartDemo() {
+  return (
+    <div className="w-full max-w-md">
+      <TokenBarChart />
+    </div>
+  );
+}
+
+export function LineChartDemo() {
+  return (
+    <div className="w-full max-w-md">
+      <TokenLineChart />
+    </div>
+  );
+}
+
+export function DonutChartDemo() {
+  return <TokenDonutChart />;
+}
+
+export function SparklineDemo() {
+  return (
+    <div className="flex items-center gap-8">
+      <Sparkline />
+      <Sparkline accent />
+    </div>
+  );
+}
+
+export function StatCardDemo() {
+  return (
+    <div className="grid w-full max-w-lg gap-4 sm:grid-cols-2">
+      <StatCard label="Docs shipped" value="22" delta="+38%" accent>
+        <Sparkline className="h-8 w-full" accent />
+      </StatCard>
+      <StatCard label="Words per slide" value="19" delta="-39%">
+        <Sparkline className="h-8 w-full" />
+      </StatCard>
+    </div>
   );
 }

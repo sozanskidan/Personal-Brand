@@ -211,6 +211,20 @@ export const SCOPES: ScopeDef[] = [
       { key: "radius", label: "Corner radius", type: "range", def: 8, min: 0, max: 24, step: 1, unit: "px", cssVar: "--toast-radius" },
     ],
   },
+  {
+    scope: "charts",
+    title: "Charts",
+    note: "Shared by every chart and sparkline. Series 1 carries the data; series 2 is the accent — one accent series per view.",
+    controls: [
+      { key: "series1", label: "Series 1 · primary", type: "color", def: "#0a0a0a", cssVar: "--chart-1" },
+      { key: "series2", label: "Series 2 · accent", type: "color", def: "#9bb0c9", cssVar: "--chart-2" },
+      { key: "series3", label: "Series 3", type: "color", def: "#6b6b6b", cssVar: "--chart-3" },
+      { key: "series4", label: "Series 4", type: "color", def: "#3d3d3d", cssVar: "--chart-4" },
+      { key: "series5", label: "Series 5 · fill", type: "color", def: "#e8eef4", cssVar: "--chart-5" },
+      { key: "grid", label: "Grid hairline", type: "color", def: "#e5e5e5", cssVar: "--chart-grid" },
+      { key: "strokeWidth", label: "Stroke width", type: "range", def: 1.5, min: 1, max: 4, step: 0.25, unit: "px" },
+    ],
+  },
 ];
 
 /** Flat `${scope}.${key}` -> factory default. */

@@ -43,12 +43,15 @@ export default async function ComponentPage({
             {entry.description}
           </p>
         </div>
-        <Chip variant={entry.category === "Dynamic" ? "accent" : "default"}>
+        <Chip variant={entry.kind === "dynamic" ? "accent" : "default"}>
           {entry.category}
         </Chip>
       </div>
 
-      <ComponentPreview scope={entry.slug} className="mt-12 min-h-64">
+      <ComponentPreview
+        scope={entry.paramScope ?? entry.slug}
+        className="mt-12 min-h-64"
+      >
         <Demo />
       </ComponentPreview>
 

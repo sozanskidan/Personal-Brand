@@ -13,6 +13,12 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { StatCard } from "@/components/ds/stat-card";
+import {
+  TokenAreaChart,
+  TokenBarChart,
+  Sparkline,
+} from "@/components/ds/charts";
 
 export const metadata = { title: "Templates · Dan Sozanski" };
 
@@ -188,7 +194,7 @@ export default function TemplatesPage() {
         The components, composed.
       </h1>
       <p className="mt-4 max-w-[52ch] text-base text-graphite">
-        Four surfaces, one system. Each template uses only the components in
+        Five compositions, one system. Each template uses only the components in
         the catalog and only the tokens in DESIGN.md.
       </p>
 
@@ -231,6 +237,60 @@ export default function TemplatesPage() {
       >
         <LandingTemplate />
       </TemplateSection>
+
+      <Separator />
+
+      <TemplateSection
+        eyebrow="05 · Dashboard"
+        title="The analytics view"
+        lede="KPI stat cards over charts on hairline grids. Grayscale series, with the accent reserved for the number and the series that matter."
+      >
+        <AnalyticsTemplate />
+      </TemplateSection>
+    </div>
+  );
+}
+
+function AnalyticsTemplate() {
+  return (
+    <div className="rounded-md border border-rule bg-surface-elevated p-6 sm:p-8">
+      <div className="flex items-start justify-between gap-4">
+        <div>
+          <Eyebrow className="mb-2">Side gig · Q2</Eyebrow>
+          <h3 className="font-serif text-2xl tracking-[-0.02em]">
+            Shipping velocity
+          </h3>
+        </div>
+        <Button variant="outline">Share</Button>
+      </div>
+
+      <div className="mt-6 grid gap-4 sm:grid-cols-3">
+        <StatCard label="Docs shipped" value="95" delta="+24%" accent>
+          <Sparkline className="h-8 w-full" accent />
+        </StatCard>
+        <StatCard label="Decks shipped" value="39" delta="+11%">
+          <Sparkline className="h-8 w-full" />
+        </StatCard>
+        <StatCard label="Median turnaround" value="2.4d" delta="-18%">
+          <Sparkline className="h-8 w-full" />
+        </StatCard>
+      </div>
+
+      <div className="mt-4 grid gap-4 lg:grid-cols-2">
+        <div className="rounded-(--card-radius) border border-rule p-5">
+          <Eyebrow className="mb-4">Docs per month</Eyebrow>
+          <TokenAreaChart />
+        </div>
+        <div className="rounded-(--card-radius) border border-rule p-5">
+          <Eyebrow className="mb-4">Docs vs decks</Eyebrow>
+          <TokenBarChart />
+        </div>
+      </div>
+
+      <p className="mt-4 text-[0.8125rem] text-slate">
+        One accent moment: the docs number and its series. Everything else
+        stays grayscale.
+      </p>
     </div>
   );
 }

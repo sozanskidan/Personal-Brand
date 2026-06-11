@@ -106,6 +106,16 @@ motion:
     smooth: { type: spring, stiffness: 300, damping: 28, mass: 1 } # default: entrances, layout shifts, indicator glides
     bouncy: { type: spring, stiffness: 170, damping: 14, mass: 1 } # one hero moment per view, max
   exit: { duration: 0.15s, easing: ease-in }                       # exits never spring; quick opacity fade
+charts:
+  # Recharts via the shadcn chart layer, themed by these tokens.
+  series:
+    - "{colors.ink}"          # series 1 — the primary data
+    - "{colors.accent}"       # series 2 — the one accent series per view
+    - "{colors.slate}"        # series 3
+    - "{colors.graphite}"     # series 4
+    - "{colors.accent-muted}" # series 5 — area fills, quiet segments
+  grid: "{colors.rule}"       # 1px horizontal hairlines only
+  strokeWidth: 1.5px
 components:
   page:
     backgroundColor: "{colors.surface}"
@@ -395,6 +405,32 @@ inside data views only.
   One per view; this is the `bouncy` budget spent.
 - **Toast** — `surface-elevated`, 1px `rule`, no shadow, bottom corner.
   Quiet confirmations only; errors deserve a dialog.
+- **Stat card** — KPI: eyebrow label, large serif tabular number, delta
+  chip, optional sparkline. The delta chip is the card's accent moment,
+  accent variant only on the number the view exists for.
+- **Charts** (area, bar, line, donut, sparkline) — see Data
+  Visualization below.
+
+## Data Visualization
+
+Charts are Recharts through the shadcn chart layer, themed entirely by
+the `charts` tokens. They follow the same rules as everything else:
+
+- **Series order is meaning.** Series 1 is ink — the primary data.
+  Series 2 is the accent — the one series the view exists for. The rest
+  are grayscale. Never more than one accent series per view.
+- **Grids are hairlines.** 1px `rule`, horizontal only. No vertical
+  gridlines, no banded backgrounds, no axis lines.
+- **Axis ticks** in Roboto Mono, 11px, `slate`. No axis titles — the
+  card's eyebrow does that job.
+- **Tooltips** on `surface-elevated` with a 1px `rule` border.
+- **Lines** are thin (1.5px) natural curves with no dots at rest.
+  **Bars** get 2px top corners, max 28px wide. **Donuts** are thin
+  rings with 2° segment padding, never full pies.
+- **Sparklines** are bare: no axes, no grid, no dots. Ink by default,
+  accent when they sit beside the accent number.
+- Numbers near charts are tabular, right-aligned in tables, serif in
+  stat cards.
 - **List (bulleted or numbered)** — Lists breathe. They are not paragraphs
   with bullets glued on. The rule is uniform: every list item gets the same
   space-above and the same space-below. Consecutive bullets sum to a real
