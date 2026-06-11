@@ -217,6 +217,29 @@ export const SCOPES: ScopeDef[] = [
     ],
   },
   {
+    scope: "forms",
+    title: "Form fields",
+    note: "Shared by input, textarea, select, and friends.",
+    controls: [
+      { key: "radius", label: "Corner radius", type: "range", def: 4, min: 0, max: 64, step: 1, unit: "px", cssVar: "--field-radius" },
+      { key: "fontSize", label: "Text size", type: "range", def: 14, min: 11, max: 18, step: 0.5, unit: "px", cssVar: "--field-font-size" },
+    ],
+  },
+  {
+    scope: "tooltip",
+    title: "Tooltip",
+    controls: [
+      { key: "radius", label: "Corner radius", type: "range", def: 4, min: 0, max: 64, step: 1, unit: "px", cssVar: "--tooltip-radius" },
+      { key: "delayMs", label: "Open delay", type: "range", def: 200, min: 0, max: 1000, step: 25, unit: "ms" },
+    ],
+  },
+  {
+    scope: "number-ticker",
+    title: "Number Ticker",
+    note: "The spring drives how the digits chase the target.",
+    controls: [...springControls(300, 28)],
+  },
+  {
     scope: "charts",
     title: "Charts",
     note: "Shared by every chart and sparkline. Series 1 carries the data; series 2 is the accent — one accent series per view.",

@@ -43,6 +43,28 @@ import {
   Sparkline,
 } from "@/components/ds/charts";
 import { StatCard } from "@/components/ds/stat-card";
+import { EmptyState } from "@/components/ds/empty-state";
+import { NumberTicker } from "@/components/ds/number-ticker";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Checkbox } from "@/components/ui/checkbox";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Switch } from "@/components/ui/switch";
+import { Slider } from "@/components/ui/slider";
+import { Skeleton } from "@/components/ui/skeleton";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 export function ButtonDemo() {
   return (
@@ -343,6 +365,148 @@ export function StatCardDemo() {
       <StatCard label="Words per slide" value="19" delta="-39%">
         <Sparkline className="h-8 w-full" />
       </StatCard>
+    </div>
+  );
+}
+
+export function TextFieldDemo() {
+  return (
+    <div className="grid w-full max-w-sm gap-5">
+      <div className="grid gap-1.5">
+        <Label htmlFor="demo-name">Name</Label>
+        <Input id="demo-name" placeholder="Dan Sozanski" />
+      </div>
+      <div className="grid gap-1.5">
+        <Label htmlFor="demo-notes">Notes</Label>
+        <Textarea id="demo-notes" placeholder="Keep it under one screen." />
+      </div>
+    </div>
+  );
+}
+
+export function SelectDemo() {
+  return (
+    <Select defaultValue="docs">
+      <SelectTrigger className="w-44">
+        <SelectValue />
+      </SelectTrigger>
+      <SelectContent>
+        <SelectItem value="docs">Docs</SelectItem>
+        <SelectItem value="decks">Decks</SelectItem>
+        <SelectItem value="sheets">Sheets</SelectItem>
+        <SelectItem value="sites">Sites</SelectItem>
+      </SelectContent>
+    </Select>
+  );
+}
+
+export function CheckboxDemo() {
+  return (
+    <div className="grid gap-3">
+      <label className="flex items-center gap-2 text-sm">
+        <Checkbox defaultChecked /> Lead with the TL;DR
+      </label>
+      <label className="flex items-center gap-2 text-sm">
+        <Checkbox /> Add a second accent
+      </label>
+    </div>
+  );
+}
+
+export function RadioDemo() {
+  return (
+    <RadioGroup defaultValue="quiet" className="grid gap-3">
+      <label className="flex items-center gap-2 text-sm">
+        <RadioGroupItem value="quiet" /> Gallery-quiet
+      </label>
+      <label className="flex items-center gap-2 text-sm">
+        <RadioGroupItem value="loud" /> Trade-show loud
+      </label>
+    </RadioGroup>
+  );
+}
+
+export function SwitchDemo() {
+  return (
+    <label className="flex items-center gap-3 text-sm">
+      <Switch defaultChecked /> Respect reduced motion
+    </label>
+  );
+}
+
+export function SliderDemo() {
+  return (
+    <div className="w-full max-w-xs">
+      <Slider defaultValue={[40]} max={100} step={1} />
+    </div>
+  );
+}
+
+export function TooltipDemo() {
+  return (
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <Button variant="outline">Hover me</Button>
+      </TooltipTrigger>
+      <TooltipContent>Quiet, useful, gone in a fade.</TooltipContent>
+    </Tooltip>
+  );
+}
+
+export function SkeletonDemo() {
+  return (
+    <div className="w-full max-w-sm rounded-(--card-radius) border border-rule bg-surface-elevated p-5">
+      <div className="flex items-center gap-3">
+        <Skeleton className="size-10 rounded-sm" />
+        <div className="flex-1 space-y-2">
+          <Skeleton className="h-3 w-2/3" />
+          <Skeleton className="h-3 w-1/3" />
+        </div>
+      </div>
+      <Skeleton className="mt-4 h-24 w-full" />
+    </div>
+  );
+}
+
+export function EmptyStateDemo() {
+  return (
+    <EmptyState
+      className="w-full max-w-md"
+      title="Nothing here yet"
+      description="When you ship your first doc, it lands in this list."
+      action={<Button variant="outline">New doc</Button>}
+    />
+  );
+}
+
+export function NumberTickerDemo() {
+  const targets = React.useMemo(() => [1284, 95, 2046, 7], []);
+  const [index, setIndex] = React.useState(0);
+  const [looping, setLooping] = React.useState(true);
+
+  React.useEffect(() => {
+    if (!looping) return;
+    const id = setInterval(() => setIndex((i) => (i + 1) % targets.length), 2000);
+    return () => clearInterval(id);
+  }, [looping, targets.length]);
+
+  return (
+    <div className="flex w-full max-w-md flex-col items-start gap-6">
+      <NumberTicker
+        value={targets[index]}
+        className="font-serif text-6xl tracking-[-0.02em]"
+      />
+      <div className="flex gap-2">
+        <Button variant="outline" onClick={() => setLooping((l) => !l)}>
+          {looping ? "Pause loop" : "Loop"}
+        </Button>
+        <Button
+          variant="ghost"
+          onClick={() => setIndex((i) => (i + 1) % targets.length)}
+        >
+          Next target
+        </Button>
+      </div>
     </div>
   );
 }

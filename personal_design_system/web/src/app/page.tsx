@@ -31,7 +31,7 @@ const sections = [
   {
     href: "/components",
     title: "Components",
-    body: "Twenty-one pieces in six categories, all on the same quiet rules.",
+    body: "Thirty-one pieces in seven categories, all on the same quiet rules.",
   },
   {
     href: "/templates",

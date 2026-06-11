@@ -129,6 +129,9 @@
   --accordion-chevron-ms: 200ms;
   --dialog-radius: 8px;
   --toast-radius: 8px;
+  --field-radius: 4px;
+  --field-font-size: 14px;
+  --tooltip-radius: 4px;
 
   /* Chart palette: grayscale series, the accent reserved for the one
      series that matters. Hairline grid. */

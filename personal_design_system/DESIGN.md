@@ -408,6 +408,18 @@ inside data views only.
 - **Stat card** — KPI: eyebrow label, large serif tabular number, delta
   chip, optional sparkline. The delta chip is the card's accent moment,
   accent variant only on the number the view exists for.
+- **Form fields** (input, textarea, select, checkbox, radio, switch,
+  slider) — 1px `rule` borders, 4px corners, transparent fills on the
+  page surface. Selection states are ink, never the accent; the focus
+  ring is the accent and is the one place it may repeat.
+- **Tooltip** — `surface-elevated`, 1px `rule`, 4px corners, no arrow,
+  200ms open delay. Same language as chart tooltips.
+- **Skeleton** — `surface-sunken` pulse shaped like the content it
+  stands in for. Loading is quiet.
+- **Empty state** — dashed hairline frame, slate icon, serif title, one
+  suggested action. Empty is calm, not an error.
+- **Number ticker** — digits chase their target on spring physics,
+  tabular numerals so layout never jitters. For stat cards and KPIs.
 - **Charts** (area, bar, line, donut, sparkline) — see Data
   Visualization below.
 

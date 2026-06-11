@@ -21,10 +21,21 @@ import {
   DonutChartDemo,
   SparklineDemo,
   StatCardDemo,
+  TextFieldDemo,
+  SelectDemo,
+  CheckboxDemo,
+  RadioDemo,
+  SwitchDemo,
+  SliderDemo,
+  TooltipDemo,
+  SkeletonDemo,
+  EmptyStateDemo,
+  NumberTickerDemo,
 } from "@/components/demos";
 
 export const CATEGORIES = [
   "Actions",
+  "Forms",
   "Navigation",
   "Overlays",
   "Feedback",
@@ -71,6 +82,73 @@ export const registry: RegistryEntry[] = [
       "Darkens toward ink on hover for contrast.",
     ],
     Demo: LinkDemo,
+  },
+
+  // ── Forms ──────────────────────────────────────────────────
+  {
+    slug: "text-field",
+    name: "Text Field",
+    category: "Forms",
+    kind: "static",
+    paramScope: "forms",
+    description: "Input and textarea on hairline borders, accent focus ring.",
+    notes: [
+      "1px rule border, 4px corners, transparent fill on the page surface.",
+      "Focus is the accent ring — the one place the accent may repeat.",
+    ],
+    Demo: TextFieldDemo,
+  },
+  {
+    slug: "select",
+    name: "Select",
+    category: "Forms",
+    kind: "static",
+    paramScope: "forms",
+    description: "A quiet dropdown on the field tokens.",
+    notes: [
+      "Trigger matches text fields; the menu rides on surface-elevated with a 1px rule.",
+    ],
+    Demo: SelectDemo,
+  },
+  {
+    slug: "checkbox",
+    name: "Checkbox",
+    category: "Forms",
+    kind: "static",
+    paramScope: "forms",
+    description: "Ink when checked, hairline when not.",
+    notes: ["Checked state is an ink fill — never the accent."],
+    Demo: CheckboxDemo,
+  },
+  {
+    slug: "radio",
+    name: "Radio",
+    category: "Forms",
+    kind: "static",
+    paramScope: "forms",
+    description: "One choice, ink dot.",
+    notes: ["Same language as checkbox: ink selection, hairline rest."],
+    Demo: RadioDemo,
+  },
+  {
+    slug: "switch",
+    name: "Switch",
+    category: "Forms",
+    kind: "static",
+    paramScope: "forms",
+    description: "Ink track when on, rule track when off.",
+    notes: ["No accent, no glow. The position tells the story."],
+    Demo: SwitchDemo,
+  },
+  {
+    slug: "slider",
+    name: "Slider",
+    category: "Forms",
+    kind: "static",
+    paramScope: "forms",
+    description: "Hairline track, ink range, quiet thumb.",
+    notes: ["The playground panels are built out of these."],
+    Demo: SliderDemo,
   },
 
   // ── Navigation ─────────────────────────────────────────────
@@ -126,6 +204,19 @@ export const registry: RegistryEntry[] = [
     Demo: ToastDemo,
   },
 
+  {
+    slug: "tooltip",
+    name: "Tooltip",
+    category: "Overlays",
+    kind: "dynamic",
+    description: "Quiet, useful, gone in a fade.",
+    notes: [
+      "surface-elevated with a 1px rule, like chart tooltips.",
+      "Open delay is a token (default 200ms). No arrow, 6px offset.",
+    ],
+    Demo: TooltipDemo,
+  },
+
   // ── Feedback ───────────────────────────────────────────────
   {
     slug: "callout",
@@ -138,6 +229,30 @@ export const registry: RegistryEntry[] = [
       "One per document or slide. It marks the most important thing.",
     ],
     Demo: CalloutDemo,
+  },
+
+  {
+    slug: "skeleton",
+    name: "Skeleton",
+    category: "Feedback",
+    kind: "dynamic",
+    description: "Loading placeholder in the sunken tone.",
+    notes: [
+      "surface-sunken pulse. Shapes mirror the content they stand in for.",
+    ],
+    Demo: SkeletonDemo,
+  },
+  {
+    slug: "empty-state",
+    name: "Empty State",
+    category: "Feedback",
+    kind: "static",
+    description: "Nothing-here, said calmly.",
+    notes: [
+      "Dashed hairline frame, slate icon, serif title, one suggested action.",
+      "Empty is calm, not an error.",
+    ],
+    Demo: EmptyStateDemo,
   },
 
   // ── Data ───────────────────────────────────────────────────
@@ -275,6 +390,19 @@ export const registry: RegistryEntry[] = [
       "No axes, no grid, no dots. Ink by default, accent when it is the moment.",
     ],
     Demo: SparklineDemo,
+  },
+
+  {
+    slug: "number-ticker",
+    name: "Number Ticker",
+    category: "Data",
+    kind: "dynamic",
+    description: "Digits chase the target on spring physics.",
+    notes: [
+      "Drop it into stat cards and KPIs; the spring is its own scope.",
+      "Tabular numerals so the layout never jitters.",
+    ],
+    Demo: NumberTickerDemo,
   },
 
   // ── Motion ─────────────────────────────────────────────────

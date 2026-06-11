@@ -9,7 +9,7 @@ export default function ComponentsPage() {
       <Eyebrow className="mb-4">Catalog</Eyebrow>
       <h1 className="font-serif text-5xl tracking-[-0.02em]">Components</h1>
       <p className="mt-4 max-w-[52ch] text-base text-graphite">
-        Twenty-one pieces in six categories. The static ones hold the page
+        Thirty-one pieces in seven categories. The static ones hold the page
         together; the dynamic ones move on real spring physics — stiffness,
         damping, mass — and exit on a fast fade.
       </p>
