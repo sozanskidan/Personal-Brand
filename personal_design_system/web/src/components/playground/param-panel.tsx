@@ -10,7 +10,25 @@ import { getScope, type ControlDef } from "@/lib/defaults";
 import { useTokens } from "@/lib/token-context";
 import { Button } from "@/components/ui/button";
 
-const HEX_RE = /^#[0-9a-fA-F]{6}$/;
+// 6-digit #rrggbb, or 8-digit #rrggbbaa when an alpha is set.
+const HEX_RE = /^#[0-9a-fA-F]{6}([0-9a-fA-F]{2})?$/;
+
+function splitHex(v: string): { rgb: string; alphaPct: number } {
+  const m = /^#([0-9a-fA-F]{6})([0-9a-fA-F]{2})?$/.exec(v);
+  if (!m) return { rgb: "#000000", alphaPct: 100 };
+  const alphaPct = m[2]
+    ? Math.round((parseInt(m[2], 16) / 255) * 100)
+    : 100;
+  return { rgb: `#${m[1]}`.toLowerCase(), alphaPct };
+}
+
+function joinHex(rgb: string, alphaPct: number): string {
+  if (alphaPct >= 100) return rgb.toLowerCase();
+  const a = Math.round((Math.max(0, alphaPct) / 100) * 255)
+    .toString(16)
+    .padStart(2, "0");
+  return `${rgb}${a}`.toLowerCase();
+}
 
 function clamp(v: number, min?: number, max?: number): number {
   if (min !== undefined && v < min) return min;
@@ -120,19 +138,40 @@ function Control({ scope, def }: { scope: string; def: ControlDef }) {
   const value = values[key];
 
   if (def.type === "color") {
+    const { rgb, alphaPct } = splitHex(String(value));
     return (
-      <label className="flex items-center justify-between gap-3 py-1.5">
-        <span className="text-sm text-graphite">{def.label}</span>
-        <span className="flex items-center gap-2">
-          <HexField value={String(value)} onCommit={(v) => setValue(key, v)} />
+      <div className="py-1.5">
+        <label className="flex items-center justify-between gap-3">
+          <span className="text-sm text-graphite">{def.label}</span>
+          <span className="flex items-center gap-2">
+            <HexField value={String(value)} onCommit={(v) => setValue(key, v)} />
+            <input
+              type="color"
+              value={rgb}
+              onChange={(e) => setValue(key, joinHex(e.target.value, alphaPct))}
+              className="size-7 cursor-pointer rounded-sm border border-rule bg-transparent p-0.5"
+            />
+          </span>
+        </label>
+        <div className="mt-1 flex items-center gap-2">
+          <span className="font-mono text-[10px] uppercase tracking-[0.08em] text-slate">
+            A
+          </span>
           <input
-            type="color"
-            value={String(value)}
-            onChange={(e) => setValue(key, e.target.value)}
-            className="size-7 cursor-pointer rounded-sm border border-rule bg-transparent p-0.5"
+            type="range"
+            min={0}
+            max={100}
+            step={1}
+            value={alphaPct}
+            onChange={(e) => setValue(key, joinHex(rgb, Number(e.target.value)))}
+            className="w-full"
+            style={{ accentColor: "var(--color-graphite)" }}
           />
-        </span>
-      </label>
+          <span className="w-9 text-right font-mono text-xs text-slate">
+            {alphaPct}%
+          </span>
+        </div>
+      </div>
     );
   }
 
