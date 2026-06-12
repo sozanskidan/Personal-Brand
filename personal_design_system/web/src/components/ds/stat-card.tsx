@@ -1,22 +1,30 @@
 import { cn } from "@/lib/utils";
 import { Eyebrow } from "./eyebrow";
 import { Chip } from "./chip";
+import { NumberTicker } from "./number-ticker";
 
 /**
  * KPI stat: eyebrow label, large tabular number, delta chip. The delta
  * chip is the card's one accent moment — accent variant only when this
- * is the number the view exists for.
+ * is the number the view exists for. Numeric values count up through
+ * the spring-driven NumberTicker; strings render as-is.
  */
 export function StatCard({
   label,
   value,
+  decimals = 0,
+  prefix = "",
+  suffix = "",
   delta,
   accent = false,
   children,
   className,
 }: {
   label: string;
-  value: string;
+  value: string | number;
+  decimals?: number;
+  prefix?: string;
+  suffix?: string;
   delta?: string;
   /** Marks this stat as the view's accent moment. */
   accent?: boolean;
@@ -38,7 +46,16 @@ export function StatCard({
         ) : null}
       </div>
       <p className="mt-3 font-serif text-4xl tracking-[-0.02em] tabular-nums">
-        {value}
+        {typeof value === "number" ? (
+          <NumberTicker
+            value={value}
+            decimals={decimals}
+            prefix={prefix}
+            suffix={suffix}
+          />
+        ) : (
+          value
+        )}
       </p>
       {children ? <div className="mt-3">{children}</div> : null}
     </div>

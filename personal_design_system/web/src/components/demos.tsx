@@ -359,10 +359,10 @@ export function SparklineDemo() {
 export function StatCardDemo() {
   return (
     <div className="grid w-full max-w-lg gap-4 sm:grid-cols-2">
-      <StatCard label="Docs shipped" value="22" delta="+38%" accent>
+      <StatCard label="Docs shipped" value={22} delta="+38%" accent>
         <Sparkline className="h-8 w-full" accent />
       </StatCard>
-      <StatCard label="Words per slide" value="19" delta="-39%">
+      <StatCard label="Words per slide" value={19} delta="-39%">
         <Sparkline className="h-8 w-full" />
       </StatCard>
     </div>

@@ -265,13 +265,13 @@ function AnalyticsTemplate() {
       </div>
 
       <div className="mt-6 grid gap-4 sm:grid-cols-3">
-        <StatCard label="Docs shipped" value="95" delta="+24%" accent>
+        <StatCard label="Docs shipped" value={95} delta="+24%" accent>
           <Sparkline className="h-8 w-full" accent />
         </StatCard>
-        <StatCard label="Decks shipped" value="39" delta="+11%">
+        <StatCard label="Decks shipped" value={39} delta="+11%">
           <Sparkline className="h-8 w-full" />
         </StatCard>
-        <StatCard label="Median turnaround" value="2.4d" delta="-18%">
+        <StatCard label="Median turnaround" value={2.4} decimals={1} suffix="d" delta="-18%">
           <Sparkline className="h-8 w-full" />
         </StatCard>
       </div>

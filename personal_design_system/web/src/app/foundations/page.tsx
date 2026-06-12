@@ -6,6 +6,7 @@ import { MotionExamples } from "@/components/site/motion-examples";
 import { ColorGrid } from "@/components/playground/color-grid";
 import { RadiiGrid } from "@/components/playground/radii-grid";
 import { ParamPanel } from "@/components/playground/param-panel";
+import { ExportTokens } from "@/components/playground/export-tokens";
 
 export const metadata = { title: "Foundations · Dan Sozanski" };
 
@@ -59,8 +60,12 @@ export default function FoundationsPage() {
       <p className="mt-4 max-w-[52ch] text-base text-graphite">
         Every value on this page comes from DESIGN.md. Click a swatch to copy
         it; use the cogs to play with the tokens. Saved edits become your
-        defaults in this browser.
+        defaults in this browser; export them when you want them baked into
+        DESIGN.md for good.
       </p>
+      <div className="mt-6">
+        <ExportTokens />
+      </div>
 
       <Separator className="mt-20" />
 

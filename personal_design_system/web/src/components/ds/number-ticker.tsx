@@ -11,12 +11,15 @@ import { useTokens } from "@/lib/token-context";
  */
 export function NumberTicker({
   value,
+  from = 0,
   decimals = 0,
   prefix = "",
   suffix = "",
   className,
 }: {
   value: number;
+  /** Starting value on mount; defaults to 0 so KPIs count up on load. */
+  from?: number;
   decimals?: number;
   prefix?: string;
   suffix?: string;
@@ -27,7 +30,7 @@ export function NumberTicker({
   const damping = Number(values["number-ticker.damping"]);
   const mass = Number(values["number-ticker.mass"]);
 
-  const target = useMotionValue(value);
+  const target = useMotionValue(from);
   const sprung = useSpring(target, { stiffness, damping, mass });
   const text = useTransform(
     sprung,
