@@ -544,6 +544,19 @@ the body face on Docs / Slides / Sheets.
 - This yields `24pt` of air between consecutive bullets and `12pt` of
   separation between the list block and surrounding paragraphs.
 
+*Generating Docs collateral (DOCX):*
+- `personal_design_system/print/` generates 8.5x11 `.docx` files that
+  conform to this surface, for upload into Google Docs (File -> Open ->
+  Upload). Edit the `CONTENT` block in `generate.mjs`, run `npm run build`.
+- Headings use Word's built-in style IDs (`Title`, `Heading 1-5`,
+  `Normal`), so Google Docs maps them onto its own named styles on import
+  and they stay editable as system styles.
+- Fonts are the canonical Workspace fallbacks: Instrument Serif headings,
+  DM Sans body, Roboto Mono labels. Add Instrument Serif + DM Sans via
+  the Docs font menu (*More fonts*) once if they are not in your list.
+- Page is US Letter with 1" margins; cover page is unnumbered, content
+  pages carry a Roboto Mono footer with the page number.
+
 **Google Slides**
 - 16:9 only. Always.
 - Slides are **mostly visual**, very clean, minimal text. If a slide has

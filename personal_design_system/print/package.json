@@ -1,0 +1,13 @@
+{
+  "name": "pds-print",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "DOCX collateral generator for Dan Sozanski's design system (Google Docs surface).",
+  "scripts": {
+    "build": "node generate.mjs"
+  },
+  "dependencies": {
+    "docx": "^9.7.1"
+  }
+}
