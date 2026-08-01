@@ -1,4 +1,5 @@
 import { Eyebrow } from "@/components/ds/eyebrow";
+import { SurfaceGrid } from "@/components/site/surface-grid";
 import { Callout } from "@/components/ds/callout";
 import { Chip } from "@/components/ds/chip";
 import { TextLink } from "@/components/ds/text-link";
@@ -197,6 +198,8 @@ export default function TemplatesPage() {
         Five compositions, one system. Each template uses only the components in
         the catalog and only the tokens in DESIGN.md.
       </p>
+
+      <SurfaceGrid />
 
       <Separator className="mt-20" />
 

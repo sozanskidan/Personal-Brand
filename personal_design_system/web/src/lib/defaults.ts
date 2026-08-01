@@ -172,7 +172,9 @@ export const SCOPES: ScopeDef[] = [
   {
     scope: "accordion",
     title: "Accordion",
+    note: "Rows open on spring physics; the chevron keeps its own clock.",
     controls: [
+      ...springControls(300, 28),
       { key: "chevronMs", label: "Chevron rotation", type: "range", def: 200, min: 80, max: 500, step: 10, unit: "ms", cssVar: "--accordion-chevron-ms" },
     ],
   },
@@ -226,9 +228,51 @@ export const SCOPES: ScopeDef[] = [
     ],
   },
   {
+    scope: "select",
+    title: "Select",
+    note: "The menu pops on spring physics; exits on the fast fade.",
+    controls: [
+      ...springControls(700, 50),
+      { key: "initialScale", label: "Enter from scale", type: "range", def: 0.97, min: 0.8, max: 1, step: 0.01 },
+    ],
+  },
+  {
+    scope: "checkbox",
+    title: "Checkbox",
+    note: "The check pops in on spring physics.",
+    controls: [
+      ...springControls(700, 50),
+      { key: "popScale", label: "Pop from scale", type: "range", def: 0.5, min: 0, max: 1, step: 0.05 },
+    ],
+  },
+  {
+    scope: "radio",
+    title: "Radio",
+    note: "The dot pops in on spring physics.",
+    controls: [
+      ...springControls(700, 50),
+      { key: "popScale", label: "Pop from scale", type: "range", def: 0.5, min: 0, max: 1, step: 0.05 },
+    ],
+  },
+  {
+    scope: "switch",
+    title: "Switch",
+    note: "The thumb glides on spring physics.",
+    controls: [...springControls(700, 50)],
+  },
+  {
+    scope: "slider",
+    title: "Slider",
+    note: "The thumb chases the target on spring physics — click the track to feel it.",
+    controls: [...springControls(700, 50)],
+  },
+  {
     scope: "tooltip",
     title: "Tooltip",
+    note: "Pops in on spring physics, exits on the global fade.",
     controls: [
+      ...springControls(700, 50),
+      { key: "initialScale", label: "Enter from scale", type: "range", def: 0.95, min: 0.8, max: 1, step: 0.01 },
       { key: "radius", label: "Corner radius", type: "range", def: 4, min: 0, max: 64, step: 1, unit: "px", cssVar: "--tooltip-radius" },
       { key: "delayMs", label: "Open delay", type: "range", def: 200, min: 0, max: 1000, step: 25, unit: "ms" },
     ],

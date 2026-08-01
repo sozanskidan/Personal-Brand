@@ -50,7 +50,11 @@ export interface RegistryEntry {
   category: Category;
   /** Drives the accent chip: dynamic pieces move on spring physics. */
   kind: "static" | "dynamic";
-  /** Param panel scope; defaults to the slug. Charts share one scope. */
+  /**
+   * Param panel scope. Defaults to the slug. Set it when several pieces
+   * share one panel: every chart reads "charts", every form field reads
+   * "forms".
+   */
   paramScope?: string;
   description: string;
   notes: string[];
@@ -102,11 +106,12 @@ export const registry: RegistryEntry[] = [
     slug: "select",
     name: "Select",
     category: "Forms",
-    kind: "static",
-    paramScope: "forms",
+    kind: "dynamic",
+    paramScope: "select",
     description: "A quiet dropdown on the field tokens.",
     notes: [
       "Trigger matches text fields; the menu rides on surface-elevated with a 1px rule.",
+      "The menu pops on the snappy spring and exits on the fast fade.",
     ],
     Demo: SelectDemo,
   },
@@ -114,40 +119,52 @@ export const registry: RegistryEntry[] = [
     slug: "checkbox",
     name: "Checkbox",
     category: "Forms",
-    kind: "static",
-    paramScope: "forms",
+    kind: "dynamic",
+    paramScope: "checkbox",
     description: "Ink when checked, hairline when not.",
-    notes: ["Checked state is an ink fill — never the accent."],
+    notes: [
+      "Checked state is an ink fill — never the accent.",
+      "The check pops in on the snappy spring; unchecking is instant.",
+    ],
     Demo: CheckboxDemo,
   },
   {
     slug: "radio",
     name: "Radio",
     category: "Forms",
-    kind: "static",
-    paramScope: "forms",
+    kind: "dynamic",
+    paramScope: "radio",
     description: "One choice, ink dot.",
-    notes: ["Same language as checkbox: ink selection, hairline rest."],
+    notes: [
+      "Same language as checkbox: ink selection, hairline rest.",
+      "The dot pops in on the snappy spring.",
+    ],
     Demo: RadioDemo,
   },
   {
     slug: "switch",
     name: "Switch",
     category: "Forms",
-    kind: "static",
-    paramScope: "forms",
+    kind: "dynamic",
+    paramScope: "switch",
     description: "Ink track when on, rule track when off.",
-    notes: ["No accent, no glow. The position tells the story."],
+    notes: [
+      "No accent, no glow. The position tells the story.",
+      "The thumb glides on the snappy spring.",
+    ],
     Demo: SwitchDemo,
   },
   {
     slug: "slider",
     name: "Slider",
     category: "Forms",
-    kind: "static",
-    paramScope: "forms",
+    kind: "dynamic",
+    paramScope: "slider",
     description: "Hairline track, ink range, quiet thumb.",
-    notes: ["The playground panels are built out of these."],
+    notes: [
+      "The playground panels are built out of these.",
+      "The thumb chases the target on the snappy spring.",
+    ],
     Demo: SliderDemo,
   },
 
@@ -413,7 +430,7 @@ export const registry: RegistryEntry[] = [
     kind: "dynamic",
     description: "Hairline rows, rotating chevron, quiet height animation.",
     notes: [
-      "Chevron rotates 180° in 200ms ease-out.",
+      "Rows open on the smooth spring; the chevron rotates 180° in 200ms ease-out.",
       "Markers and icons recede; text carries the weight.",
     ],
     Demo: AccordionDemo,

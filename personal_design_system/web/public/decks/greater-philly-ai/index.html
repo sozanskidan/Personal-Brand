@@ -1,0 +1,889 @@
+<!doctype html>
+<html lang="en" data-theme="stage">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Designing with AI · Greater Philly AI · Dan Sozanski</title>
+  <meta name="description" content="Slop is a communication failure, not a model failure. Greater Philly AI Speaker Series #02, August 6 2026." />
+  <link rel="stylesheet" href="../_shared/deck.css" />
+</head>
+<body>
+<!--
+  Designing with AI
+  Greater Philly AI, Speaker Series #02
+  Root Down Brewing Company, Phoenixville PA, 2026-08-06, 6:30pm
+  38 slides, 30 minutes, one live demo in Act V.
+
+  Thesis: slop is a communication failure, not a model failure.
+
+  Every visual slot below is a .placeholder with a PROMPT or REAL CAPTURE
+  comment directly above it. Replace the div, delete the comment.
+  Speaker notes are in <aside class="notes">. Press S for the speaker view.
+-->
+<div class="reveal">
+  <div class="slides">
+
+<!-- ══════════════════ ACT 0 · COLD OPEN · 3:00 ══════════════════ -->
+
+    <!-- 01 -->
+    <section>
+      <div class="slide" data-layout="side-by-side">
+        <div class="panel">
+          <p class="eyebrow">2024</p>
+          <!-- REAL CAPTURE: planetize.org hero, 2024, from Framer version history.
+               Export at the same viewport width and crop as the 2026 frame or the
+               comparison lies. This asset also feeds slides 23 and 31. -->
+          <div class="artifact artifact--bare">
+            <div class="placeholder"><p>planetize.org · 2024 hero</p></div>
+          </div>
+        </div>
+        <div class="gutter"></div>
+        <div class="panel">
+          <p class="eyebrow">2026</p>
+          <!-- REAL CAPTURE: planetize.org hero, 2026. Identical viewport and crop. -->
+          <div class="artifact artifact--bare">
+            <div class="placeholder"><p>planetize.org · 2026 hero</p></div>
+          </div>
+        </div>
+        <aside class="notes">
+          Say nothing. Let them look for four full seconds, which will feel like
+          thirty. Then: "Same site. Same client. Same me."
+        </aside>
+      </div>
+    </section>
+
+    <!-- 02 -->
+    <section>
+      <div class="slide" data-layout="statement">
+        <h1>The difference is a file.</h1>
+        <aside class="notes">
+          Not a new tool, not a bigger budget, not more time. Do not explain it
+          yet. Tell them you will come back to these two images at minute twenty,
+          then leave it alone. The room will hold the question for you.
+        </aside>
+      </div>
+    </section>
+
+    <!-- 03 -->
+    <section>
+      <div class="slide" data-layout="split-half">
+        <div class="pane">
+          <p class="eyebrow">Who is talking</p>
+          <h2 style="margin-top: var(--md)">Dan Sozanski</h2>
+          <p style="margin-top: var(--md)">
+            Staff Product Designer, Meta Reality Labs.
+          </p>
+        </div>
+        <div class="pane">
+          <!-- PROMPT: A 2x2 grid of four product design screenshots on a warm
+               off-white #FAFAF7 ground, uniform crops, 1px #E5E5E5 hairline
+               gutters, near-monochrome, no logos, no text, editorial
+               contact-sheet feel, generous margins, flat, no drop shadows,
+               no gradients. -->
+          <div class="artifact">
+            <div class="placeholder"><p>2x2 contact sheet of your work</p></div>
+          </div>
+        </div>
+        <aside class="notes">
+          Thirty seconds. Where you work, what you make, and one line about how
+          long you did this before any of it was possible. That last part is what
+          buys you the right to be skeptical in Act III.
+        </aside>
+      </div>
+    </section>
+
+    <!-- 04 -->
+    <section>
+      <div class="slide" data-layout="three-col">
+        <p class="eyebrow">What you get</p>
+        <h2 style="margin-top: var(--md)">Three things, in thirty minutes.</h2>
+        <div class="cols">
+          <div class="col">
+            <p class="eyebrow">01</p>
+            <h3>Assets that are not slop</h3>
+          </div>
+          <div class="col">
+            <p class="eyebrow">02</p>
+            <h3>DESIGN.md</h3>
+          </div>
+          <div class="col">
+            <p class="eyebrow">03</p>
+            <h3>A real website</h3>
+          </div>
+        </div>
+        <aside class="notes">
+          The literal promise from the meetup listing. Say you will hit all three
+          and that the middle one is the one they will use tomorrow. This is the
+          only agenda slide. No overview before it.
+        </aside>
+      </div>
+    </section>
+
+<!-- ══════════════ ACT I · DESIGN IS COMMUNICATION · 1:30 ══════════════ -->
+
+    <!-- 05 -->
+    <section>
+      <div class="slide" data-layout="statement">
+        <h1>Design was never about pixels.</h1>
+        <aside class="notes">
+          Forty-five seconds, not five minutes. This room does not need the
+          definition, they need yours. The job was always getting a thing that
+          exists only in your head to exist, accurately, in someone else's. You
+          are already fluent in three dialects: a prototype speaks to a user, a
+          named layer speaks to an engineer, a deck speaks to whoever decides
+          your headcount.
+        </aside>
+      </div>
+    </section>
+
+    <!-- 06 · CUT FIRST if the demo runs long -->
+    <section>
+      <div class="slide" data-layout="full-bleed">
+        <!-- PROMPT: Minimal abstract editorial illustration, near-black #0A0A0A
+             ground, two simple geometric forms at left and right, a thin pastel
+             grey-blue #9BB0C9 line traveling between them and fraying slightly
+             at the midpoint, vast negative space, no text, no gradients, no
+             glows, no drop shadows, flat vector, Swiss poster restraint. -->
+        <div class="placeholder placeholder--bleed"><p>An idea in transit, fraying at the midpoint</p></div>
+        <aside class="notes">
+          The fraying in the middle is the entire profession. Every artifact you
+          have ever made was a message with a recipient and a loss rate.
+          CUT THIS FIRST if you are running long.
+        </aside>
+      </div>
+    </section>
+
+    <!-- 07 · accent moment for Act I -->
+    <section>
+      <div class="slide" data-layout="statement">
+        <h1>Design is <span class="accent">communication</span>.</h1>
+        <aside class="notes">
+          Land it, stop, do not qualify it. The rest of the talk is what happens
+          when you take that sentence literally.
+        </aside>
+      </div>
+    </section>
+
+<!-- ═══════════════ ACT II · THE NEW AUDIENCE · 2:30 ═══════════════ -->
+
+    <!-- 08 · the one bouncy moment in the deck -->
+    <section>
+      <div class="slide" data-layout="statement">
+        <h1>There is a fourth audience now.</h1>
+        <aside class="notes">
+          It has read more design writing than everyone in this room combined. It
+          has never seen one thing you have made. And it is doing the work now,
+          not just reading about it.
+        </aside>
+      </div>
+    </section>
+
+    <!-- 09 · accent moment for Act II -->
+    <section>
+      <div class="slide" data-layout="side-by-side">
+        <div class="panel">
+          <p class="eyebrow">What you see</p>
+          <!-- REAL CAPTURE: a screenshot of one real component of yours. -->
+          <div class="artifact artifact--bare">
+            <div class="placeholder"><p>The component, rendered</p></div>
+          </div>
+        </div>
+        <div class="gutter"></div>
+        <div class="panel">
+          <p class="eyebrow eyebrow--accent">What it reads</p>
+          <!-- BUILD, DO NOT GENERATE: paste the actual serialized markup for the
+               same component. Planetize's index.html is a good source since it is
+               a real shipped page. The gap between the panels is the argument and
+               an approximation will not carry it. -->
+          <div class="artifact artifact--bare">
+            <div class="placeholder"><p>The same component, as text</p></div>
+          </div>
+        </div>
+        <aside class="notes">
+          This is the slide they remember. It is not looking at your work, it is
+          reading a description of it. Proportion, restraint, the decade you spent
+          learning when to stop, all of it arrives as nothing.
+        </aside>
+      </div>
+    </section>
+
+    <!-- 10 -->
+    <section>
+      <div class="slide" data-layout="statement">
+        <h1>So taste has to become text.</h1>
+        <aside class="notes">
+          The sentence the talk hangs on. Promise that Act IV is the how, then
+          take the detour through why it goes wrong, because they need to feel the
+          problem before the fix means anything.
+        </aside>
+      </div>
+    </section>
+
+<!-- ═════════════ ACT III · WHY IT LOOKS LIKE SLOP · 3:00 ═════════════ -->
+
+    <!-- 11 -->
+    <section>
+      <div class="slide" data-layout="title-only">
+        <p class="eyebrow">The question</p>
+        <h1>So why does it look like this?</h1>
+        <aside class="notes">Setup only. Hit the next slide fast, no pause.</aside>
+      </div>
+    </section>
+
+    <!-- 12 -->
+    <section>
+      <div class="slide" data-layout="full-bleed">
+        <!-- GENERATE NINE, ONE PER CELL, no context, maximum enthusiasm:
+             "Design a beautiful modern premium SaaS hero section. Make it
+             visually stunning and eye-catching."
+             Run it across a few tools. Nine independent answers converging is
+             the finding. Composite fallback prompt: "A 3x3 grid of nine generic
+             startup landing page hero sections, purple to blue gradients,
+             glassmorphism cards, heavy drop shadows, centered text, glowing
+             buttons, visually noisy, all nine looking nearly identical." -->
+        <div class="placeholder placeholder--bleed"><p>3x3 slop gallery · nine real generations</p></div>
+        <aside class="notes">
+          Nine tries, several tools, one taste. Nobody asked for purple.
+        </aside>
+      </div>
+    </section>
+
+    <!-- 13 -->
+    <section>
+      <div class="slide" data-layout="three-col">
+        <p class="eyebrow">The tells</p>
+        <h2 style="margin-top: var(--md)">You already know them.</h2>
+        <div class="cols">
+          <div class="col">
+            <div class="tells">
+              <span class="tell">Purple gradient</span>
+              <span class="tell">Glassmorphism</span>
+              <span class="tell">Emoji in the heading</span>
+            </div>
+          </div>
+          <div class="col">
+            <div class="tells">
+              <span class="tell">Centered body copy</span>
+              <span class="tell">Glow</span>
+              <span class="tell">Shadow on a shadow</span>
+            </div>
+          </div>
+          <div class="col">
+            <div class="tells">
+              <span class="tell">Four competing CTAs</span>
+              <span class="tell">Everything a pill</span>
+              <span class="tell tell--accent">Em-dash</span>
+            </div>
+          </div>
+        </div>
+        <aside class="notes">
+          Run these fast, it plays as comedy and the room will shout their own.
+          Hold on the em-dash: I banned it in my own system, it is a real line in
+          a real file, and we are coming back to it. Plant it here, it pays off
+          twice (slides 19 and 26).
+        </aside>
+      </div>
+    </section>
+
+    <!-- 14 -->
+    <section>
+      <div class="slide" data-layout="statement">
+        <div class="stack">
+          <h1 style="font-size: 3.5rem">Not a model failure.</h1>
+          <h1 style="font-size: 3.5rem">A <span class="accent">briefing</span> failure.</h1>
+        </div>
+        <aside class="notes">
+          No constraints means regression to the mean. It is not guessing badly,
+          it is guessing correctly at the middle of everything ever published. The
+          model is not tasteless, it is aggressively, statistically tasteful. If
+          you hired a brilliant contractor who had never seen your work and gave
+          them one sentence, you would get the average of their career. You did
+          that. Now brief them.
+        </aside>
+      </div>
+    </section>
+
+<!-- ═══════════════════ ACT IV · DESIGN.MD · 5:30 ═══════════════════ -->
+
+    <!-- 15 -->
+    <section>
+      <div class="slide" data-layout="title-only">
+        <p class="eyebrow">The fix</p>
+        <h1>DESIGN.md</h1>
+        <aside class="notes">
+          One file, lives in the repo, handed to the agent before every ask.
+          Credit the format (google-labs-code/design.md) so it reads as a standard
+          they can adopt rather than a Dan invention they have to trust. Mention
+          there is a linter, because that detail does more for credibility than
+          any adjective.
+        </aside>
+      </div>
+    </section>
+
+    <!-- 16 -->
+    <section>
+      <div class="slide" data-layout="split-half">
+        <div class="pane">
+          <p class="eyebrow">Anatomy</p>
+          <h2 style="margin-top: var(--md)">Tokens. And the reasons.</h2>
+          <p style="margin-top: var(--md)">
+            Front half is YAML a machine obeys. Back half is prose explaining why.
+          </p>
+        </div>
+        <div class="pane">
+          <!-- REAL CAPTURE: your DESIGN.md in a light editor theme, scrolled,
+               readable as structure rather than as words. -->
+          <div class="artifact">
+            <div class="placeholder"><p>DESIGN.md at a distance</p></div>
+          </div>
+        </div>
+        <aside class="notes">
+          Most people write the front half and stop, and that is exactly why their
+          file stops working the first time they ask for something it does not
+          list.
+        </aside>
+      </div>
+    </section>
+
+    <!-- 17 -->
+    <section>
+      <div class="slide" data-layout="code">
+        <p class="eyebrow">Real tokens</p>
+        <h2 style="margin-top: var(--md)">The comment does more work than the hex.</h2>
+        <pre><span class="key">colors</span>:
+  <span class="key">ink</span>:     "#0A0A0A"   <span class="cmt"># headlines, body text. the voice of the document.</span>
+  <span class="key">surface</span>: "#FAFAF7"   <span class="cmt"># the page itself. warm, almost-white, never pure.</span>
+  <span class="key">accent</span>:  "#9BB0C9"   <span class="cmt"># used sparingly, for one thing per view</span></pre>
+        <aside class="notes">
+          Read the comment out loud. The hex says what the color is. The comment
+          says when to stop.
+        </aside>
+      </div>
+    </section>
+
+    <!-- 18 -->
+    <section>
+      <div class="slide" data-layout="three-col">
+        <p class="eyebrow">Three principles</p>
+        <h2 style="margin-top: var(--md)">Fewer rules, better reasoning.</h2>
+        <div class="cols">
+          <div class="col">
+            <p class="eyebrow">01</p>
+            <h3>Whitespace is the brand</h3>
+            <p style="font-size: 0.9375rem">When in doubt, remove. Density signals panic.</p>
+          </div>
+          <div class="col">
+            <p class="eyebrow">02</p>
+            <h3>One accent per view</h3>
+            <p style="font-size: 0.9375rem">A scalpel, not a highlighter.</p>
+          </div>
+          <div class="col">
+            <p class="eyebrow">03</p>
+            <h3>Type does the design</h3>
+            <p style="font-size: 0.9375rem">Serif against sans is the mood. Do not decorate it.</p>
+          </div>
+        </div>
+        <aside class="notes">
+          Straight from the file. Point out that this section has used its accent
+          exactly once and this slide has more air than content. Then the useful
+          part: three principles beat thirty rules, because the agent has to
+          reason from them instead of looking them up.
+        </aside>
+      </div>
+    </section>
+
+    <!-- 19 · CUT THE PLANETIZE HALF SECOND if running long -->
+    <section>
+      <div class="slide" data-layout="side-by-side">
+        <div class="panel">
+          <p class="eyebrow">Mine</p>
+          <pre><span class="cmt"># Don't</span>
+- Use em-dashes. Use commas,
+  periods, or parentheses instead.
+  <span class="cmt">(reads as AI-authored)</span></pre>
+        </div>
+        <div class="gutter"></div>
+        <div class="panel">
+          <p class="eyebrow">Hers</p>
+          <pre><span class="cmt"># Lexicon</span>
+Avoid: hustle, drop, vibe,
+  stuff, <span class="key">declutter</span>.
+  <span class="cmt">(overused in the category)</span></pre>
+        </div>
+        <aside class="notes">
+          Negative constraints are the highest-yield lines in the file and almost
+          nobody writes them. You are not describing good, you are deleting the
+          average. Then the second one lands the room: that is a professional
+          organizing company that will not say the word declutter. No model
+          guesses that. Now none of them has to.
+        </aside>
+      </div>
+    </section>
+
+    <!-- 20 · accent moment for Act IV -->
+    <section>
+      <div class="slide" data-layout="split-half" data-flip="true">
+        <div class="pane">
+          <!-- REAL CAPTURE: your pre-flight checklist, a few boxes ticked.
+               Stylized alternative: "A minimal checklist of eight short lines
+               with small square checkboxes, monospace type, warm off-white
+               #FAFAF7 ground, 1px #E5E5E5 hairline rules between items, mostly
+               empty space, one pastel grey-blue #9BB0C9 check, flat, no shadows." -->
+          <div class="artifact">
+            <div class="placeholder"><p>The pre-flight checklist</p></div>
+          </div>
+        </div>
+        <div class="pane">
+          <p class="eyebrow eyebrow--accent">The highest-leverage part</p>
+          <h2 style="margin-top: var(--md)">The checklist turns taste into a test.</h2>
+          <p style="margin-top: var(--md)">
+            Seventeen lines. Before them, "does it look right" was a conversation.
+          </p>
+        </div>
+        <aside class="notes">
+          Now it is a pass or fail the agent runs against itself. Ask it to audit
+          its own output and it finds its own violations, which is a genuinely
+          strange thing to watch the first time. This is also the hinge into Act
+          V, because the next nine minutes are an audit that went further than I
+          expected.
+        </aside>
+      </div>
+    </section>
+
+<!-- ═════════════════════ ACT V · PLANETIZE · 9:00 ═════════════════════ -->
+
+    <!-- 21 -->
+    <section>
+      <div class="slide" data-layout="title-only">
+        <p class="eyebrow">A real client</p>
+        <h1>Planetize</h1>
+        <aside class="notes">
+          Not a demo, not a side project. Nicole's home organization studio, real
+          clients, real prices on the page. Then the line worth planting: her
+          whole business is making a space work for you instead of against you.
+          That is also what the next nine minutes are about, except the space is
+          your instructions.
+        </aside>
+      </div>
+    </section>
+
+    <!-- 22 -->
+    <section>
+      <div class="slide" data-layout="split-half">
+        <div class="pane">
+          <p class="eyebrow">The business</p>
+          <h2 style="margin-top: var(--md)">She organizes homes.<br />I organize the brief.</h2>
+        </div>
+        <div class="pane">
+          <!-- REAL CAPTURE: one strong before-and-after pair from Nicole's own
+               project photography, a pantry or a closet. Use her photography.
+               Generated organizing photos read as stock inside two seconds and
+               the credibility of this whole act rests on it being real. -->
+          <div class="artifact">
+            <div class="placeholder"><p>Nicole's before and after</p></div>
+          </div>
+        </div>
+        <aside class="notes">
+          Keep this to thirty seconds. The metaphor should land once and then get
+          out of the way. If you push it further than one line it turns cute, and
+          cute is off-brand for both of you.
+        </aside>
+      </div>
+    </section>
+
+    <!-- 23 · the centerpiece -->
+    <section>
+      <div class="slide" data-layout="three-col">
+        <p class="eyebrow">Three years</p>
+        <h2 style="margin-top: var(--md)">One site, one client, one me.</h2>
+        <div class="frames">
+          <div class="col">
+            <p class="eyebrow year">2024</p>
+            <!-- REAL CAPTURE: Framer version history. Identical viewport and crop
+                 across all three or the comparison lies. Worth thirty minutes of
+                 care in Framer to get the framing identical. -->
+            <div class="artifact artifact--bare">
+              <div class="placeholder"><p>2024</p></div>
+            </div>
+          </div>
+          <div class="col">
+            <p class="eyebrow year">2025</p>
+            <!-- REAL CAPTURE: same crop. -->
+            <div class="artifact artifact--bare">
+              <div class="placeholder"><p>2025</p></div>
+            </div>
+          </div>
+          <div class="col">
+            <p class="eyebrow year eyebrow--accent">2026</p>
+            <!-- REAL CAPTURE: same crop. -->
+            <div class="artifact artifact--bare">
+              <div class="placeholder"><p>2026</p></div>
+            </div>
+          </div>
+        </div>
+        <aside class="notes">
+          The core of the talk. What changed each year, one line each, and be
+          specific about effort. 2024 was hand-built. 2025 was hand-built with
+          help. 2026 was briefed. The point is not that the last one is
+          prettiest, it is that it was the cheapest of the three to make, and the
+          next one will be cheaper still. Before-and-after is persuasive. Before,
+          after, after is an argument.
+        </aside>
+      </div>
+    </section>
+
+    <!-- 24 -->
+    <section>
+      <div class="slide" data-layout="side-by-side">
+        <div class="panel">
+          <p class="eyebrow">lusion.co</p>
+          <!-- REAL CAPTURE: pick the frame that shows what actually transferred
+               (motion language, scroll as narrative, restraint around the work),
+               not a frame that merely looks similar. You are claiming influence,
+               not resemblance. -->
+          <div class="artifact artifact--bare">
+            <div class="placeholder"><p>lusion.co</p></div>
+          </div>
+        </div>
+        <div class="gutter"></div>
+        <div class="panel">
+          <p class="eyebrow">Planetize 2026</p>
+          <!-- REAL CAPTURE: your 2026 hero. -->
+          <div class="artifact artifact--bare">
+            <div class="placeholder"><p>planetize.org · 2026</p></div>
+          </div>
+        </div>
+        <aside class="notes">
+          Answer the question Act IV leaves open: where do the values come from if
+          you have never written your taste down? You steal, out loud and with
+          attribution. I did not copy lusion.co, I asked what makes it work and
+          which parts of that were transferable to a calm organizing brand. Almost
+          none of the 3D was. The discipline was.
+        </aside>
+      </div>
+    </section>
+
+    <!-- 25 -->
+    <section>
+      <div class="slide" data-layout="split-half">
+        <div class="pane">
+          <p class="eyebrow">The method</p>
+          <h2 style="margin-top: var(--md)">Point at work you love.<br />Ask what makes it work.</h2>
+          <p style="margin-top: var(--md)">
+            Then throw away everything that belongs to the original.
+          </p>
+        </div>
+        <div class="pane">
+          <!-- PROMPT: A minimal two-part diagram on a near-black #0A0A0A ground,
+               a soft grey rectangle at left representing a photograph, a thin
+               pastel grey-blue #9BB0C9 line leading right into a short vertical
+               list of small monospace key-value lines, vast negative space, flat,
+               no legible text, no gradients, no glows, Swiss poster restraint. -->
+          <div class="placeholder"><p>Inspiration in, tokens out</p></div>
+        </div>
+        <aside class="notes">
+          The most useful minute in the talk for them. Three moves: point at three
+          things you love, ask for the system behind them rather than a copy of
+          them, then throw away everything that belongs to the original and keep
+          only what you would defend. The throwing away is the design work. That
+          part is still yours.
+        </aside>
+      </div>
+    </section>
+
+    <!-- 26 · accent moment, and the objection-killer -->
+    <section>
+      <div class="slide" data-layout="side-by-side">
+        <div class="panel">
+          <p class="eyebrow">Mine</p>
+          <pre>Davinci + SF Pro + mono
+surface  <span class="key">#FAFAF7</span>
+corners  8px, no pills
+<span class="cmt">Don't:</span> use em-dashes</pre>
+        </div>
+        <div class="gutter"></div>
+        <div class="panel">
+          <p class="eyebrow eyebrow--accent">Hers</p>
+          <pre>Outfit, one family
+surface  <span class="key">#FFFFFF</span>
+corners  24px, pill buttons
+<span class="cmt">Do:</span> use an em-dash for
+  quote attribution</pre>
+        </div>
+        <aside class="notes">
+          The slide that kills the objection they are already forming, which is
+          that I wrote down my preferences and the machine obeyed. Same author,
+          same method, opposite rules, both correct. My file bans the em-dash
+          because it reads AI-authored in my voice. Hers requires it, because in a
+          quote attribution for a premium brand it is the right mark. That is not
+          taste, it is context. A design system is not a style, it is an argument
+          about a situation.
+        </aside>
+      </div>
+    </section>
+
+    <!-- 27 -->
+    <section>
+      <div class="slide" data-layout="split-half" data-flip="true">
+        <div class="pane">
+          <!-- REAL CAPTURE: a 21st.dev component as published, beside the same
+               component after it was rewritten against the Planetize tokens.
+               The right-hand version should be visibly Planetize (Outfit, mint,
+               pill buttons, 24px cards) while structurally identical, since that
+               similarity is the point. -->
+          <div class="artifact">
+            <div class="placeholder"><p>Component, as published and as Planetize</p></div>
+          </div>
+        </div>
+        <div class="pane">
+          <p class="eyebrow">Components</p>
+          <h2 style="margin-top: var(--md)">Chosen by the file, not by eye.</h2>
+          <p style="margin-top: var(--md)">
+            Ten thousand components on 21st.dev. A gift, or the biggest slop
+            generator ever built.
+          </p>
+        </div>
+        <aside class="notes">
+          Browsing by what looks nice gets you a page assembled from nine
+          strangers' taste. Handing the file over first means the component
+          arrives already in the brand. They ship in shadcn format with AI-ready
+          prompts, so this is not a hack, it is what the registry is for.
+        </aside>
+      </div>
+    </section>
+
+    <!-- 28 · the best material in the talk -->
+    <section>
+      <div class="slide" data-layout="code">
+        <p class="eyebrow">Then it audited me</p>
+        <h2 style="margin-top: var(--md)">I asked it to check the site against the file.</h2>
+        <pre><span class="cmt">DESIGN.md gap analysis, April 26 2026</span>
+
+Framer defines 64px H1.   Live site ships 44px.
+Poppins:                  5 styles defined, 0 deployed.
+Undocumented colors:      3 found, 6 occurrences.
+<span class="key">mint-400</span>: 24 uses.  <span class="key">mint-600</span>, the documented primary: 1.</pre>
+        <aside class="notes">
+          This is the moment I stopped thinking of this as a productivity trick.
+          Read the last line twice. My documented primary color appears once on my
+          own live site. The one I actually use, twenty-four times, is not the one
+          I wrote down.
+        </aside>
+      </div>
+    </section>
+
+    <!-- 29 -->
+    <section>
+      <div class="slide" data-layout="statement">
+        <p class="eyebrow">Its recommendation</p>
+        <h1 style="margin-top: var(--md)">Update the system, not the site.</h1>
+        <aside class="notes">
+          Close to verbatim. It did not just find the mismatch, it took a position
+          on which side was wrong, and it argued the brand is materially cooler
+          and lighter than the documentation claimed. It was right. I changed the
+          file. This is the answer to whether these things design or just execute:
+          it formed an opinion about my brand, supported it with counts, and won.
+        </aside>
+      </div>
+    </section>
+
+    <!-- 30 · the honesty beat · CUT THIRD if running long -->
+    <section>
+      <div class="slide" data-layout="statement">
+        <div class="stack">
+          <h1 style="font-size: 3.5rem">It found the drift.</h1>
+          <h1 style="font-size: 3.5rem">It could not choose.</h1>
+        </div>
+        <aside class="notes">
+          The room will trust everything else more for this. The audit ended with
+          three options for the stray colors: park them, deploy them editorially,
+          or delete them. It could not pick, because picking requires knowing
+          whether the brand is moving warmer, and that is a business decision
+          Nicole makes and I advise on. It cleared the desk. It did not decide
+          what the company is.
+        </aside>
+      </div>
+    </section>
+
+    <!-- 31 · LIVE -->
+    <section>
+      <div class="slide" data-layout="demo">
+        <p class="eyebrow eyebrow--accent">Live · Framer</p>
+        <p class="cue">Build one real thing into the real site. Land one interaction on the documented spring.</p>
+        <p class="eyebrow">Recording on the desktop · planetize.org</p>
+        <aside class="notes">
+          The third promise. Motion is the part of a design system nobody writes
+          down and hers is in the file as stiffness and damping. Then close the
+          loop: this is the right-hand image from slide one. Same site, same
+          client, same me, two years, one file.
+
+          RISK: pre-build to one step before the finish so the live portion is the
+          last move, not the whole build. Recording as fallback, still as fallback
+          to the fallback. Brewery wifi is a promise, not a fact.
+        </aside>
+      </div>
+    </section>
+
+    <!-- 32 -->
+    <section>
+      <div class="slide" data-layout="statement">
+        <h1>So was this.</h1>
+        <!-- REAL CAPTURE: press Esc in this deck for the slide-grid overview and
+             screenshot it. Cheapest and best proof shot in the talk. -->
+        <div class="artifact" style="margin-top: var(--lg); max-width: 60%">
+          <div class="placeholder" style="min-height: 180px"><p>This deck, in overview</p></div>
+        </div>
+        <aside class="notes">
+          Everything they have looked at for twenty-five minutes, including the
+          type on this slide, came out of the same file. You did not design these
+          slides, you briefed them. Then mention the stage variant: the one rule
+          you broke is written down as an exception with its reason, which is what
+          a living system looks like. Pause here. Best moment in the talk.
+        </aside>
+      </div>
+    </section>
+
+<!-- ═══════════════════ ACT VI · WITHOUT ME · 3:30 ═══════════════════ -->
+
+    <!-- 33 -->
+    <section>
+      <div class="slide" data-layout="title-only">
+        <p class="eyebrow">The handoff</p>
+        <h1>Do this without me.</h1>
+        <aside class="notes">
+          Name it as their favorite slide. Nothing in the last twenty-five minutes
+          required working at Meta, being a designer, or having a decade of
+          opinions.
+        </aside>
+      </div>
+    </section>
+
+    <!-- 34 -->
+    <section>
+      <div class="slide" data-layout="three-col">
+        <p class="eyebrow">The twenty minute version</p>
+        <h2 style="margin-top: var(--md)">Tonight, if you want.</h2>
+        <div class="cols">
+          <div class="col">
+            <p class="eyebrow">01</p>
+            <h3>Steal the structure</h3>
+            <p style="font-size: 0.9375rem">Fork the file. Keep the shape, drop my values.</p>
+          </div>
+          <div class="col">
+            <p class="eyebrow">02</p>
+            <h3>Point at three things you love</h3>
+            <p style="font-size: 0.9375rem">Ask for the system behind them, not a copy of them.</p>
+          </div>
+          <div class="col">
+            <p class="eyebrow">03</p>
+            <h3>Write your don't list</h3>
+            <p style="font-size: 0.9375rem">Five things that always make you wince. Ten minutes.</p>
+          </div>
+        </div>
+        <aside class="notes">
+          One line each. The third is the important one: that list is your taste,
+          and it is the part no model can guess. Mine says no em-dashes. Hers says
+          never say declutter.
+        </aside>
+      </div>
+    </section>
+
+    <!-- 35 -->
+    <section>
+      <div class="slide" data-layout="resources">
+        <p class="eyebrow">Where to go next</p>
+        <h2 style="margin-top: var(--md)">Four places worth your evening.</h2>
+        <div class="resources">
+          <a class="resource resource--accent" href="https://github.com/google-labs-code/design.md" target="_blank" rel="noreferrer">
+            <span class="resource__kind">The format</span>
+            <span class="resource__name">design.md</span>
+            <span class="resource__desc">The spec both files are written in. YAML tokens, prose rationale, and a linter that tells you when you have contradicted yourself.</span>
+            <span class="resource__url">github.com/google-labs-code/design.md</span>
+          </a>
+          <a class="resource" href="https://21st.dev/" target="_blank" rel="noreferrer">
+            <span class="resource__kind">Components</span>
+            <span class="resource__name">21st.dev</span>
+            <span class="resource__desc">A community registry in shadcn format with AI-ready prompts. Ten thousand components: a gift if you choose with a file, a slop machine if you choose by eye.</span>
+            <span class="resource__url">21st.dev</span>
+          </a>
+          <a class="resource" href="https://www.aura.build/" target="_blank" rel="noreferrer">
+            <span class="resource__kind">Generate</span>
+            <span class="resource__name">Aura</span>
+            <span class="resource__desc">Prompt to page, fast. Useful precisely because it shows you the average when you hand it nothing, and something else when you hand it your tokens.</span>
+            <span class="resource__url">aura.build</span>
+          </a>
+          <a class="resource" href="https://framer.com/" target="_blank" rel="noreferrer">
+            <span class="resource__kind">Ship it</span>
+            <span class="resource__name">Framer</span>
+            <span class="resource__desc">Where the output becomes a real site with a real domain. Motion, breakpoints, CMS, publish. The last mile most AI design demos skip.</span>
+            <span class="resource__url">framer.com</span>
+          </a>
+        </div>
+        <aside class="notes">
+          Leave this up if the QR is not needed yet. It is the second most
+          photographed slide in the deck.
+        </aside>
+      </div>
+    </section>
+
+    <!-- 36 · accent moment for Act VI -->
+    <section>
+      <div class="slide" data-layout="split-half">
+        <div class="pane">
+          <p class="eyebrow eyebrow--accent">Take it</p>
+          <h2 style="margin-top: var(--md)">Both files.</h2>
+          <p style="margin-top: var(--md)">
+            Mine and hers. Two examples teach the method. One teaches a style.
+          </p>
+          <p class="eyebrow" style="margin-top: var(--lg)">dansozanski.com/talk</p>
+        </div>
+        <div class="pane">
+          <!-- REAL QR, not generated: high error correction, #0A0A0A on #FAFAF7,
+               480px minimum, quiet zone intact, nothing in the middle. Test it
+               from the back of the room before you start. Keep the short link in
+               mono on the slide because half the room photographs instead of
+               scanning. -->
+          <div class="qr">
+            <div class="placeholder" style="min-height: 200px; width: 100%"><p>QR to the repo</p></div>
+          </div>
+        </div>
+        <aside class="notes">Leave this slide up through Q&amp;A.</aside>
+      </div>
+    </section>
+
+    <!-- 37 -->
+    <section>
+      <div class="slide" data-layout="statement">
+        <div class="stack">
+          <h1 style="font-size: 3rem">Taste is specificity.</h1>
+          <h1 style="font-size: 3rem">Write it down or get the average.</h1>
+          <h1 style="font-size: 3rem">The checklist is the system.</h1>
+        </div>
+        <aside class="notes">
+          Say each one. Stop between them. Explain none of them. They were the
+          whole talk.
+        </aside>
+      </div>
+    </section>
+
+    <!-- 38 -->
+    <section>
+      <div class="slide" data-layout="title-only">
+        <p class="eyebrow">Thank you</p>
+        <h1>Dan Sozanski</h1>
+        <p class="quiet" style="margin-top: var(--md); font-family: var(--mono); font-size: 0.875rem">
+          dansozanski.com/talk
+        </p>
+        <aside class="notes">
+          Hand it back to the organizers and get into the Q&amp;A, which is where
+          this room actually gets value out of you. Prepared answer to have ready:
+          the Reality Labs and VR work, which does not fit in thirty minutes.
+        </aside>
+      </div>
+    </section>
+
+  </div>
+</div>
+<script src="../_shared/deck-boot.js"></script>
+</body>
+</html>

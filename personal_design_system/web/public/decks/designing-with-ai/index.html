@@ -8,9 +8,11 @@
   <link rel="stylesheet" href="../_shared/deck.css" />
   <style>
     /* ── Cover ──────────────────────────────────────────────────────
-       From Figma · Deck · Cover (node 1:2). The frame is 1920x1080;
-       every measurement below is that value scaled 2/3 onto the deck's
-       1280x720 canvas so DESIGN.md's rem scale keeps mapping to px.
+       From Figma · Deck · Cover (node 1:2). The frame is 1920x1080
+       and since 2026-08-01 the deck canvas is too (window.DECK_SIZE +
+       the section-height override below), so every measurement maps
+       1:1 from the frames. This deck deviates from the system's
+       1280x720 canvas doctrine on purpose — Dan's call.
 
        This is a composition, not one of the eight layouts, so it lives
        here in the deck head. It moves into deck.css only if it earns
@@ -19,6 +21,11 @@
        One deliberate deviation from the frame: the Figma ground is pure
        white, the system's surface is #FAFAF7 and says "never pure".
        The system wins. */
+
+    /* The shared deck.css sizes sections for the system's 1280x720
+       canvas; this deck runs native 1920x1080. Same specificity,
+       later in the cascade, so it wins. */
+    .reveal .slides section { height: 1080px; }
 
     :root {
       /* SF Pro Rounded is a system font with no file to vendor; the
@@ -32,32 +39,32 @@
     /* Selectors carry .reveal because .reveal p (0,1,1) outguns a lone
        class (0,1,0) and would repaint everything graphite. */
 
-    /* Ghost letterform. 1000px type at 5% ink, centered, full height. */
+    /* Ghost letterform. 1500px type at 5% ink, centered, full height. */
     .reveal .cover__ghost {
       position: absolute;
       left: 50%;
       /* Not the frame's 0: CSS first-baseline placement differs from
          Figma's text-box metrics, so tops below are trued against a
          rendered screenshot of the frame, not copied from it. */
-      top: 61px;
+      top: 91.5px;
       transform: translateX(-50%);
-      height: 720px;
+      height: 1080px;
       font-family: var(--serif);
-      font-size: 667px;
-      line-height: 667px;
+      font-size: 1000.5px;
+      line-height: 1000.5px;
       color: color-mix(in srgb, var(--ink) 5%, transparent);
       white-space: nowrap;
       user-select: none;
     }
 
-    /* The word. 360px serif, solid ink, sits across the ghost. */
+    /* The word. 540px serif, solid ink, sits across the ghost. */
     .reveal .cover__title {
       position: absolute;
-      left: 101px;
-      top: 231px;
+      left: 151.5px;
+      top: 346.5px;
       font-family: var(--serif);
-      font-size: 240px;
-      line-height: 240px;
+      font-size: 360px;
+      line-height: 360px;
       letter-spacing: 0;
       color: var(--type);
       white-space: nowrap;
@@ -66,14 +73,14 @@
     /* The whisper. Letterspaced light rounded sans at 40% ink. */
     .reveal .cover__with {
       position: absolute;
-      left: calc(50% + 98px);
-      top: 483px;
+      left: calc(50% + 147px);
+      top: 724.5px;
       transform: translateX(-50%);
       font-family: var(--rounded);
       font-weight: 300;
-      font-size: 32px;
+      font-size: 48px;
       line-height: normal;
-      letter-spacing: 3.84px;
+      letter-spacing: 5.76px;
       color: color-mix(in srgb, var(--ink) 40%, transparent);
       white-space: nowrap;
     }
@@ -81,7 +88,7 @@
     /* ── Agenda ─────────────────────────────────────────────────────
        From Figma · Deck · Agenda (node 7:6), scaled 2/3. Serif word
        centered in the left half, rounded list starting exactly at the
-       canvas midline. Row height 85px, gap 11px, number column 69px. */
+       canvas midline. Row height 127.5px, gap 16.5px, number column 103.5px. */
 
     .slide[data-layout="agenda"] {
       display: grid;
@@ -96,7 +103,7 @@
     .reveal .agenda__title,
     .reveal .about__word {
       font-family: var(--serif);
-      font-size: 107px;
+      font-size: 160.5px;
       line-height: normal;
       letter-spacing: -0.04em;
       color: var(--type);
@@ -107,23 +114,23 @@
        pre so the space in "About me" keeps its width. */
     .word__char { display: inline-block; white-space: pre; }
 
-    .agenda__list { display: flex; flex-direction: column; gap: 11px; }
-    .agenda__item { display: flex; gap: 21px; align-items: center; height: 85px; }
+    .agenda__list { display: flex; flex-direction: column; gap: 16.5px; }
+    .agenda__item { display: flex; gap: 31.5px; align-items: center; height: 127.5px; }
 
     .reveal .agenda__num,
     .reveal .agenda__label {
       font-family: var(--rounded);
       font-weight: 400;
-      font-size: 53px;
-      line-height: 43px;
+      font-size: 79.5px;
+      line-height: 64.5px;
     }
-    .reveal .agenda__num { width: 69px; color: color-mix(in srgb, var(--ink) 40%, transparent); }
+    .reveal .agenda__num { width: 103.5px; color: color-mix(in srgb, var(--ink) 40%, transparent); }
     .reveal .agenda__label { color: var(--type); }
     .agenda__label s { text-decoration: line-through; }
 
     /* ── About ──────────────────────────────────────────────────────
        From Figma · Deck · About me (node 1:76), scaled 2/3. Section
-       word centered on x=373, square photo at 427px. The shadow is the
+       word centered on x=373, square photo at 640.5px. The shadow is the
        one place this deck spends decoration, so nothing else on the
        slide gets any.
 
@@ -142,7 +149,7 @@
 
     .reveal .about__word {
       position: absolute;
-      left: 373px;
+      left: 559.5px;
       top: 50%;
       transform: translate(-50%, -50%);
       white-space: nowrap;
@@ -150,18 +157,18 @@
 
     .about__photo {
       position: absolute;
-      left: 747px;
+      left: 1120.5px;
       top: 50%;
       transform: translateY(-50%);
-      width: 427px;
-      height: 427px;
+      width: 640.5px;
+      height: 640.5px;
     }
     .about__photo img {
       width: 100%;
       height: 100%;
-      border-radius: 48px;
+      border-radius: 72px;
       object-fit: cover;
-      box-shadow: 16px 43px 80px 0 rgba(0, 0, 0, 0.2);
+      box-shadow: 24px 64.5px 120px 0 rgba(0, 0, 0, 0.2);
     }
     .about__photo canvas {
       position: absolute;
@@ -169,7 +176,7 @@
       width: 100%;
       height: 100%;
       display: none;
-      filter: drop-shadow(16px 43px 80px rgba(0, 0, 0, 0.2));
+      filter: drop-shadow(24px 64.5px 120px rgba(0, 0, 0, 0.2));
     }
     /* fx-on flips from the img fallback to the shader canvas. Only set
        from JS once a WebGL context and texture actually exist. */
@@ -180,7 +187,7 @@
 
     /* ── Snapshots ────────────────────────────────────────────────
        From Figma · About me - 2 (node 1:101) and Career (node 13:58),
-       scaled 2/3. Three 320px tilted cards per slide. Tilt uses the
+       scaled 2/3. Three 480px tilted cards per slide. Tilt uses the
        `rotate` property so deck-anim's translate/scale never touch it.
        Photo cards carry box-shadow; the two flat logo cards use
        drop-shadow so the shadow follows the rounded alpha. */
@@ -189,40 +196,40 @@
 
     .snap {
       position: absolute;
-      width: 320px;
-      height: 320px;
-      border-radius: 32px;
+      width: 480px;
+      height: 480px;
+      border-radius: 48px;
     }
     .snap > img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      border-radius: 32px;
+      border-radius: 48px;
       display: block;
     }
-    .snap--photo { box-shadow: 11px 16px 32px rgba(0, 0, 0, 0.25); }
+    .snap--photo { box-shadow: 16.5px 24px 48px rgba(0, 0, 0, 0.25); }
 
     /* Parking plan (Dan, 2026-08-01): cards present center-stage one
        at a time; the first parks LEFT at 0.8, the second parks RIGHT
        at 0.8, the third settles CENTER at full size. Parked scale 0.8
-       keeps every slot clear of the 1.5x hero box (400-880px). These
+       keeps every slot clear of the 1.5x hero box (400-1320px). These
        CSS values are the rest state the stage script returns to. */
-    .about2__p1 { left: 96px;  top: 200px; rotate: -6.96deg; scale: 0.8; }
-    .about2__p2 { left: 866px; top: 215px; rotate: 4.11deg;  scale: 0.8; }
-    .about2__p3 { left: 480px; top: 151px; }
+    .about2__p1 { left: 144px;  top: 300px; rotate: -6.96deg; scale: 0.8; }
+    .about2__p2 { left: 1299px; top: 322.5px; rotate: 4.11deg;  scale: 0.8; }
+    .about2__p3 { left: 720px; top: 226.5px; }
 
     .career__c1 {
-      left: 96px; top: 164px; rotate: 4.71deg; scale: 0.8;
+      left: 144px; top: 246px; rotate: 4.71deg; scale: 0.8;
       background: #ffc600; overflow: hidden;
-      filter: drop-shadow(11px 16px 16px rgba(0, 0, 0, 0.25));
+      filter: drop-shadow(16.5px 24px 24px rgba(0, 0, 0, 0.25));
     }
     .career__c2 {
-      left: 866px; top: 158px; rotate: -7.48deg; scale: 0.8;
+      left: 1299px; top: 237px; rotate: -7.48deg; scale: 0.8;
       background: #060606; overflow: hidden;
-      filter: drop-shadow(11px 16px 16px rgba(0, 0, 0, 0.25));
+      filter: drop-shadow(16.5px 24px 24px rgba(0, 0, 0, 0.25));
     }
     /* Third card's asset carries its own ground and shadow bleed. */
-    .career__c3 { left: 480px; top: 254px; }
+    .career__c3 { left: 720px; top: 381px; }
     /* Explicit size, not inset alone: the SVG has no intrinsic
        dimensions, so auto width/height would balloon. 120% covers the
        frame's -5/-13.33/-15/-6.67% shadow bleed. */
@@ -230,8 +237,8 @@
 
     .career__logo--drexel {
       position: absolute; left: 50%; top: 50%;
-      width: 150px; height: 130px;
-      margin: -65px 0 0 -75px;
+      width: 225px; height: 195px;
+      margin: -97.5px 0 0 -112.5px;
       overflow: hidden;
     }
     .career__logo--drexel img { position: absolute; width: 157.8%; height: 170.17%; left: -28.9%; top: -35%; max-width: none; }
@@ -248,7 +255,7 @@
     [data-liquid] canvas { display: none; }
     [data-liquid].fx-on canvas { display: block; }
     [data-liquid].fx-on img { visibility: hidden; }
-    .snap--photo.fx-on { box-shadow: none; filter: drop-shadow(11px 16px 32px rgba(0, 0, 0, 0.25)); }
+    .snap--photo.fx-on { box-shadow: none; filter: drop-shadow(16.5px 24px 48px rgba(0, 0, 0, 0.25)); }
     .career__c1.fx-on, .career__c2.fx-on { background: none; }
 
     /* Cards are fragments only for arrow-key bookkeeping; the stage
@@ -269,7 +276,7 @@
     .slide[data-layout="statement-word"] p { max-width: none; margin: 0; }
     .reveal .statement__line {
       font-family: var(--serif);
-      font-size: 107px;
+      font-size: 160.5px;
       line-height: normal;
       letter-spacing: -0.04em;
       color: var(--type);
@@ -289,11 +296,11 @@
     .reveal .story__title {
       position: absolute;
       left: 50%;
-      top: 43px;
+      top: 64.5px;
       transform: translateX(-50%);
       font-family: var(--serif);
-      font-size: 80px;
-      line-height: 80px;
+      font-size: 120px;
+      line-height: 120px;
       color: var(--type);
       white-space: nowrap;
     }
@@ -301,19 +308,19 @@
     .media-card {
       position: absolute;
       background: var(--surface-elevated);
-      border-radius: 32px;
-      box-shadow: 11px 16px 32px rgba(0, 0, 0, 0.25);
+      border-radius: 48px;
+      box-shadow: 16.5px 24px 48px rgba(0, 0, 0, 0.25);
     }
-    .media-card > img { width: 100%; height: 100%; object-fit: cover; border-radius: 32px; display: block; }
-    .media-card .placeholder { position: absolute; inset: 16px; min-height: 0; }
+    .media-card > img { width: 100%; height: 100%; object-fit: cover; border-radius: 48px; display: block; }
+    .media-card .placeholder { position: absolute; inset: 24px; min-height: 0; }
     .media-card--dark { background: #191919; }
     .media-card--black { background: #000; }
     /* While the liquid owns a media card, the shadow must follow the
        poured alpha, not the empty box. */
-    .media-card.fx-on { box-shadow: none; filter: drop-shadow(11px 16px 32px rgba(0, 0, 0, 0.25)); }
+    .media-card.fx-on { box-shadow: none; filter: drop-shadow(16.5px 24px 48px rgba(0, 0, 0, 0.25)); }
 
     /* 07 · the Pizza Hut phone */
-    .phone-card { left: 515px; top: 89px; width: 250px; height: 541px; }
+    .phone-card { left: 772.5px; top: 133.5px; width: 375px; height: 811.5px; }
 
     /* 08 · eight years later, Meta */
     .reveal .callback__text {
@@ -321,30 +328,30 @@
       left: 0;
       top: 50%;
       transform: translateY(-50%);
-      width: 320px;
+      width: 480px;
       text-align: center;
       font-family: var(--serif);
-      font-size: 37px;
-      line-height: 43px;
+      font-size: 55.5px;
+      line-height: 64.5px;
       letter-spacing: -0.04em;
       color: var(--type);
     }
-    .callback__media { left: 320px; top: 93px; width: 640px; height: 533px; overflow: hidden; }
+    .callback__media { left: 480px; top: 139.5px; width: 960px; height: 799.5px; overflow: hidden; }
     .callback__meta {
       position: absolute;
-      left: 1003px;
+      left: 1504.5px;
       top: 50%;
       transform: translateY(-50%);
-      width: 217px;
-      height: 93px;
+      width: 325.5px;
+      height: 139.5px;
     }
     .callback__meta .meta-word { position: absolute; inset: 34.4% 14.36% 33.34% 40.52%; }
     .callback__meta .meta-symbol { position: absolute; inset: 33.33% 64.02% 33.33% 14.36%; }
     .callback__meta img { width: 100%; height: 100%; display: block; }
 
     /* 09 / 12 / 15 · the big canvases */
-    .wide-card { left: 27px; top: 27px; width: 1227px; height: 667px; }
-    .text-card { left: 98px; top: 176px; width: 1069px; height: 828px; }
+    .wide-card { left: 40.5px; top: 40.5px; width: 1840.5px; height: 1000.5px; }
+    .text-card { left: 147px; top: 264px; width: 1603.5px; height: 1242px; }
 
     /* 12 · news supercut text, white on the dark card */
     .reveal .news__line { color: #fff; }
@@ -357,58 +364,58 @@
     }
 
     /* 10 · masonry of work, cropped at the edges on purpose */
-    .masonry__c  { left: 401px; top: 43px;   width: 477px; height: 635px; }
-    .masonry__r1 { left: 921px; top: -205px; width: 316px; height: 420px; }
-    .masonry__r2 { left: 921px; top: 258px;  width: 316px; height: 420px; }
-    .masonry__l1 { left: 43px;  top: 43px;   width: 316px; height: 420px; }
-    .masonry__l2 { left: 43px;  top: 506px;  width: 316px; height: 420px; }
+    .masonry__c  { left: 601.5px; top: 64.5px;   width: 715.5px; height: 952.5px; }
+    .masonry__r1 { left: 1381.5px; top: -307.5px; width: 474px; height: 630px; }
+    .masonry__r2 { left: 1381.5px; top: 387px;  width: 474px; height: 630px; }
+    .masonry__l1 { left: 64.5px;  top: 64.5px;   width: 474px; height: 630px; }
+    .masonry__l2 { left: 64.5px;  top: 759px;  width: 474px; height: 630px; }
 
     /* 14 · slop divider's empty card, same slot as the About photo */
     .about__card-ph {
       position: absolute;
-      left: 747px;
+      left: 1120.5px;
       top: 50%;
       transform: translateY(-50%);
-      width: 427px;
-      height: 427px;
-      border-radius: 32px;
+      width: 640.5px;
+      height: 640.5px;
+      border-radius: 48px;
       background: var(--surface-elevated);
-      box-shadow: 11px 16px 32px rgba(0, 0, 0, 0.25);
+      box-shadow: 16.5px 24px 48px rgba(0, 0, 0, 0.25);
     }
-    .about__card-ph .placeholder { position: absolute; inset: 16px; min-height: 0; }
+    .about__card-ph .placeholder { position: absolute; inset: 24px; min-height: 0; }
 
     /* 16 / 17 · then-vs-now compare cards, chips and the prompt pill */
-    .compare__a { left: 193px; top: 198px; width: 427px; height: 427px; rotate: -8deg; overflow: hidden; }
-    .compare__b { left: 660px; top: 198px; width: 427px; height: 427px; rotate: 8deg; overflow: hidden; }
+    .compare__a { left: 289.5px; top: 297px; width: 640.5px; height: 640.5px; rotate: -8deg; overflow: hidden; }
+    .compare__b { left: 990px; top: 297px; width: 640.5px; height: 640.5px; rotate: 8deg; overflow: hidden; }
     .chip {
       position: absolute;
-      left: 21px;
-      top: 21px;
+      left: 31.5px;
+      top: 31.5px;
       z-index: 2;
       background: #fff;
-      border-radius: 16px;
-      padding: 5px 11px;
+      border-radius: 24px;
+      padding: 7.5px 16.5px;
       font-family: var(--rounded);
       font-weight: 600;
-      font-size: 16px;
-      line-height: 21px;
+      font-size: 24px;
+      line-height: 31.5px;
       color: var(--ink);
-      filter: drop-shadow(5px 8px 8px rgba(0, 0, 0, 0.25));
+      filter: drop-shadow(7.5px 12px 12px rgba(0, 0, 0, 0.25));
     }
     .prompt-pill {
       position: absolute;
       left: 50%;
-      top: 608px;
+      top: 912px;
       transform: translate(-50%, -50%);
       background: #fff;
-      border-radius: 16px;
-      padding: 11px 27px;
+      border-radius: 24px;
+      padding: 16.5px 40.5px;
       font-family: var(--rounded);
-      font-size: 32px;
-      line-height: 43px;
+      font-size: 48px;
+      line-height: 64.5px;
       color: var(--ink);
       white-space: nowrap;
-      filter: drop-shadow(11px 16px 16px rgba(0, 0, 0, 0.25));
+      filter: drop-shadow(16.5px 24px 24px rgba(0, 0, 0, 0.25));
     }
 
     /* ── Tuner ───────────────────────────────────────────────────────
@@ -465,7 +472,7 @@
       <div class="slide" data-layout="cover">
         <p class="cover__ghost" aria-hidden="true" data-anim="fade" data-anim-delay="1500">AI</p>
         <p class="cover__title" data-anim="word" data-anim-delay="0">Designing</p>
-        <p class="cover__with" data-anim="rise" data-anim-delay="1000" data-anim-dy="12">with</p>
+        <p class="cover__with" data-anim="rise" data-anim-delay="1000" data-anim-dy="18">with</p>
         <aside class="notes">
           Say nothing. Let the room read it. The slide is the whole
           introduction.
@@ -500,7 +507,7 @@
     <section>
       <div class="slide" data-layout="about">
         <p class="about__word" data-anim="word">About me</p>
-        <div class="about__photo" id="about-fx" data-liquid data-liquid-size="427" data-liquid-auto="750" data-anim="pop" data-anim-delay="900">
+        <div class="about__photo" id="about-fx" data-liquid data-liquid-size="640" data-liquid-auto="750" data-anim="pop" data-anim-delay="900">
           <img src="dan.jpg" alt="Dan Sozanski" />
           <canvas width="854" height="854" aria-hidden="true"></canvas>
         </div>
@@ -516,9 +523,9 @@
     <!-- 04 · about-2. Three snapshots: family, the dog, the concert. -->
     <section>
       <div class="slide" data-layout="cards">
-        <div class="snap snap--photo about2__p1 fragment" data-liquid data-liquid-size="320" data-liquid-radius="32"><img src="about2-family.jpg" alt="Family snapshot" /></div>
-        <div class="snap snap--photo about2__p2 fragment" data-liquid data-liquid-size="320" data-liquid-radius="32"><img src="about2-dog.jpg" alt="Selfie with the dog" /></div>
-        <div class="snap snap--photo about2__p3 fragment" data-liquid data-liquid-size="320" data-liquid-radius="32"><img src="about2-concert.jpg" alt="Concert, black and white" /></div>
+        <div class="snap snap--photo about2__p1 fragment" data-liquid data-liquid-size="480" data-liquid-radius="48"><img src="about2-family.jpg" alt="Family snapshot" /></div>
+        <div class="snap snap--photo about2__p2 fragment" data-liquid data-liquid-size="480" data-liquid-radius="48"><img src="about2-dog.jpg" alt="Selfie with the dog" /></div>
+        <div class="snap snap--photo about2__p3 fragment" data-liquid data-liquid-size="480" data-liquid-radius="48"><img src="about2-concert.jpg" alt="Concert, black and white" /></div>
         <aside class="notes">
           Three photos, one line each. The room warms up when the dog
           appears; let it.
@@ -541,9 +548,9 @@
     <!-- 06 · career. Three tilted logo cards: Drexel, EPAM, Pizza Hut. -->
     <section>
       <div class="slide" data-layout="cards">
-        <div class="snap career__c1 fragment" data-liquid data-liquid-size="320" data-liquid-radius="32" data-liquid-bg="#ffc600"><div class="career__logo--drexel"><img src="career-drexel.png" alt="Drexel University" data-ldraw="0.2656,0.2969,0.4688,0.4063" data-lcrop="-0.289,-0.35,1.578,1.7017" /></div></div>
-        <div class="snap career__c2 fragment" data-liquid data-liquid-size="320" data-liquid-radius="32" data-liquid-bg="#060606"><div class="career__logo--epam"><img src="career-epam.svg" alt="EPAM" data-ldraw="0.291,0.4219,0.419,0.1562" /></div></div>
-        <div class="snap career__c3 fragment" data-liquid data-liquid-size="320" data-liquid-radius="0" data-liquid-bleed="-0.0667,-0.05,1.2,1.2"><img src="career-pizzahut.svg" alt="Pizza Hut" /></div>
+        <div class="snap career__c1 fragment" data-liquid data-liquid-size="480" data-liquid-radius="48" data-liquid-bg="#ffc600"><div class="career__logo--drexel"><img src="career-drexel.png" alt="Drexel University" data-ldraw="0.2656,0.2969,0.4688,0.4063" data-lcrop="-0.289,-0.35,1.578,1.7017" /></div></div>
+        <div class="snap career__c2 fragment" data-liquid data-liquid-size="480" data-liquid-radius="48" data-liquid-bg="#060606"><div class="career__logo--epam"><img src="career-epam.svg" alt="EPAM" data-ldraw="0.291,0.4219,0.419,0.1562" /></div></div>
+        <div class="snap career__c3 fragment" data-liquid data-liquid-size="480" data-liquid-radius="0" data-liquid-bleed="-0.0667,-0.05,1.2,1.2"><img src="career-pizzahut.svg" alt="Pizza Hut" /></div>
         <aside class="notes">
           School, consulting, product at scale. One sentence per card,
           then move — the talk is not a resume.
@@ -679,11 +686,11 @@
     <section>
       <div class="slide" data-layout="story">
         <p class="story__title" data-anim="word">Images</p>
-        <div class="media-card compare__a" data-liquid data-liquid-size="427" data-liquid-radius="32" data-liquid-auto="400">
+        <div class="media-card compare__a" data-liquid data-liquid-size="640" data-liquid-radius="48" data-liquid-auto="400">
           <img src="images-2023.jpg" alt="AI image, 2023: a golden retriever in a living room" />
           <span class="chip">2023</span>
         </div>
-        <div class="media-card compare__b" data-liquid data-liquid-size="427" data-liquid-radius="32" data-liquid-auto="900">
+        <div class="media-card compare__b" data-liquid data-liquid-size="640" data-liquid-radius="48" data-liquid-auto="900">
           <img src="images-2026.jpg" alt="AI image, 2026: a golden retriever in a living room" />
           <span class="chip">2026</span>
         </div>
@@ -720,6 +727,11 @@
 
   </div>
 </div>
+<script>
+  /* Native 1080p canvas for this deck; the shared boot reads this and
+     other decks keep the system's 1280x720 default. */
+  window.DECK_SIZE = { width: 1920, height: 1080 };
+</script>
 <script src="../_shared/deck-boot.js"></script>
 <script id="deck-anim">
 /* Second-order dynamics on slide load.
@@ -773,8 +785,9 @@
      so the settle is a breath rather than a bounce, short travel, a
      long blur dissolve, and a slow sweep. */
   /* Dan's tuned values, 2026-08-01: heavier blur, barely-there scale,
-     three-quarter speed. */
-  var WORD = { f: 1.05, z: 0.85, dx: -30, scale: 1.05, blur: 50, blurPow: 1.25, fadePow: 2.25, duration: 250, speed: 1.25 };
+     three-quarter speed. dx and blur are canvas px — rescaled x1.5
+     with the 1920x1080 conversion; the feel is unchanged. */
+  var WORD = { f: 1.05, z: 0.85, dx: -45, scale: 1.05, blur: 75, blurPow: 1.25, fadePow: 2.25, duration: 250, speed: 1.25 };
 
   var q = new URLSearchParams(location.search);
   Object.keys(WORD).forEach(function (k) {
@@ -802,7 +815,7 @@
     /* Rise distance defaults to 40px; data-anim-dy on the element
        overrides it (cached as __dy in show). */
     rise: { f: 1.7, z: 0.55, r: 0, apply: function (el, v) {
-      el.style.translate = "0 " + v * (el.__dy == null ? 40 : el.__dy) + "px";
+      el.style.translate = "0 " + v * (el.__dy == null ? 60 : el.__dy) + "px";
       el.style.opacity = Math.min(1, Math.max(0, 1 - v));
     } },
     pop: { f: 1.9, z: 0.45, r: 0, apply: function (el, v) {
@@ -922,9 +935,9 @@
   var PARAMS = [
     { k: "f",       min: 0.5,  max: 3,   step: 0.05 },
     { k: "z",       min: 0.2,  max: 1,   step: 0.01 },
-    { k: "dx",      min: -200, max: 200, step: 5 },
+    { k: "dx",      min: -300, max: 300, step: 5 },
     { k: "scale",   min: 1,    max: 1.5, step: 0.01 },
-    { k: "blur",    min: 0,    max: 60,  step: 1 },
+    { k: "blur",    min: 0,    max: 90,  step: 1 },
     { k: "blurPow",  min: 0.5,  max: 3,    step: 0.05 },
     { k: "fadePow",  min: 0.5,  max: 3,    step: 0.05 },
     { k: "duration", min: 0,    max: 1500, step: 25 },
@@ -1055,7 +1068,7 @@
     band: 0.24,       // meniscus width
     rim: 0.08,        // rim light
     zoom: 1.20,       // surface-tension start zoom
-    radius: 48,       // corner radius, css px
+    radius: 72,       // corner radius, css px (1080p canvas; the lab previews at 720p-scale 48)
   };
 
   /* Default auto-pour delay when data-liquid-auto has no value. */
@@ -1439,7 +1452,7 @@
   var reduce = window.matchMedia &&
     window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  var HERO = { x: 640, y: 360, scale: 1.5 };  /* center stage, 1.5x */
+  var HERO = { x: 960, y: 540, scale: 1.5 };  /* center stage, 1.5x */
   var POS = { f: 1.15, z: 0.8 };              /* the tuck */
   var FADE = { f: 1.6, z: 1 };                /* no-WebGL fallback fade */
   var POUR_BEAT = 120;                        /* ms before a hero pours */

@@ -2,20 +2,48 @@
 
 import * as React from "react"
 import { Accordion as AccordionPrimitive } from "radix-ui"
+import { motion } from "motion/react"
 
 import { cn } from "@/lib/utils"
+import { useSpringToken } from "@/lib/token-context"
 import { ChevronDownIcon } from "lucide-react"
+
+// Motion needs to know each item's open state as data, not a CSS
+// attribute, so the root mirrors Radix's value into context and each
+// item tells its content which value it is.
+const OpenValuesContext = React.createContext<string[]>([])
+const ItemValueContext = React.createContext<string>("")
+
+function toArray(v: string | string[] | undefined): string[] {
+  return Array.isArray(v) ? v : v ? [v] : []
+}
 
 function Accordion({
   className,
+  children,
   ...props
 }: React.ComponentProps<typeof AccordionPrimitive.Root>) {
+  const [internal, setInternal] = React.useState<string[]>(() =>
+    toArray(props.value ?? props.defaultValue)
+  )
+  const open = props.value !== undefined ? toArray(props.value) : internal
+
+  const handleChange = (next: string | string[]) => {
+    setInternal(toArray(next))
+    ;(props.onValueChange as ((v: string | string[]) => void) | undefined)?.(next)
+  }
+
   return (
     <AccordionPrimitive.Root
       data-slot="accordion"
-      className={cn("flex w-full flex-col", className)}
       {...props}
-    />
+      onValueChange={handleChange as never}
+      className={cn("flex w-full flex-col", className)}
+    >
+      <OpenValuesContext.Provider value={open}>
+        {children}
+      </OpenValuesContext.Provider>
+    </AccordionPrimitive.Root>
   )
 }
 
@@ -24,11 +52,13 @@ function AccordionItem({
   ...props
 }: React.ComponentProps<typeof AccordionPrimitive.Item>) {
   return (
-    <AccordionPrimitive.Item
-      data-slot="accordion-item"
-      className={cn("not-last:border-b", className)}
-      {...props}
-    />
+    <ItemValueContext.Provider value={props.value}>
+      <AccordionPrimitive.Item
+        data-slot="accordion-item"
+        className={cn("not-last:border-b", className)}
+        {...props}
+      />
+    </ItemValueContext.Provider>
   )
 }
 
@@ -59,20 +89,35 @@ function AccordionContent({
   children,
   ...props
 }: React.ComponentProps<typeof AccordionPrimitive.Content>) {
+  const spring = useSpringToken("accordion")
+  const itemValue = React.useContext(ItemValueContext)
+  const open = React.useContext(OpenValuesContext).includes(itemValue)
+
   return (
     <AccordionPrimitive.Content
       data-slot="accordion-content"
-      className="overflow-hidden text-sm data-open:animate-accordion-down data-closed:animate-accordion-up"
+      forceMount
+      asChild
       {...props}
     >
-      <div
-        className={cn(
-          "h-(--radix-accordion-content-height) pt-0 pb-4 [&_a]:underline [&_a]:underline-offset-3 [&_a]:hover:text-foreground [&_p:not(:last-child)]:mb-4",
-          className
-        )}
+      <motion.div
+        initial={false}
+        animate={{ height: open ? "auto" : 0, opacity: open ? 1 : 0 }}
+        transition={spring}
+        className="overflow-hidden text-sm"
+        // Radix hides forced-mounted closed content with the hidden
+        // attribute, which would cut the collapse animation short.
+        style={{ display: "block" }}
       >
-        {children}
-      </div>
+        <div
+          className={cn(
+            "pt-0 pb-4 [&_a]:underline [&_a]:underline-offset-3 [&_a]:hover:text-foreground [&_p:not(:last-child)]:mb-4",
+            className
+          )}
+        >
+          {children}
+        </div>
+      </motion.div>
     </AccordionPrimitive.Content>
   )
 }

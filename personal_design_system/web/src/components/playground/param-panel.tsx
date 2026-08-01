@@ -210,26 +210,46 @@ const SPRING_PRESETS = ["snappy", "smooth", "bouncy"] as const;
 const SPRING_KEYS = ["stiffness", "damping", "mass"] as const;
 
 /**
- * Preset chips shown in any motion panel. Clicking applies the preset's
- * current values (as tuned on the Foundations page) to this scope; any
- * manual tweak flips the selection to Custom, inheriting the numbers.
+ * Some scopes carry a companion scope in the same panel — the select's
+ * menu motion travels with the shared field styling it sits on.
  */
-function SpringPresetChips({ scope }: { scope: string }) {
+const SCOPE_SECTIONS: Record<string, string[]> = {
+  select: ["select", "forms"],
+};
+
+/**
+ * The motion block of a panel: preset chips first, physics second.
+ * Clicking a preset applies its current values (as tuned on the
+ * Foundations page) to this scope and keeps the sliders tucked away;
+ * the stiffness/damping/mass sliders only unfold on Custom.
+ */
+function SpringSection({
+  scope,
+  controls,
+}: {
+  scope: string;
+  controls: ControlDef[];
+}) {
   const { values, setValue } = useTokens();
 
-  const active = SPRING_PRESETS.find((p) =>
+  const matched = SPRING_PRESETS.find((p) =>
     SPRING_KEYS.every(
       (k) => Number(values[`${scope}.${k}`]) === Number(values[`spring.${p}.${k}`]),
     ),
   );
+  // "Custom" stays selected once chosen, even if the numbers happen to
+  // land back on a preset; only clicking a preset chip collapses it.
+  const [forceCustom, setForceCustom] = React.useState(matched === undefined);
+  const isCustom = forceCustom || matched === undefined;
 
   const apply = (p: (typeof SPRING_PRESETS)[number]) => {
     for (const k of SPRING_KEYS) {
       setValue(`${scope}.${k}`, Number(values[`spring.${p}.${k}`]));
     }
+    setForceCustom(false);
   };
 
-  const chip = (label: string, isActive: boolean, onClick?: () => void) => (
+  const chip = (label: string, isActive: boolean, onClick: () => void) => (
     <button
       key={label}
       onClick={onClick}
@@ -245,10 +265,55 @@ function SpringPresetChips({ scope }: { scope: string }) {
   );
 
   return (
-    <div className="flex flex-wrap gap-1.5 border-b border-rule pb-3 pt-1.5">
-      {SPRING_PRESETS.map((p) => chip(p, active === p, () => apply(p)))}
-      {chip("custom", active === undefined)}
+    <div className="border-b border-rule pb-3">
+      <div className="flex flex-wrap gap-1.5 pt-1.5">
+        {SPRING_PRESETS.map((p) => chip(p, !isCustom && matched === p, () => apply(p)))}
+        {chip("custom", isCustom, () => setForceCustom(true))}
+      </div>
+      <AnimatePresence initial={false}>
+        {isCustom && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1, transition: uiSpring }}
+            exit={{ height: 0, opacity: 0, transition: fadeExit }}
+            className="overflow-hidden"
+          >
+            <div className="pt-1.5">
+              {controls.map((c) => (
+                <Control key={c.key} scope={scope} def={c} />
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
+  );
+}
+
+/** One scope's slice of the panel: note, motion block, then the rest. */
+function ScopeSection({ scope }: { scope: string }) {
+  const def = getScope(scope);
+  if (!def) return null;
+
+  const hasSpring =
+    scope !== "spring" && def.controls.some((c) => c.key === "stiffness");
+  const springControls = hasSpring
+    ? def.controls.filter((c) => SPRING_KEYS.includes(c.key as never))
+    : [];
+  const otherControls = hasSpring
+    ? def.controls.filter((c) => !SPRING_KEYS.includes(c.key as never))
+    : def.controls;
+
+  return (
+    <>
+      {def.note ? (
+        <p className="mb-2 text-[0.8125rem] text-slate">{def.note}</p>
+      ) : null}
+      {hasSpring ? <SpringSection scope={scope} controls={springControls} /> : null}
+      {otherControls.map((c) => (
+        <Control key={c.key} scope={scope} def={c} />
+      ))}
+    </>
   );
 }
 
@@ -265,14 +330,7 @@ export function ParamPanel({
 
   if (!def) return null;
 
-  const hasSpring =
-    scope !== "spring" && def.controls.some((c) => c.key === "stiffness");
-  const springControls = hasSpring
-    ? def.controls.filter((c) => SPRING_KEYS.includes(c.key as never))
-    : [];
-  const otherControls = hasSpring
-    ? def.controls.filter((c) => !SPRING_KEYS.includes(c.key as never))
-    : def.controls;
+  const scopes = SCOPE_SECTIONS[scope] ?? [scope];
 
   return (
     <div className={className}>
@@ -282,7 +340,7 @@ export function ParamPanel({
         onClick={() => setOpen((o) => !o)}
         className={cn(
           "rounded-sm p-1.5 transition-colors hover:bg-surface-sunken hover:text-ink",
-          isDirty(scope) ? "text-ink" : "text-slate",
+          scopes.some((s) => isDirty(s)) ? "text-ink" : "text-slate",
         )}
       >
         <Settings2Icon className="size-4" />
@@ -300,7 +358,7 @@ export function ParamPanel({
               <button
                 aria-label="Close"
                 onClick={() => {
-                  cancelScope(scope);
+                  scopes.forEach(cancelScope);
                   setOpen(false);
                 }}
                 className="rounded-sm p-1 text-slate transition-colors hover:bg-surface-sunken hover:text-ink"
@@ -310,20 +368,17 @@ export function ParamPanel({
             </div>
 
             <div className="flex-1 overflow-y-auto px-5 py-3">
-              {def.note ? (
-                <p className="mb-2 text-[0.8125rem] text-slate">{def.note}</p>
-              ) : null}
-              {hasSpring ? (
-                <>
-                  <SpringPresetChips scope={scope} />
-                  {springControls.map((c) => (
-                    <Control key={c.key} scope={scope} def={c} />
-                  ))}
-                  <div className="my-1.5 border-t border-rule" />
-                </>
-              ) : null}
-              {otherControls.map((c) => (
-                <Control key={c.key} scope={scope} def={c} />
+              {scopes.map((s, i) => (
+                <React.Fragment key={s}>
+                  {i > 0 ? (
+                    <div className="mt-4 border-t border-rule pt-3">
+                      <p className="label-caps mb-2 text-graphite">
+                        {getScope(s)?.title}
+                      </p>
+                    </div>
+                  ) : null}
+                  <ScopeSection scope={s} />
+                </React.Fragment>
               ))}
             </div>
 
@@ -332,7 +387,7 @@ export function ParamPanel({
                 variant="ghost"
                 size="sm"
                 onClick={() => {
-                  cancelScope(scope);
+                  scopes.forEach(cancelScope);
                   setOpen(false);
                 }}
               >
@@ -342,14 +397,14 @@ export function ParamPanel({
                 <Button
                   variant="outline"
                   size="sm"
-                  onClick={() => resetScope(scope)}
+                  onClick={() => scopes.forEach(resetScope)}
                 >
                   Reset
                 </Button>
                 <Button
                   size="sm"
                   onClick={() => {
-                    saveScope(scope);
+                    scopes.forEach(saveScope);
                     setOpen(false);
                     toast("Saved.", {
                       description: `${def.title} is now your default in this browser.`,

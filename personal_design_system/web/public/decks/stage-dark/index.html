@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="en" data-theme="stage">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Stage · Deck template · Dan Sozanski</title>
+  <meta name="description" content="The dark projection template. Eight layouts on the stage variant." />
+  <link rel="stylesheet" href="../_shared/deck.css" />
+</head>
+<body>
+<div class="reveal">
+  <div class="slides">
+
+    <!-- 01 · title-only. Serif headline bottom-left, eyebrow above. -->
+    <section>
+      <div class="slide" data-layout="title-only">
+        <p class="eyebrow">Template · Stage</p>
+        <h1>The stage is dark.<br />The work is light.</h1>
+        <p class="measure" style="margin-top: var(--md)">
+          Eight layouts, one accent, no transitions. Duplicate this file and start
+          deleting.
+        </p>
+        <aside class="notes">
+          Speaker notes live in these aside.notes blocks. Press S for the speaker
+          window. The audience never sees them.
+        </aside>
+      </div>
+    </section>
+
+    <!-- 02 · statement. One line. The sentence the talk hangs on. -->
+    <section>
+      <div class="slide" data-layout="statement">
+        <h1>Taste is specificity.</h1>
+        <aside class="notes">
+          Say it, stop, do not qualify it. A statement slide is a held breath.
+        </aside>
+      </div>
+    </section>
+
+    <!-- 03 · split-half. Text at 40%, artifact at 60%. -->
+    <section>
+      <div class="slide" data-layout="split-half">
+        <div class="pane">
+          <p class="eyebrow">Anatomy</p>
+          <h2 style="margin-top: var(--md)">Tokens. And the reasons.</h2>
+          <p style="margin-top: var(--md)">
+            The front half is YAML a machine obeys. The back half is prose
+            explaining why. Most people write the front half and stop.
+          </p>
+        </div>
+        <div class="pane">
+          <div class="artifact">
+            <div class="placeholder">
+              <p>Artifact · screenshot goes here</p>
+            </div>
+          </div>
+          <p class="caption">The work never inverts. On the stage it becomes a lit card.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 04 · side-by-side. Two equal panels, hairline gutter, mono labels. -->
+    <section>
+      <div class="slide" data-layout="side-by-side">
+        <div class="panel">
+          <p class="eyebrow">No system</p>
+          <div class="artifact artifact--bare">
+            <div class="placeholder">
+              <p>Before</p>
+            </div>
+          </div>
+        </div>
+        <div class="gutter"></div>
+        <div class="panel">
+          <p class="eyebrow eyebrow--accent">One file</p>
+          <div class="artifact artifact--bare">
+            <div class="placeholder">
+              <p>After</p>
+            </div>
+          </div>
+        </div>
+        <aside class="notes">
+          Change exactly one variable between the panels or the comparison lies.
+        </aside>
+      </div>
+    </section>
+
+    <!-- 05 · three-col. Principles, tells, a three-part recipe. -->
+    <section>
+      <div class="slide" data-layout="three-col">
+        <p class="eyebrow">Three principles</p>
+        <h2 style="margin-top: var(--md)">Fewer rules, better reasoning.</h2>
+        <div class="cols">
+          <div class="col">
+            <p class="eyebrow">01</p>
+            <h3>Whitespace is the brand</h3>
+            <p style="font-size: 0.9375rem">When in doubt, remove. Density signals panic.</p>
+          </div>
+          <div class="col">
+            <p class="eyebrow">02</p>
+            <h3>One accent per view</h3>
+            <p style="font-size: 0.9375rem">The accent is a scalpel, not a highlighter.</p>
+          </div>
+          <div class="col">
+            <p class="eyebrow">03</p>
+            <h3>Type does the design</h3>
+            <p style="font-size: 0.9375rem">Serif against sans is the entire mood. Do not decorate it.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 06 · full-bleed. Visual to all four edges, floating label. -->
+    <section>
+      <div class="slide" data-layout="full-bleed">
+        <div class="placeholder placeholder--bleed">
+          <p>Full-bleed visual · replace with img or video</p>
+        </div>
+        <div class="float"><p class="eyebrow">Optional floating label</p></div>
+      </div>
+    </section>
+
+    <!-- 07 · code. One excerpt, never a whole file. -->
+    <section>
+      <div class="slide" data-layout="code">
+        <p class="eyebrow">Real tokens</p>
+        <h2 style="margin-top: var(--md)">The comment does more work than the hex.</h2>
+        <pre><span class="key">colors</span>:
+    <span class="key">ink</span>:     "#0A0A0A"   <span class="cmt"># headlines, body. the voice.</span>
+    <span class="key">surface</span>: "#FAFAF7"   <span class="cmt"># warm off-white. never pure.</span>
+    <span class="key">accent</span>:  "#9BB0C9"   <span class="cmt"># used sparingly, one thing per view</span></pre>
+      </div>
+    </section>
+
+    <!-- 08 · demo. Empty ground, one label. You take the room. -->
+    <section>
+      <div class="slide" data-layout="demo">
+        <p class="eyebrow eyebrow--accent">Live · demo</p>
+        <p class="cue">Screen share. Say the prompt out loud as you type it.</p>
+        <p class="eyebrow">Fallback recording on the desktop</p>
+        <aside class="notes">
+          Pre-build to one step before the finish so the live part is the last
+          move, not the whole build.
+        </aside>
+      </div>
+    </section>
+
+    <!-- 09 · resources. Cards, two-up, one accent. -->
+    <section>
+      <div class="slide" data-layout="resources">
+        <p class="eyebrow">Where to go next</p>
+        <h2 style="margin-top: var(--md)">Four places worth your evening.</h2>
+        <div class="resources">
+          <a class="resource resource--accent" href="https://github.com/google-labs-code/design.md" target="_blank" rel="noreferrer">
+            <span class="resource__kind">The format</span>
+            <span class="resource__name">design.md</span>
+            <span class="resource__desc">The spec this whole system is written in. YAML tokens, prose rationale, and a linter that tells you when you have contradicted yourself.</span>
+            <span class="resource__url">github.com/google-labs-code/design.md</span>
+          </a>
+          <a class="resource" href="https://21st.dev/" target="_blank" rel="noreferrer">
+            <span class="resource__kind">Components</span>
+            <span class="resource__name">21st.dev</span>
+            <span class="resource__desc">A community registry in shadcn format, with AI-ready prompts. Ten thousand components: a gift if you choose with a file, a slop machine if you choose by eye.</span>
+            <span class="resource__url">21st.dev</span>
+          </a>
+          <a class="resource" href="https://www.aura.build/" target="_blank" rel="noreferrer">
+            <span class="resource__kind">Generate</span>
+            <span class="resource__name">Aura</span>
+            <span class="resource__desc">Prompt to page, fast. Useful precisely because it will show you the average when you hand it nothing, and something else when you hand it your tokens.</span>
+            <span class="resource__url">aura.build</span>
+          </a>
+          <a class="resource" href="https://framer.com/" target="_blank" rel="noreferrer">
+            <span class="resource__kind">Ship it</span>
+            <span class="resource__name">Framer</span>
+            <span class="resource__desc">Where the output becomes a real site with a real domain. Motion, breakpoints, CMS, publish. The last mile that most AI design demos skip.</span>
+            <span class="resource__url">framer.com</span>
+          </a>
+        </div>
+        <aside class="notes">
+          Leave this up during questions. It is the second most photographed slide
+          after the QR.
+        </aside>
+      </div>
+    </section>
+
+    <!-- 10 · statement, three lines. The takeaway. -->
+    <section>
+      <div class="slide" data-layout="statement">
+        <div class="stack">
+          <h1 style="font-size: 3rem">Taste is specificity.</h1>
+          <h1 style="font-size: 3rem">Write it down or get the average.</h1>
+          <h1 style="font-size: 3rem">The checklist is the system.</h1>
+        </div>
+        <aside class="notes">Say each one. Stop between them. Explain none of them.</aside>
+      </div>
+    </section>
+
+    <!-- 11 · title-only. Thank you. -->
+    <section>
+      <div class="slide" data-layout="title-only">
+        <p class="eyebrow">Thank you</p>
+        <h1>Dan Sozanski</h1>
+        <p class="quiet" style="margin-top: var(--md); font-family: var(--mono); font-size: 0.875rem">
+          dansozanski.com
+        </p>
+      </div>
+    </section>
+
+  </div>
+</div>
+<script src="../_shared/deck-boot.js"></script>
+</body>
+</html>

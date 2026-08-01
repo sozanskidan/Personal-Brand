@@ -1,0 +1,533 @@
+<!doctype html>
+<html lang="en" data-theme="gallery">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Designing with AI · Dan Sozanski</title>
+  <meta name="description" content="Light editorial direction. Cover only, from the Figma Deck file." />
+  <link rel="stylesheet" href="../_shared/deck.css" />
+  <style>
+    /* ── Cover ──────────────────────────────────────────────────────
+       From Figma · Deck · Cover (node 1:2). The frame is 1920x1080;
+       every measurement below is that value scaled 2/3 onto the deck's
+       1280x720 canvas so DESIGN.md's rem scale keeps mapping to px.
+
+       This is a composition, not one of the eight layouts, so it lives
+       here in the deck head. It moves into deck.css only if it earns
+       reuse across decks.
+
+       One deliberate deviation from the frame: the Figma ground is pure
+       white, the system's surface is #FAFAF7 and says "never pure".
+       The system wins. */
+
+    :root {
+      /* SF Pro Rounded is a system font with no file to vendor; the
+         stack degrades to whatever light rounded sans the machine has. */
+      --rounded: "SF Pro Rounded", ui-rounded, "SF Pro Text", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    }
+
+    .slide[data-layout="cover"] { position: relative; padding: 0; overflow: hidden; }
+    .slide[data-layout="cover"] p { max-width: none; margin: 0; }
+
+    /* Selectors carry .reveal because .reveal p (0,1,1) outguns a lone
+       class (0,1,0) and would repaint everything graphite. */
+
+    /* Ghost letterform. 1000px type at 5% ink, centered, full height. */
+    .reveal .cover__ghost {
+      position: absolute;
+      left: 50%;
+      /* Not the frame's 0: CSS first-baseline placement differs from
+         Figma's text-box metrics, so tops below are trued against a
+         rendered screenshot of the frame, not copied from it. */
+      top: 61px;
+      transform: translateX(-50%);
+      height: 720px;
+      font-family: var(--serif);
+      font-size: 667px;
+      line-height: 667px;
+      color: color-mix(in srgb, var(--ink) 5%, transparent);
+      white-space: nowrap;
+      user-select: none;
+    }
+
+    /* The word. 360px serif, solid ink, sits across the ghost. */
+    .reveal .cover__title {
+      position: absolute;
+      left: 101px;
+      top: 231px;
+      font-family: var(--serif);
+      font-size: 240px;
+      line-height: 240px;
+      letter-spacing: 0;
+      color: var(--type);
+      white-space: nowrap;
+    }
+
+    /* The whisper. Letterspaced light rounded sans at 40% ink. */
+    .reveal .cover__with {
+      position: absolute;
+      left: calc(50% + 98px);
+      top: 483px;
+      transform: translateX(-50%);
+      font-family: var(--rounded);
+      font-weight: 300;
+      font-size: 32px;
+      line-height: normal;
+      letter-spacing: 3.84px;
+      color: color-mix(in srgb, var(--ink) 40%, transparent);
+      white-space: nowrap;
+    }
+
+    /* ── Agenda ─────────────────────────────────────────────────────
+       From Figma · Deck · Agenda (node 7:6), scaled 2/3. Serif word
+       centered in the left half, rounded list starting exactly at the
+       canvas midline. Row height 85px, gap 11px, number column 69px. */
+
+    .slide[data-layout="agenda"] {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      padding: 0;
+    }
+    .slide[data-layout="agenda"] p { max-width: none; margin: 0; }
+
+    /* The section word: one serif word carrying a whole slide. Shared
+       by agenda and about, positioned per layout. */
+    .reveal .agenda__title,
+    .reveal .about__word {
+      font-family: var(--serif);
+      font-size: 107px;
+      line-height: normal;
+      letter-spacing: -0.04em;
+      color: var(--type);
+    }
+    .reveal .agenda__title { justify-self: center; }
+
+    /* Characters of a split word. inline-block so each can transform;
+       pre so the space in "About me" keeps its width. */
+    .word__char { display: inline-block; white-space: pre; }
+
+    .agenda__list { display: flex; flex-direction: column; gap: 11px; }
+    .agenda__item { display: flex; gap: 21px; align-items: center; height: 85px; }
+
+    .reveal .agenda__num,
+    .reveal .agenda__label {
+      font-family: var(--rounded);
+      font-weight: 400;
+      font-size: 53px;
+      line-height: 43px;
+    }
+    .reveal .agenda__num { width: 69px; color: color-mix(in srgb, var(--ink) 40%, transparent); }
+    .reveal .agenda__label { color: var(--type); }
+    .agenda__label s { text-decoration: line-through; }
+
+    /* ── About ──────────────────────────────────────────────────────
+       From Figma · Deck · About me (node 1:76), scaled 2/3. Section
+       word centered on x=373, square photo at 427px with the 43px
+       radius and a long soft drop. The shadow is the one place this
+       deck spends decoration, so nothing else on the slide gets any. */
+
+    .slide[data-layout="about"] { position: relative; padding: 0; }
+    .slide[data-layout="about"] p { max-width: none; margin: 0; }
+
+    .reveal .about__word {
+      position: absolute;
+      left: 373px;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      white-space: nowrap;
+    }
+
+    .about__photo {
+      position: absolute;
+      left: 747px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 427px;
+      height: 427px;
+      border-radius: 43px;
+      object-fit: cover;
+      box-shadow: 16px 43px 80px 0 rgba(0, 0, 0, 0.2);
+    }
+
+    /* ── Tuner ───────────────────────────────────────────────────────
+       Dev cog for the word entrance, bottom right, quiet until opened.
+       Fixed to the viewport, outside .reveal, so reveal's scaling never
+       touches it. The panel is a lit card: ink-based text always. */
+
+    .tune { position: fixed; right: 16px; bottom: 16px; z-index: 40; font-family: var(--mono); }
+    .tune__cog {
+      background: none; border: 0; padding: 8px; cursor: pointer;
+      color: var(--type-faint); display: block;
+    }
+    .tune__cog:hover { color: var(--type); }
+    .tune__panel {
+      position: absolute; right: 0; bottom: 44px; width: 280px;
+      background: var(--surface-elevated); border: 1px solid var(--rule);
+      border-radius: var(--md); padding: var(--md);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+    }
+    .tune__title {
+      font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--slate); margin: 0 0 12px;
+    }
+    .tune__row {
+      display: grid; grid-template-columns: 64px 1fr 44px; gap: 8px;
+      align-items: center; margin-bottom: 8px;
+    }
+    .tune__row label {
+      font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--slate);
+    }
+    .tune__row input[type="range"] { width: 100%; accent-color: var(--accent); }
+    .tune__row output { font-size: 11px; color: var(--ink); text-align: right; }
+    .tune__actions { display: flex; gap: 8px; margin-top: 12px; }
+    .tune__btn {
+      flex: 1; font-family: var(--mono); font-size: 10px; font-weight: 500;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      padding: 8px; border: 1px solid var(--rule); border-radius: 8px;
+      background: none; color: var(--graphite); cursor: pointer;
+    }
+    .tune__btn:hover { background: var(--surface-sunken); }
+    @media print { .tune { display: none; } }
+  </style>
+</head>
+<body>
+<div class="reveal">
+  <div class="slides">
+
+    <!-- 01 · cover. Designing with AI, the ghost AI carrying the word.
+         Sequence: Designing sweeps in, then with, then the ghost AI
+         develops behind everything. DOM order stays ghost-first for
+         stacking; the data-anim-delay values carry the choreography. -->
+    <section>
+      <div class="slide" data-layout="cover">
+        <p class="cover__ghost" aria-hidden="true" data-anim="fade" data-anim-delay="1500">AI</p>
+        <p class="cover__title" data-anim="word" data-anim-delay="0">Designing</p>
+        <p class="cover__with" data-anim="rise" data-anim-delay="1000" data-anim-dy="12">with</p>
+        <aside class="notes">
+          Say nothing. Let the room read it. The slide is the whole
+          introduction.
+        </aside>
+      </div>
+    </section>
+
+    <!-- 02 · agenda. Serif word left, rounded list right, one strike. -->
+    <section>
+      <div class="slide" data-layout="agenda">
+        <p class="agenda__title" data-anim="word">Agenda</p>
+        <div class="agenda__list">
+          <div class="agenda__item" data-anim="rise"><p class="agenda__num">01</p><p class="agenda__label">About me</p></div>
+          <div class="agenda__item" data-anim="rise"><p class="agenda__num">02</p><p class="agenda__label">AI <s>design</s> slop</p></div>
+          <div class="agenda__item" data-anim="rise"><p class="agenda__num">03</p><p class="agenda__label">Solutions</p></div>
+          <div class="agenda__item" data-anim="rise"><p class="agenda__num">04</p><p class="agenda__label">Case study</p></div>
+          <div class="agenda__item" data-anim="rise"><p class="agenda__num">05</p><p class="agenda__label">Extras</p></div>
+        </div>
+        <aside class="notes">
+          The strike on design is the talk in one gesture: it is not AI
+          design slop, it is AI slop, and design is what fixes it.
+        </aside>
+      </div>
+    </section>
+
+    <!-- 03 · about. Section word left, photo right. -->
+    <section>
+      <div class="slide" data-layout="about">
+        <p class="about__word" data-anim="word">About me</p>
+        <img class="about__photo" src="dan.jpg" alt="Dan Sozanski" data-anim="pop" data-anim-delay="180" />
+        <aside class="notes">
+          Name, what you do, one line on why you are the one giving this
+          talk. Keep it under a minute; the photo does the introducing.
+        </aside>
+      </div>
+    </section>
+
+  </div>
+</div>
+<script src="../_shared/deck-boot.js"></script>
+<script id="deck-anim">
+/* Second-order dynamics on slide load.
+   The canonical model: y'' = (x + k3·x' − y − k1·y') / k2, integrated
+   per frame with the stability clamp on k2. Real springs, not eased
+   keyframes, so the settle carries actual physics. Slide transitions
+   stay hard cuts per the system; only a slide's contents arrive.
+
+   Elements opt in with data-anim="rise|pop|fade"; stagger defaults to
+   DOM order at 90ms and data-anim-delay overrides it. Motion writes
+   the individual `translate`/`scale` properties, never `transform`,
+   so the layout transforms above stay untouched. Rest state is pure
+   CSS: every inline style is cleared when a spring settles. */
+(function () {
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+  /* ── The word entrance, tunable ─────────────────────────────────
+     For the big serif words (Designing, Agenda, About me): split into
+     characters, one spring per character, starts staggered left to
+     right so the blur clears across the word as a sweep. Each glyph
+     blurs in, scales 120% → 100%, arrives from the left and — via
+     spring overshoot — settles back right-to-left. The sweep is the
+     stagger; the settle-back is physics, not a second animation.
+
+       f        spring frequency in Hz. Speed of the whole move.
+                Try 1.2 (floaty) … 2.5 (snappy).
+       z        damping. Under 1 overshoots — that IS the right-to-left
+                settle. Try 0.4 (bouncier) … 0.8 (barely). At 1 the
+                settle-back disappears entirely.
+       dx       start offset in px. Negative arrives from the left.
+                Try -40 … -120. Flip the sign to arrive from the right.
+       scale    start scale. 1.2 = your 120%. Try 1.1 … 1.3.
+       blur     start blur in px. "Heavy" is 20+. Try 12 … 40.
+       blurPow  how the blur clears along the way. 1 = linear with the
+                travel; higher clears sooner. Try 1 … 2.5.
+       fadePow  how fast it becomes opaque. Higher = visible sooner.
+                Try 1 … 3.
+       duration total sweep window in ms: character starts are spread
+                evenly across it, so every word sweeps in the same
+                time regardless of length. Try 300 (a ripple) … 1000
+                (a deliberate read). 0 collapses to a whole-word move.
+       speed    master clock for ALL slide animations — springs,
+                staggers and delays together. 1 = as tuned, 0.5 = half
+                speed, 2 = double. The one knob that makes everything
+                slower or faster without changing its character.
+
+     Every knob can also be tried live from the URL without editing:
+       index.html?word-f=2.2&word-z=0.45&word-blur=32#/
+     (query before the #hash). */
+  /* Tuned for grace: low frequency so nothing hurries, damping near 1
+     so the settle is a breath rather than a bounce, short travel, a
+     long blur dissolve, and a slow sweep. */
+  /* Dan's tuned values, 2026-08-01: heavier blur, barely-there scale,
+     three-quarter speed. */
+  var WORD = { f: 1.05, z: 0.85, dx: -30, scale: 1.05, blur: 50, blurPow: 1.25, fadePow: 2.25, duration: 575, speed: 0.75 };
+
+  var q = new URLSearchParams(location.search);
+  Object.keys(WORD).forEach(function (k) {
+    var v = q.get("word-" + k);
+    if (v !== null && !isNaN(+v)) WORD[k] = +v;
+  });
+
+  function Spring(f, z, r, y0) {
+    var w = 2 * Math.PI * f;
+    this.k1 = z / (Math.PI * f);
+    this.k2 = 1 / (w * w);
+    this.k3 = (r * z) / w;
+    this.xp = y0; this.y = y0; this.yd = 0;
+  }
+  Spring.prototype.update = function (x, dt) {
+    var xd = (x - this.xp) / dt; this.xp = x;
+    var k2 = Math.max(this.k2, dt * dt / 2 + dt * this.k1 / 2, dt * this.k1);
+    this.y += dt * this.yd;
+    this.yd += dt * (x + this.k3 * xd - this.y - this.k1 * this.yd) / k2;
+    return this.y;
+  };
+
+  /* v runs 1 → 0. f in Hz, z is damping: under 1 overshoots, 1 settles clean. */
+  var PRESETS = {
+    /* Rise distance defaults to 40px; data-anim-dy on the element
+       overrides it (cached as __dy in show). */
+    rise: { f: 1.7, z: 0.55, r: 0, apply: function (el, v) {
+      el.style.translate = "0 " + v * (el.__dy == null ? 40 : el.__dy) + "px";
+      el.style.opacity = Math.min(1, Math.max(0, 1 - v));
+    } },
+    pop: { f: 1.9, z: 0.45, r: 0, apply: function (el, v) {
+      el.style.scale = String(1 - v * 0.08);
+      el.style.opacity = Math.min(1, Math.max(0, 1 - v));
+    } },
+    /* The ghost's develop: slow critically-damped dissolve with a soft
+       blur that clears as it arrives — a photograph developing, not a
+       fade-in. */
+    fade: { f: 0.55, z: 1, r: 0, apply: function (el, v) {
+      var vc = Math.min(1, Math.max(0, v));
+      el.style.opacity = 1 - Math.pow(vc, 1.5);
+      el.style.filter = "blur(" + 10 * vc + "px)";
+    } },
+    /* Applied per character. v runs 1 → 0 and overshoots negative.
+       Raw v drives x, so the overshoot is the settle-back; the clamped
+       copy drives scale, blur and opacity so they land at rest and
+       stay there. Springs for this preset are built from WORD directly
+       so the tuner's f and z take effect on the next replay. */
+    word: { apply: function (el, v) {
+      var vc = Math.min(1, Math.max(0, v));
+      el.style.translate = v * WORD.dx + "px 0";
+      el.style.scale = String(1 + vc * (WORD.scale - 1));
+      el.style.filter = "blur(" + WORD.blur * Math.pow(vc, WORD.blurPow) + "px)";
+      el.style.opacity = 1 - Math.pow(vc, WORD.fadePow);
+    } }
+  };
+
+  /* Split a word element into character spans, once. inline-block so
+     translate/scale/filter apply; white-space:pre keeps real spaces.
+     Costs the kerning between glyph pairs — acceptable at this size,
+     and the only way each character can carry its own spring. */
+  function splitChars(el) {
+    if (el.__chars) return el.__chars;
+    var text = el.textContent;
+    el.textContent = "";
+    el.__chars = [];
+    Array.from(text).forEach(function (ch) {
+      var s = document.createElement("span");
+      s.className = "word__char";
+      s.textContent = ch;
+      el.appendChild(s);
+      el.__chars.push(s);
+    });
+    return el.__chars;
+  }
+
+  function clear(el) {
+    el.style.translate = el.style.scale = el.style.opacity = el.style.filter = "";
+  }
+
+  var raf = null, anims = [];
+
+  function cancel() {
+    if (raf) cancelAnimationFrame(raf);
+    raf = null;
+    anims.forEach(function (a) { clear(a.el); });
+    anims = [];
+  }
+
+  function show(slide) {
+    cancel();
+    var els = slide.querySelectorAll("[data-anim]");
+    if (!els.length) return;
+    var t0 = performance.now();
+    els.forEach(function (el, i) {
+      var name = el.getAttribute("data-anim");
+      var preset = PRESETS[name] || PRESETS.rise;
+      var delay = el.hasAttribute("data-anim-delay")
+        ? +el.getAttribute("data-anim-delay") : i * 90;
+      if (name === "word") {
+        var chars = splitChars(el);
+        var stag = chars.length > 1 ? WORD.duration / (chars.length - 1) : 0;
+        chars.forEach(function (ch, j) {
+          preset.apply(ch, 1);
+          anims.push({ el: ch, preset: preset, spring: new Spring(WORD.f, WORD.z, 0, 1),
+                       start: t0 + (delay + j * stag) / WORD.speed, last: null, done: false });
+        });
+      } else {
+        el.__dy = el.hasAttribute("data-anim-dy") ? +el.getAttribute("data-anim-dy") : null;
+        preset.apply(el, 1);
+        anims.push({ el: el, preset: preset, spring: new Spring(preset.f, preset.z, preset.r, 1),
+                     start: t0 + delay / WORD.speed, last: null, done: false });
+      }
+    });
+    raf = requestAnimationFrame(tick);
+  }
+
+  function tick(now) {
+    var live = false;
+    anims.forEach(function (a) {
+      if (a.done) return;
+      if (now < a.start) { live = true; return; }
+      var dt = a.last == null ? 1 / 60 : Math.min((now - a.last) / 1000, 1 / 30);
+      a.last = now;
+      /* The master clock: scaling integration time scales every
+         spring identically, so speed changes pace, never character. */
+      var v = a.spring.update(0, dt * WORD.speed);
+      if (Math.abs(v) < 0.001 && Math.abs(a.spring.yd) < 0.01) {
+        clear(a.el);
+        a.done = true;
+      } else {
+        a.preset.apply(a.el, v);
+        live = true;
+      }
+    });
+    raf = live ? requestAnimationFrame(tick) : null;
+  }
+
+  /* ── Tuner ──────────────────────────────────────────────────────
+     The cog. Sliders write straight into WORD, replay the current
+     slide so every nudge is felt immediately, and Copy puts the
+     one-liner on the clipboard ready to paste over the WORD line. */
+
+  var PARAMS = [
+    { k: "f",       min: 0.5,  max: 3,   step: 0.05 },
+    { k: "z",       min: 0.2,  max: 1,   step: 0.01 },
+    { k: "dx",      min: -200, max: 200, step: 5 },
+    { k: "scale",   min: 1,    max: 1.5, step: 0.01 },
+    { k: "blur",    min: 0,    max: 60,  step: 1 },
+    { k: "blurPow",  min: 0.5,  max: 3,    step: 0.05 },
+    { k: "fadePow",  min: 0.5,  max: 3,    step: 0.05 },
+    { k: "duration", min: 0,    max: 1500, step: 25 },
+    { k: "speed",    min: 0.25, max: 2,    step: 0.05 }
+  ];
+
+  function replay() { show(Reveal.getCurrentSlide()); }
+
+  function configLine() {
+    return "var WORD = { " + PARAMS.map(function (p) {
+      return p.k + ": " + WORD[p.k];
+    }).join(", ") + " };";
+  }
+
+  function buildTuner() {
+    var wrap = document.createElement("div");
+    wrap.className = "tune";
+    wrap.innerHTML =
+      '<button class="tune__cog" aria-label="Animation settings" aria-expanded="false">' +
+      '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.2"></circle><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.87-.34 1.7 1.7 0 0 0-1.03 1.56V21a2 2 0 1 1-4 0v-.09a1.7 1.7 0 0 0-1.05-1.51 1.7 1.7 0 0 0-1.87.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.7 1.7 0 0 0 .34-1.87 1.7 1.7 0 0 0-1.56-1.03H3a2 2 0 1 1 0-4h.09a1.7 1.7 0 0 0 1.51-1.05 1.7 1.7 0 0 0-.34-1.87l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.7 1.7 0 0 0 1.87.34h.04a1.7 1.7 0 0 0 1-1.55V3a2 2 0 1 1 4 0v.09c0 .68.4 1.3 1.03 1.56a1.7 1.7 0 0 0 1.87-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.7 1.7 0 0 0-.34 1.87v.04c.26.62.88 1.02 1.55 1.02H21a2 2 0 1 1 0 4h-.09a1.7 1.7 0 0 0-1.51 1.03z"></path></svg>' +
+      '</button><div class="tune__panel" hidden><p class="tune__title">Word entrance</p></div>';
+
+    var cog = wrap.querySelector(".tune__cog");
+    var panel = wrap.querySelector(".tune__panel");
+    var t = null;
+
+    PARAMS.forEach(function (p) {
+      var row = document.createElement("div");
+      row.className = "tune__row";
+      row.innerHTML = "<label>" + p.k + "</label>" +
+        '<input type="range" min="' + p.min + '" max="' + p.max + '" step="' + p.step + '" value="' + WORD[p.k] + '">' +
+        "<output>" + WORD[p.k] + "</output>";
+      var input = row.querySelector("input");
+      var out = row.querySelector("output");
+      input.addEventListener("input", function () {
+        WORD[p.k] = +input.value;
+        out.textContent = input.value;
+        clearTimeout(t);
+        t = setTimeout(replay, 120);
+      });
+      panel.appendChild(row);
+    });
+
+    var actions = document.createElement("div");
+    actions.className = "tune__actions";
+    actions.innerHTML = '<button class="tune__btn" data-act="replay">Replay</button>' +
+      '<button class="tune__btn" data-act="copy">Copy config</button>';
+    actions.querySelector('[data-act="replay"]').addEventListener("click", replay);
+    var copyBtn = actions.querySelector('[data-act="copy"]');
+    copyBtn.addEventListener("click", function () {
+      var line = configLine();
+      var flash = function () {
+        copyBtn.textContent = "Copied";
+        setTimeout(function () { copyBtn.textContent = "Copy config"; }, 1200);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(line).then(flash, function () { prompt("Copy:", line); });
+      } else prompt("Copy:", line);
+    });
+    panel.appendChild(actions);
+
+    cog.addEventListener("click", function () {
+      panel.hidden = !panel.hidden;
+      cog.setAttribute("aria-expanded", String(!panel.hidden));
+    });
+
+    /* Keep slider keystrokes out of reveal's keyboard navigation. */
+    wrap.addEventListener("keydown", function (e) { e.stopPropagation(); });
+    wrap.addEventListener("keyup", function (e) { e.stopPropagation(); });
+
+    document.body.appendChild(wrap);
+  }
+
+  (function wait() {
+    if (window.Reveal && Reveal.isReady && Reveal.isReady()) {
+      Reveal.on("slidechanged", function (e) { show(e.currentSlide); });
+      show(Reveal.getCurrentSlide());
+      buildTuner();
+    } else setTimeout(wait, 60);
+  })();
+})();
+</script>
+</body>
+</html>

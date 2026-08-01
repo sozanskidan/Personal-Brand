@@ -1,0 +1,1835 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>The Summer Plan</title>
+<meta name="description" content="A personal operating document. The problem, the solution, and the plan." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+/* ============================================================
+   Dan's personal design system, tokenized from DESIGN.md.
+   Self-contained. Markup patterns are written to lift cleanly
+   into the Next.js design system later.
+   ============================================================ */
+/* Dan's licensed Davinci face (trial), with Instrument Serif as the public fallback */
+@font-face{font-family:"Davinci"; src:url("fonts/DaVinci/TRJNDaVinci-Regular-Trial.otf") format("opentype"); font-weight:400; font-style:normal; font-display:swap;}
+@font-face{font-family:"Davinci"; src:url("fonts/DaVinci/TRJNDaVinci-Medium-Trial.otf") format("opentype"); font-weight:500; font-style:normal; font-display:swap;}
+:root{
+  --ink:#0A0A0A; --graphite:#3D3D3D; --slate:#6B6B6B; --rule:#E5E5E5;
+  --surface:#FAFAF7; --elevated:#FFFFFF; --sunken:#F2F1ED;
+  --accent:#9BB0C9; --accent-muted:#E8EEF4; --on-accent:#0A0A0A;
+  --trip:#C9763D; --trip-muted:#F4E6DA; --golf:#5E8055;
+  --serif:"Davinci","Instrument Serif", Georgia, serif;
+  --sans:-apple-system, BlinkMacSystemFont, "DM Sans", system-ui, sans-serif;
+  --mono:"Roboto Mono", ui-monospace, monospace;
+  --xs:4px; --sm:8px; --md:16px; --lg:24px; --xl:32px; --xxl:48px; --xxxl:64px;
+  --r-sm:4px; --r-md:8px; --r-lg:16px; --r-xl:24px;
+  --snappy:.18s cubic-bezier(.2,.9,.25,1);
+  --smooth:.34s cubic-bezier(.22,1,.36,1);
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth; scroll-padding-top:84px;}
+body{margin:0; background:var(--surface); color:var(--ink); overflow-x:hidden;
+  font-family:var(--sans); font-size:1rem; line-height:1.55;
+  -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;}
+h1,h2,h3,h4{margin:0; font-weight:400;}
+p{margin:0;}
+a{color:inherit;}
+button{font-family:inherit; color:inherit; cursor:pointer;}
+
+.eyebrow{font-family:var(--mono); font-size:.75rem; font-weight:500;
+  letter-spacing:.08em; text-transform:uppercase; color:var(--slate);}
+.display{font-family:var(--serif); font-size:clamp(3rem,8vw,4.75rem); line-height:1.02; letter-spacing:-.02em;}
+.h1{font-family:var(--serif); font-size:clamp(2.25rem,5vw,3rem); line-height:1.1; letter-spacing:-.02em;}
+.h2{font-family:var(--serif); font-size:clamp(1.75rem,4vw,2rem); line-height:1.15; letter-spacing:-.02em;}
+.display,.h1,.h2,.subtitle,.serif-h3,.day-title{text-wrap:balance;}
+.lede,.callout p,.commit-desc,.note p,.tl-note{text-wrap:pretty;}
+.subtitle{font-family:var(--serif); font-size:clamp(1.25rem,2.6vw,1.5rem); line-height:1.45; color:var(--graphite);}
+.h3{font-family:var(--sans); font-size:1.25rem; font-weight:600; letter-spacing:-.01em;}
+.serif-h3{font-family:var(--serif); font-weight:400; font-size:1.5rem; letter-spacing:-.02em;}
+.body-lg{font-size:1.125rem; line-height:1.55;}
+.body-sm{font-size:.875rem; line-height:1.5;}
+.caption{font-size:.8125rem; line-height:1.4; color:var(--slate);}
+.mono{font-family:var(--mono); font-size:.875rem;}
+.measure{max-width:68ch;}
+
+.page{padding:var(--xxxl);}
+.wrap{max-width:1080px; margin:0 auto;}
+section{padding-block:clamp(var(--xxl), 6vw, 84px);}
+.section-head{margin-bottom:var(--lg);}
+.section-head .eyebrow{display:block; margin-bottom:var(--sm);}
+.divider{height:1px; background:var(--rule); border:0; margin:0;}
+.lede{color:var(--graphite); margin-top:var(--md);}
+
+.card{background:var(--elevated); border-radius:var(--r-lg); padding:var(--lg); border:1px solid var(--rule);}
+.callout{background:var(--accent-muted); border-radius:var(--r-lg); padding:var(--md) var(--lg); color:var(--ink);}
+.callout .eyebrow{color:var(--graphite);}
+.chip{display:inline-flex; align-items:center; gap:6px; font-family:var(--mono); font-size:.6875rem;
+  font-weight:500; letter-spacing:.08em; text-transform:uppercase; color:var(--graphite);
+  background:var(--sunken); border-radius:var(--r-sm); padding:4px 8px;}
+.chip-outline{background:transparent; border:1px solid var(--rule);}
+
+/* nav: logo + hamburger */
+.nav{position:sticky; top:0; z-index:40; background:rgba(250,250,247,.82);
+  -webkit-backdrop-filter:saturate(120%) blur(10px); backdrop-filter:saturate(120%) blur(10px);}
+.nav-inner{max-width:1280px; margin:0 auto; padding:14px var(--xxxl);
+  display:flex; align-items:center; justify-content:space-between;}
+.nav-logo{display:inline-flex; width:40px; height:40px; color:var(--ink); transition:transform var(--snappy);}
+.nav-logo svg{width:100%; height:100%; display:block;}
+.nav-logo:hover{transform:scale(1.06);}
+.nav-menu-btn{width:40px; height:40px; display:grid; place-content:center; background:none; border:0;
+  color:var(--ink); transition:transform var(--snappy);}
+.nav-menu-btn:hover{transform:scale(1.06);}
+.nav-logo:focus-visible,.nav-menu-btn:focus-visible,.menu-close:focus-visible,.menu-links a:focus-visible{
+  outline:3px solid rgba(155,176,201,.55); outline-offset:3px; border-radius:var(--r-sm);}
+
+/* slide-out menu */
+.menu-overlay{position:fixed; inset:0; z-index:49; background:rgba(10,10,10,.2);
+  opacity:0; visibility:hidden; transition:opacity .2s ease, visibility .2s;}
+.menu-overlay.open{opacity:1; visibility:visible;}
+.menu-panel{position:fixed; top:0; right:0; z-index:50; height:100%; width:min(86vw,360px);
+  background:var(--elevated); border-left:1px solid var(--rule); padding:var(--xl) var(--xl) var(--xxl);
+  transform:translateX(100%); transition:transform var(--smooth); display:flex; flex-direction:column;}
+.menu-panel.open{transform:translateX(0);}
+.menu-head{display:flex; align-items:center; justify-content:space-between; margin-bottom:var(--xl);}
+.menu-head .nav-logo{width:34px; height:34px;}
+.menu-close{width:40px; height:40px; display:grid; place-content:center; background:none; border:0; color:var(--graphite); transition:transform var(--snappy);}
+.menu-close:hover{transform:scale(1.08);}
+.menu-links{display:flex; flex-direction:column;}
+.menu-links a{display:flex; align-items:baseline; gap:var(--sm); font-family:var(--serif); font-size:1.6rem;
+  letter-spacing:-.02em; color:var(--ink); text-decoration:none; padding:var(--md) 0;
+  border-bottom:1px solid var(--rule); transition:color var(--snappy), padding-left var(--snappy);}
+.menu-links a:first-child{border-top:1px solid var(--rule);}
+.menu-links a:hover{color:var(--graphite); padding-left:6px;}
+.menu-links a .num{font-family:var(--mono); font-size:.6875rem; color:var(--slate); letter-spacing:.06em;}
+
+/* hero (Figma: frosted Davinci wordmark sitting ON TOP of the photo sphere) */
+.hero{padding:0; text-align:center;}
+/* full-bleed WITHOUT transform (a transformed ancestor disables backdrop-filter) */
+.hero-stage{position:relative; width:100vw; margin-left:calc(50% - 50vw);
+  margin-top:calc(var(--xxxl) * -1); display:flex; align-items:center; justify-content:center;
+  min-height:80vh; overflow:hidden;}
+/* accessible text, visually hidden (the glass layer is the visual) */
+.wordmark-sr{position:absolute; width:1px; height:1px; padding:0; margin:-1px;
+  overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0;}
+/* frosted-glass wordmark: a backdrop blur clipped to the Davinci letterforms (mask),
+   with the drop shadow as a SEPARATE sibling layer (filter on the glass element
+   itself would disable its backdrop-filter). */
+.wordmark-shadow,.wordmark-glass,.wordmark-light{position:absolute; left:50%; top:50%;
+  width:min(94vw,1180px); aspect-ratio:5.0728; pointer-events:none;}
+/* drop shadow (Figma drop-shadow: X0 Y24, blur 64, #000 @ 24%).
+   Blur is on THIS element; the mask lives on the inner <i> so the blur spreads
+   beyond the letterforms instead of being re-clipped to them. */
+.wordmark-shadow{z-index:2; --sh-y:64px; --sh-blur:40px; --sh-op:0.32;
+  transform:translate(-50%,calc(-50% + var(--sh-y))); filter:blur(var(--sh-blur));}
+.wordmark-shadow i{position:absolute; inset:0; background:rgba(0,0,0,var(--sh-op));
+  -webkit-mask:url("assets/wordmark.png") center/contain no-repeat;
+  mask:url("assets/wordmark.png") center/contain no-repeat;}
+/* frost params are CSS vars (set from the GLASS config in JS) so they tune in one place.
+   Default = frost only (valid everywhere, incl. Safari/Firefox). */
+.wordmark-glass{z-index:3; transform:translate(-50%,-50%);
+  --g-blur:2.4px; --g-sat:1.2; --g-bright:1.32; --g-tint:0.10;
+  background:rgba(255,255,255,var(--g-tint));
+  -webkit-mask:url("assets/wordmark.png") center/contain no-repeat;
+  mask:url("assets/wordmark.png") center/contain no-repeat;
+  -webkit-backdrop-filter:blur(var(--g-blur)) saturate(var(--g-sat)) brightness(var(--g-bright));
+  backdrop-filter:blur(var(--g-blur)) saturate(var(--g-sat)) brightness(var(--g-bright));}
+/* lit bevel rim (Figma Glass "Light"): a generated overlay of edge highlights/shades,
+   blended over the glass so the letters read as a 3D pane. Works on every browser. */
+.wordmark-light{z-index:4; transform:translate(-50%,-50%); opacity:var(--lt-op,1);
+  background-position:center; background-size:contain; background-repeat:no-repeat;
+  mix-blend-mode:overlay;
+  -webkit-mask:url("assets/wordmark.png") center/contain no-repeat;
+  mask:url("assets/wordmark.png") center/contain no-repeat;}
+/* Chromium-only: prepend the SVG displacement filter for true refraction. JS adds
+   .glass-refract ONLY when the engine actually keeps a url() in backdrop-filter, so
+   Safari/Firefox (which drop it) never lose their frost. */
+.wordmark-glass.glass-refract{
+  -webkit-backdrop-filter:url(#liquidGlass) blur(var(--g-blur)) saturate(var(--g-sat)) brightness(var(--g-bright));
+  backdrop-filter:url(#liquidGlass) blur(var(--g-blur)) saturate(var(--g-sat)) brightness(var(--g-bright));}
+@supports not ((-webkit-backdrop-filter:blur(1px)) or (backdrop-filter:blur(1px))){
+  /* fallback: clearly translucent white letters if backdrop-filter is unsupported */
+  .wordmark-glass{background:rgba(255,255,255,0.55);}
+}
+/* hidden host for the SVG filter defs */
+.glass-defs{position:absolute; width:0; height:0; overflow:hidden; pointer-events:none;}
+
+/* ---- glass tuner (dev tool; only shown with ?tune or by pressing "g"). Safe to delete. ---- */
+.gt{position:fixed; left:16px; bottom:16px; z-index:60; width:268px; max-height:84vh; overflow:auto;
+  background:rgba(18,18,18,.92); color:#f2f1ed; border:1px solid rgba(255,255,255,.12);
+  border-radius:12px; padding:12px 14px; font-family:var(--mono); font-size:11px; line-height:1.4;
+  -webkit-backdrop-filter:blur(8px); backdrop-filter:blur(8px); box-shadow:0 12px 40px rgba(0,0,0,.45);}
+.gt[hidden]{display:none;}
+.gt-head{display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;}
+.gt-head b{font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:#fff;}
+.gt-x{background:none; border:0; color:#bbb; font-size:14px; line-height:1; padding:2px 4px; cursor:pointer;}
+.gt-row{display:grid; grid-template-columns:1fr auto; align-items:center; gap:4px 8px; margin:7px 0;}
+.gt-row label{color:#cfcfc9;}
+.gt-row .gv{color:#fff; text-align:right; min-width:46px;}
+.gt-row input[type=range]{grid-column:1 / -1; width:100%; accent-color:#9BB0C9; height:16px;}
+.gt-actions{display:flex; gap:8px; margin-top:10px;}
+.gt-actions button{flex:1; background:#9BB0C9; color:#0A0A0A; border:0; border-radius:6px; padding:7px 0;
+  font-family:var(--mono); font-size:11px; font-weight:600; cursor:pointer;}
+.gt-actions button.ghost{background:transparent; color:#cfcfc9; border:1px solid rgba(255,255,255,.18);}
+.gt-note{color:#8c8c86; margin-top:8px; font-size:10px;}
+
+/* hero photo sphere (sits beneath the glass wordmark, photos stay clickable) */
+.sphere-stage{position:relative; z-index:1; width:clamp(600px,92vw,1120px); height:clamp(600px,92vw,1120px);
+  margin:0; touch-action:none; cursor:grab;
+  -webkit-user-select:none; user-select:none;}
+.sphere-stage:active{cursor:grabbing;}
+.sphere-node{position:absolute; top:0; left:0; border:0; padding:0; border-radius:50%; overflow:hidden;
+  background:var(--sunken); will-change:transform,opacity; cursor:pointer;
+  box-shadow:0 2px 8px rgba(10,10,10,.10); transition:box-shadow var(--snappy);}
+.sphere-node img{width:100%; height:100%; object-fit:cover; display:block; pointer-events:none;}
+.sphere-node::after{content:""; position:absolute; inset:0; border-radius:50%; border:1px solid rgba(10,10,10,.08); pointer-events:none;}
+.sphere-node:hover{box-shadow:0 10px 26px rgba(10,10,10,.18);}
+.sphere-node:focus-visible{outline:3px solid rgba(155,176,201,.6); outline-offset:2px;}
+
+/* lightbox */
+.lb{position:fixed; inset:0; z-index:50; display:none; align-items:center; justify-content:center;
+  padding:clamp(16px,4vw,56px); background:rgba(10,10,10,.55);}
+.lb.open{display:flex;}
+.lb-figure{position:relative; width:min(92vw,1040px); height:min(84vh,860px);}
+.lb-slot{position:absolute; inset:0; display:flex; align-items:center; justify-content:center;}
+.lb-img{max-width:100%; max-height:100%; width:auto; height:auto; border-radius:var(--r-lg);
+  box-shadow:0 30px 70px rgba(10,10,10,.45); background:var(--sunken); will-change:transform,opacity;}
+.lb-btn{position:absolute; width:48px; height:48px; border-radius:50%; background:rgba(250,250,247,.94);
+  border:1px solid var(--rule); color:var(--ink); display:grid; place-content:center;
+  transition:transform var(--snappy), background var(--snappy); box-shadow:0 6px 18px rgba(10,10,10,.18);}
+.lb-btn:hover{background:#fff; transform:scale(1.08);}
+.lb-btn:active{transform:scale(.96);}
+.lb-btn:focus-visible{outline:3px solid rgba(155,176,201,.6); outline-offset:3px;}
+.lb-prev{left:-12px; top:50%; margin-top:-24px;}
+.lb-next{right:-12px; top:50%; margin-top:-24px;}
+.lb-close{top:-14px; right:-14px; width:40px; height:40px;}
+.lb-counter{position:absolute; bottom:-38px; left:50%; transform:translateX(-50%);
+  font-family:var(--mono); font-size:.75rem; letter-spacing:.08em; color:rgba(250,250,247,.85);}
+@media(max-width:860px){
+  .lb-prev{left:6px;} .lb-next{right:6px;} .lb-close{top:2px; right:2px;}
+}
+
+/* loop */
+.loop{display:grid; grid-template-columns:1fr; gap:var(--sm); margin-top:var(--lg);}
+.loop-step{display:flex; gap:var(--md); align-items:flex-start; background:var(--elevated);
+  border:1px solid var(--rule); border-radius:var(--r-lg); padding:var(--md) var(--lg);}
+.loop-num{font-family:var(--mono); font-size:.75rem; color:var(--slate); padding-top:3px; min-width:1.5em;}
+.loop-arrow{color:var(--rule); text-align:center; font-size:1.1rem; line-height:1;}
+
+/* solution */
+.solution-lead{margin-top:var(--lg);}
+.solution-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:var(--md); margin-top:var(--md);}
+.sol h3{margin-bottom:var(--sm);}
+
+/* the plan (time based) */
+.plan{display:grid; grid-template-columns:repeat(2,1fr); gap:var(--md);}
+.plan-head{display:flex; align-items:baseline; justify-content:space-between; margin-bottom:var(--md); gap:var(--sm);}
+.plan-progress{font-family:var(--mono); font-size:.75rem; color:var(--slate);}
+.commit{display:flex; gap:var(--md); padding:var(--md) 0; border-top:1px solid var(--rule);}
+.commit:first-of-type{border-top:0;}
+.commit-check{flex:0 0 auto; margin-top:2px;}
+.commit-body{flex:1;}
+.commit-row{display:flex; align-items:baseline; justify-content:space-between; gap:var(--sm);}
+.commit-title{font-weight:500; transition:color var(--snappy);}
+.commit.done .commit-title{color:var(--slate); text-decoration:line-through; text-decoration-color:var(--rule);}
+.commit-desc{color:var(--slate); font-size:.8125rem; margin-top:2px;}
+.when{font-family:var(--mono); font-size:.625rem; letter-spacing:.06em; text-transform:uppercase;
+  color:var(--graphite); white-space:nowrap; padding-top:1px;}
+
+.box{appearance:none; width:18px; height:18px; border:1px solid var(--graphite); border-radius:var(--r-sm);
+  background:transparent; display:grid; place-content:center; transition:background var(--snappy), border-color var(--snappy); position:relative;}
+.box:checked{background:var(--ink); border-color:var(--ink);}
+.box:checked::after{content:""; width:5px; height:9px; border:solid var(--surface); border-width:0 2px 2px 0; transform:rotate(45deg) translateY(-1px);}
+.box:focus-visible{outline:3px solid rgba(155,176,201,.5); outline-offset:2px;}
+
+/* summer timeline (no overlap, reveal one at a time) */
+.tl-wrap{margin-top:var(--lg);}
+.tl-track{position:relative; height:64px; margin:var(--xl) 0 var(--lg);}
+.tl-axis{position:absolute; left:0; right:0; top:32px; height:1px; background:var(--rule);}
+.tl-month{position:absolute; top:0; transform:translateX(-50%); font-family:var(--mono);
+  font-size:.625rem; letter-spacing:.06em; text-transform:uppercase; color:var(--slate);}
+.tl-month::after{content:""; position:absolute; left:50%; top:18px; width:1px; height:8px; background:var(--rule);}
+.tl-dot{position:absolute; top:32px; transform:translate(-50%,-50%); width:13px; height:13px; border-radius:50%;
+  background:var(--elevated); border:1.5px solid var(--graphite); padding:0; cursor:pointer;
+  transition:transform var(--snappy), background var(--snappy), border-color var(--snappy);}
+.tl-dot:hover{transform:translate(-50%,-50%) scale(1.25);}
+.tl-dot.active{background:var(--ink); border-color:var(--ink); transform:translate(-50%,-50%) scale(1.2);}
+.tl-dot.milestone{border-color:var(--accent); width:15px; height:15px;}
+.tl-dot.milestone.active{background:var(--accent); border-color:var(--accent);}
+.tl-dot:focus-visible{outline:3px solid rgba(155,176,201,.5); outline-offset:3px;}
+.tl-detail{background:var(--elevated); border:1px solid var(--rule); border-radius:var(--r-lg);
+  padding:var(--lg); min-height:96px;}
+.tl-detail .when{display:block; margin-bottom:var(--xs);}
+.tl-detail .tl-title{font-family:var(--serif); font-size:1.5rem; letter-spacing:-.02em; line-height:1.1;}
+.tl-detail .tl-note{color:var(--graphite); margin-top:var(--sm);}
+.tl-hint{color:var(--slate); font-size:.75rem; margin-top:var(--sm);}
+
+/* calendar */
+.cal-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:var(--lg);}
+.cal-month .cal-name{font-family:var(--serif); font-size:1.5rem; letter-spacing:-.02em; margin-bottom:var(--sm);}
+.cal-dow{display:grid; grid-template-columns:repeat(7,1fr);}
+.cal-dow span{font-family:var(--mono); font-size:.625rem; color:var(--slate); text-align:center; padding-bottom:4px;}
+.cal-days{display:grid; grid-template-columns:repeat(7,1fr); gap:1px; background:var(--rule);
+  border:1px solid var(--rule); border-radius:var(--r-lg); overflow:hidden;}
+.cal-cell{background:var(--elevated); aspect-ratio:1; padding:4px; position:relative; font-size:.75rem; color:var(--graphite);
+  display:block; width:100%; border:0; text-align:left;}
+.cal-cell.empty{background:var(--sunken);}
+.cal-cell.week{background:var(--sunken);}
+.cal-cell.clickable{cursor:pointer; transition:background var(--snappy);}
+.cal-cell.clickable:hover{background:var(--accent-muted);}
+.cal-cell.sel{outline:2px solid var(--ink); outline-offset:-2px; z-index:1;}
+.cal-cell .dot{position:absolute; bottom:5px; left:50%; transform:translateX(-50%); width:5px; height:5px; border-radius:50%; background:var(--ink);}
+.cal-cell.milestone{background:var(--accent-muted);}
+.cal-cell.milestone .dot{background:var(--accent); width:6px; height:6px;}
+.cal-cell.event .dot{background:var(--slate);}
+.cal-cell.trip{background:var(--trip-muted);}
+.cal-cell.trip .dot{background:var(--trip); width:6px; height:6px;}
+.cal-cell.golf .dot{background:var(--golf);}
+.cal-cell.suggested .dot{background:transparent; border:1px solid var(--slate); width:6px; height:6px;}
+.cal-cell.suggested.golf .dot{border-color:var(--golf);}
+.cal-cell.suggested.trip{background:repeating-linear-gradient(45deg,var(--trip-muted),var(--trip-muted) 6px,transparent 6px,transparent 12px);}
+.cal-cell:focus-visible{outline:3px solid rgba(155,176,201,.5); outline-offset:-2px; z-index:1;}
+.cal-num{font-family:var(--mono); font-size:.6875rem;}
+.cal-detail{margin-top:var(--lg); background:var(--elevated); border:1px solid var(--rule);
+  border-radius:var(--r-lg); padding:var(--lg); min-height:72px;}
+.cal-detail .cd-date{font-family:var(--serif); font-size:1.5rem; letter-spacing:-.02em;}
+.cd-tag{font-family:var(--mono); font-size:.625rem; letter-spacing:.06em; text-transform:uppercase; padding:2px 8px; border-radius:999px; vertical-align:middle; white-space:nowrap;}
+.cd-trip{background:var(--trip-muted); color:var(--trip);}
+.cd-golf{background:#e7efe4; color:var(--golf);}
+.cd-bike{background:var(--sunken); color:var(--slate);}
+.cd-milestone{background:var(--accent-muted); color:var(--graphite);}
+.cal-detail ul{margin:var(--sm) 0 0; padding-left:var(--lg);}
+.cal-detail li{margin:6px 0;}
+.cal-detail li::marker{color:var(--slate);}
+.cal-legend{display:flex; flex-wrap:wrap; gap:var(--md); margin-top:var(--lg); align-items:center;}
+.legend-item{display:inline-flex; align-items:center; gap:6px; font-size:.8125rem; color:var(--slate);}
+.legend-swatch{width:12px; height:12px; border-radius:3px; border:1px solid var(--rule);}
+
+/* week */
+.week-head{display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:var(--md);}
+.weekstrip{display:flex; gap:2px; position:relative; overflow-x:auto; border-bottom:1px solid var(--rule);
+  margin-top:var(--lg); scrollbar-width:none;}
+.weekstrip::-webkit-scrollbar{display:none;}
+.daybtn{background:none; border:0; padding:var(--sm) var(--md) var(--md); text-align:center; min-width:64px;
+  position:relative; transition:color var(--snappy);}
+.daybtn .dow{font-family:var(--mono); font-size:.625rem; letter-spacing:.06em; text-transform:uppercase; color:var(--slate); display:block;}
+.daybtn .dmon{display:block; font-family:var(--mono); font-size:.5rem; letter-spacing:.08em; text-transform:uppercase; color:var(--accent); height:11px; line-height:11px;}
+.daybtn.month-start{border-left:1px solid var(--rule);}
+.daybtn .dnum{font-family:var(--serif); font-size:1.5rem; color:var(--slate); transition:color var(--snappy);}
+.daybtn.active .dnum{color:var(--ink);}
+.daybtn.active .dow{color:var(--graphite);}
+.daybtn:focus-visible{outline:3px solid rgba(155,176,201,.5); outline-offset:-2px; border-radius:var(--r-sm);}
+.week-ind{position:absolute; bottom:-1px; height:1px; background:var(--ink); transition:left var(--smooth), width var(--smooth);}
+.protect{display:inline-flex; align-items:center; gap:var(--sm); font-size:.875rem; color:var(--graphite);}
+.toggle{appearance:none; width:40px; height:22px; border-radius:999px; background:var(--sunken);
+  border:1px solid var(--rule); position:relative; transition:background var(--snappy), border-color var(--snappy); cursor:pointer;}
+.toggle::after{content:""; position:absolute; top:50%; left:1px; width:18px; height:18px; border-radius:50%;
+  background:var(--elevated); border:1px solid var(--rule); transform:translateY(-50%); transition:transform var(--snappy);}
+.toggle:checked{background:var(--accent); border-color:var(--accent);}
+.toggle:checked::after{transform:translate(18px,-50%); border-color:var(--accent);}
+.toggle:focus-visible{outline:3px solid rgba(155,176,201,.5); outline-offset:2px;}
+.daycanvas{background:var(--elevated); border:1px solid var(--rule); border-radius:var(--r-lg);
+  padding:var(--xl); margin-top:var(--lg); min-height:320px;}
+.day-title{font-family:var(--serif); font-size:1.75rem; letter-spacing:-.02em;}
+.day-theme{margin-left:var(--sm); color:var(--slate); font-size:1rem; font-family:var(--sans);}
+.timerow{display:grid; grid-template-columns:84px 1fr; gap:var(--md); padding:var(--md) 0; border-top:1px solid var(--rule);}
+.timerow:first-child{border-top:0;}
+.timelabel{font-family:var(--mono); font-size:.75rem; color:var(--slate); padding-top:3px;}
+.item-plan .item-title{color:var(--ink); font-weight:500;}
+.item-standing .item-title{color:var(--slate); font-weight:400;}
+.item-standing{opacity:.92;}
+.item-meta{display:flex; align-items:center; gap:var(--sm); margin-top:4px; flex-wrap:wrap;}
+.item-nested{margin-top:var(--sm); margin-left:var(--md); padding-left:var(--md); border-left:1px solid var(--rule);}
+.item-nested .nest-tag{font-family:var(--mono); font-size:.625rem; letter-spacing:.06em; text-transform:uppercase; color:var(--slate);}
+.anchor-tag{font-family:var(--mono); font-size:.625rem; letter-spacing:.06em; text-transform:uppercase; color:var(--graphite);
+  border:1px solid var(--rule); border-radius:var(--r-sm); padding:2px 6px;}
+.dimmed{opacity:.35; transition:opacity var(--smooth);}
+.floor-toggle{display:inline-flex; align-items:center; gap:6px; background:none; border:0; padding:6px 0 0; font-size:.8125rem; color:var(--graphite);}
+.floor-toggle .chev{display:inline-block; transition:transform var(--snappy); color:var(--slate);}
+.floor-toggle[aria-expanded="true"] .chev{transform:rotate(180deg);}
+.floor-panel{display:grid; grid-template-rows:0fr; transition:grid-template-rows var(--smooth);}
+.floor-panel>div{overflow:hidden;}
+.floor-panel.open{grid-template-rows:1fr;}
+.floor-text{background:var(--sunken); border-radius:var(--r-sm); padding:var(--sm) var(--md); margin-top:var(--sm); font-size:.8125rem; color:var(--graphite);}
+
+/* modules */
+.modules{display:grid; grid-template-columns:1fr 1fr; gap:var(--md); margin-top:var(--lg); align-items:start;}
+.minrow{display:flex; gap:var(--md); padding:var(--md) 0; border-top:1px solid var(--rule);}
+.minrow:first-of-type{border-top:0;}
+.minrow.done .min-text{color:var(--slate); text-decoration:line-through; text-decoration-color:var(--rule);}
+.min-text{font-size:.9375rem;}
+.track-note{font-size:.8125rem; color:var(--slate); margin-top:var(--md); padding-top:var(--md); border-top:1px solid var(--rule);}
+.reset-q{padding:var(--md) 0; border-top:1px solid var(--rule);}
+.reset-q:first-of-type{border-top:0;}
+.reset-q .qn{font-family:var(--mono); font-size:.75rem; color:var(--slate);}
+.reset-q .qt{margin-top:2px; margin-bottom:var(--sm);}
+.reset-q textarea{width:100%; min-height:64px; resize:vertical; font-family:var(--sans); font-size:.9375rem;
+  color:var(--ink); background:var(--surface); border:1px solid var(--rule); border-radius:var(--r-sm); padding:var(--sm) var(--md); line-height:1.5;}
+.reset-q textarea:focus-visible{outline:3px solid rgba(155,176,201,.5); outline-offset:2px; border-color:var(--graphite);}
+.reset-actions{display:flex; align-items:center; gap:var(--md); margin-top:var(--md); flex-wrap:wrap;}
+.btn-primary{background:var(--ink); color:var(--surface); border:0; border-radius:var(--r-md);
+  padding:10px 18px; font-size:.875rem; transition:transform var(--snappy);}
+.btn-primary:hover{transform:scale(1.02);}
+.btn-primary:active{transform:scale(.98);}
+.btn-primary:disabled{opacity:.5; cursor:default; transform:none;}
+.btn-primary:focus-visible{outline:3px solid rgba(155,176,201,.5); outline-offset:2px;}
+.send-status{font-size:.8125rem; color:var(--slate);}
+.btn-ghost{display:inline-block; background:none; border:1px solid var(--rule); color:var(--ink);
+  border-radius:var(--r-md); padding:9px 17px; font-size:.875rem; text-decoration:none; transition:border-color var(--snappy), background var(--snappy);}
+.btn-ghost:hover{border-color:var(--ink); background:var(--sunken);}
+.btn-ghost:focus-visible{outline:3px solid rgba(155,176,201,.5); outline-offset:2px;}
+.cal-sync{display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:var(--lg);
+  margin-top:var(--lg); padding:var(--lg); background:var(--elevated); border:1px solid var(--rule); border-radius:var(--r-lg);}
+.cal-sync-text{flex:1 1 280px;}
+.cal-sync-actions{display:flex; flex-wrap:wrap; gap:var(--sm); align-items:center;}
+
+/* note to nicole */
+.note{background:var(--accent-muted); border-radius:var(--r-lg); padding:clamp(var(--lg),5vw,var(--xxxl));}
+.note .eyebrow{color:var(--graphite); margin-bottom:var(--md);}
+.note p{font-family:var(--serif); font-size:clamp(1.25rem,2.6vw,1.6rem); line-height:1.45; color:var(--ink);}
+.note p + p{margin-top:var(--md);}
+.note .sign{font-family:var(--sans); font-size:.9375rem; color:var(--graphite); margin-top:var(--lg);}
+
+.reveal{opacity:0; transform:translateY(12px); transition:opacity var(--smooth), transform var(--smooth);}
+.reveal.in{opacity:1; transform:none;}
+
+@media(max-width:860px){
+  .page{padding:var(--lg);}
+  .nav-inner{padding:0 var(--lg);}
+  html{scroll-padding-top:72px;}
+  .solution-grid, .plan, .modules{grid-template-columns:1fr;}
+  .cal-grid{grid-template-columns:1fr;}
+  .daycanvas{padding:var(--lg);}
+  .timerow{grid-template-columns:68px 1fr; gap:var(--sm);}
+}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto;}
+  *{transition:none !important;}
+  .reveal{opacity:1; transform:none;}
+}
+</style>
+</head>
+<body>
+
+<!-- liquid-glass displacement filter (Chromium). #glassMap href + #glassDisp scale set at runtime. -->
+<svg class="glass-defs" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <filter id="liquidGlass" x="-10%" y="-50%" width="120%" height="200%" color-interpolation-filters="sRGB">
+      <feImage id="glassMap" result="map" preserveAspectRatio="none" />
+      <!-- chromatic aberration: green stays put, red/blue split by ±aberration scale (off by default) -->
+      <feDisplacementMap id="glassDispR" in="SourceGraphic" in2="map" result="dispR"
+        xChannelSelector="R" yChannelSelector="G" scale="60" />
+      <feDisplacementMap id="glassDispB" in="SourceGraphic" in2="map" result="dispB"
+        xChannelSelector="R" yChannelSelector="G" scale="60" />
+      <feColorMatrix in="dispR" result="rOnly" type="matrix"
+        values="1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0" />
+      <feColorMatrix in="dispB" result="bOnly" type="matrix"
+        values="0 0 0 0 0  0 0 0 0 0  0 0 1 0 0  0 0 0 1 0" />
+      <feColorMatrix in="dispR" result="gOnly" type="matrix"
+        values="0 0 0 0 0  0 1 0 0 0  0 0 0 0 0  0 0 0 1 0" />
+      <feBlend in="rOnly" in2="gOnly" mode="screen" result="rg" />
+      <feBlend in="rg" in2="bOnly" mode="screen" />
+    </filter>
+  </defs>
+</svg>
+
+<nav class="nav" aria-label="Primary">
+  <div class="nav-inner">
+    <a class="nav-logo" href="#top" aria-label="Sozanski, back to top">
+      <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M28 2C28 2 39.9998 5.41661 40 19.333C40 30.2086 34.6663 40 21.333 40C15.3332 39.9998 10.667 34.6662 10.667 29.333C10.6672 27.4164 12.2505 25.333 14.667 25.333C17.0833 25.3332 18.6668 27.3332 18.667 29.333C18.667 33.146 14.7091 33.3311 14.667 33.333C14.667 33.333 15.9999 38.9998 21.333 39C29.333 39 34.667 32.6119 34.667 19.333C34.6669 6.0544 28 2 28 2ZM18.667 0C24.6668 0.000191578 29.333 5.33375 29.333 10.667C29.3328 12.5836 27.7495 14.667 25.333 14.667C22.9167 14.6668 21.3332 12.6668 21.333 10.667C21.333 6.85415 25.2907 6.66886 25.333 6.66699C25.333 6.66699 24.0001 1.00023 18.667 1C10.667 1 5.33301 7.38813 5.33301 20.667C5.33312 33.9404 11.9948 37.9968 12 38C11.9933 37.9981 0.000185268 34.5795 0 20.667C0 9.79136 5.33366 0 18.667 0ZM20 5.33301C19.9984 5.33383 17.4007 6.66775 17.4004 10.666C17.4004 17.3326 27.9997 19.9999 28 27.333C28 34.6663 20 34.666 20 34.666C20.03 34.6505 22.5996 33.3097 22.5996 29.333C22.5993 22.6666 12 19.9992 12 12.666C12.0005 5.33624 19.9937 5.33301 20 5.33301Z" fill="currentColor"/></svg>
+    </a>
+    <button class="nav-menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false" aria-controls="menuPanel">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
+    </button>
+  </div>
+</nav>
+
+<div class="menu-overlay" id="menuOverlay"></div>
+<aside class="menu-panel" id="menuPanel" aria-hidden="true" aria-label="Menu">
+  <div class="menu-head">
+    <span class="nav-logo" aria-hidden="true">
+      <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M28 2C28 2 39.9998 5.41661 40 19.333C40 30.2086 34.6663 40 21.333 40C15.3332 39.9998 10.667 34.6662 10.667 29.333C10.6672 27.4164 12.2505 25.333 14.667 25.333C17.0833 25.3332 18.6668 27.3332 18.667 29.333C18.667 33.146 14.7091 33.3311 14.667 33.333C14.667 33.333 15.9999 38.9998 21.333 39C29.333 39 34.667 32.6119 34.667 19.333C34.6669 6.0544 28 2 28 2ZM18.667 0C24.6668 0.000191578 29.333 5.33375 29.333 10.667C29.3328 12.5836 27.7495 14.667 25.333 14.667C22.9167 14.6668 21.3332 12.6668 21.333 10.667C21.333 6.85415 25.2907 6.66886 25.333 6.66699C25.333 6.66699 24.0001 1.00023 18.667 1C10.667 1 5.33301 7.38813 5.33301 20.667C5.33312 33.9404 11.9948 37.9968 12 38C11.9933 37.9981 0.000185268 34.5795 0 20.667C0 9.79136 5.33366 0 18.667 0ZM20 5.33301C19.9984 5.33383 17.4007 6.66775 17.4004 10.666C17.4004 17.3326 27.9997 19.9999 28 27.333C28 34.6663 20 34.666 20 34.666C20.03 34.6505 22.5996 33.3097 22.5996 29.333C22.5993 22.6666 12 19.9992 12 12.666C12.0005 5.33624 19.9937 5.33301 20 5.33301Z" fill="currentColor"/></svg>
+    </span>
+    <button class="menu-close" id="menuClose" aria-label="Close menu">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+  <nav class="menu-links" aria-label="Sections">
+    <a href="#loop"><span class="num">01</span> The loop</a>
+    <a href="#solution"><span class="num">02</span> The solution</a>
+    <a href="#plan"><span class="num">03</span> The plan</a>
+    <a href="#timeline"><span class="num">04</span> Timeline</a>
+    <a href="#calendar"><span class="num">05</span> Calendar</a>
+    <a href="#week"><span class="num">06</span> This week</a>
+    <a href="#nicole"><span class="num">07</span> To Nicole</a>
+  </nav>
+</aside>
+
+<main class="page">
+  <div class="wrap">
+
+  <!-- HERO -->
+  <header class="hero" id="top">
+    <div class="hero-stage">
+      <h1 class="wordmark-sr">Summer Plan</h1>
+      <div class="sphere-stage" id="sphere" role="group" tabindex="0" aria-label="A sphere of photos of Dan, Nicole, and friends. Drag to spin, pinch to zoom, tap a photo to open it."><!-- nodes rendered by JS --></div>
+      <div class="wordmark-shadow" aria-hidden="true"><i></i></div>
+      <div class="wordmark-glass" aria-hidden="true"></div>
+      <div class="wordmark-light" aria-hidden="true"></div>
+    </div>
+  </header>
+
+  <hr class="divider" />
+
+  <!-- THE PROBLEM -->
+  <section id="loop">
+    <div class="section-head reveal">
+      <span class="eyebrow">01 &middot; The problem</span>
+      <h2 class="h2">The loop, and my part in it</h2>
+      <p class="lede measure">The back pain is the trigger, but the real engine is follow-through and trust. Naming the loop honestly is the first step to running it the other way.</p>
+    </div>
+    <div class="loop reveal">
+      <div class="loop-step"><span class="loop-num">01</span><p>My back flares on and off &mdash; good, then bad, then good again, usually with no clear reason.</p></div>
+      <div class="loop-arrow">&darr;</div>
+      <div class="loop-step"><span class="loop-num">02</span><p>She sees it improve, then slip, so it is hard to trust that I am really staying on top of it. And it is not just the back &mdash; it fits a longer pattern: health deprioritized, goals dropped, routine abandoned. The structure and follow-through are not there, so she pulls back.</p></div>
+      <div class="loop-arrow">&darr;</div>
+      <div class="loop-step"><span class="loop-num">03</span><p>I feel her pull back, and my anxiety spikes. I catastrophize &mdash; convinced we will not work out, that I am not good enough.</p></div>
+      <div class="loop-arrow">&darr;</div>
+      <div class="loop-step"><span class="loop-num">04</span><p>That worry hardens into resentment and contempt on both sides, and we drift further apart. Round and round.</p></div>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- THE SOLUTION -->
+  <section id="solution">
+    <div class="section-head reveal">
+      <span class="eyebrow">02 &middot; The solution</span>
+      <h2 class="h2">What actually gets us out of it</h2>
+    </div>
+    <div class="callout solution-lead reveal">
+      <span class="eyebrow">The heart of it</span>
+      <p style="margin-top:var(--sm)">Make a real plan, then keep it. Be consistent and steady about the upkeep so the trust has something solid to stand on. The point is not a perfect back or a grand gesture. It is becoming someone whose word can be relied on, starting with the word I give myself.</p>
+    </div>
+    <div class="solution-grid">
+      <div class="card sol reveal">
+        <h3 class="serif-h3">Treat the back as a daily practice, not a project with a finish line.</h3>
+        <p class="body-sm" style="color:var(--graphite); margin-top:var(--sm)">Work with Eric on a version gentle enough to do every single day, and scale it down on rough days instead of stopping. Stopping is what resets everything to zero, and the restart is the real enemy, not the soreness.</p>
+      </div>
+      <div class="card sol reveal">
+        <h3 class="serif-h3">Take the mind-body link seriously, because for me it is real.</h3>
+        <p class="body-sm" style="color:var(--graphite); margin-top:var(--sm)">When I am calm and present, my back is better and so are we. The anxiety and the back are the same system. The nervous-system work and therapy are not side projects, they are how I show up steadier for Nicole.</p>
+      </div>
+      <div class="card sol reveal">
+        <h3 class="serif-h3">Get better at the hard conversations.</h3>
+        <p class="body-sm" style="color:var(--graphite); margin-top:var(--sm)">When Nicole has difficult feelings, I want to stay in it with her instead of getting overwhelmed and shutting down. Communicating openly, especially when it is uncomfortable, is something I am choosing to work on, not avoid. Therapy is the lever here.</p>
+      </div>
+      <div class="card sol reveal">
+        <h3 class="serif-h3">Schedule the joy, do not wait to feel like it.</h3>
+        <p class="body-sm" style="color:var(--graphite); margin-top:var(--sm)">Biking, photography, golf, travel, flirting. None of it happens on motivation alone, so it goes on the calendar like everything else. Joy is part of the fix, not the reward for finishing it.</p>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- THE PLAN -->
+  <section id="plan">
+    <div class="section-head reveal">
+      <span class="eyebrow">03 &middot; The plan</span>
+      <h2 class="h2">What I am going to do, and how often</h2>
+      <p class="lede measure">Concrete commitments with a cadence on each one, so the plan lives in time instead of in my head. Check one off when it is true this week.</p>
+    </div>
+    <div class="plan" id="plan-grid"><!-- rendered by JS --></div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- TIMELINE -->
+  <section id="timeline">
+    <div class="section-head reveal">
+      <span class="eyebrow">The dated things</span>
+      <h2 class="h2">From now to the wedding</h2>
+      <p class="lede measure">The action items that should not slip, placed in time. Hover or tap a marker to see it. The two blue markers are the fixed dates everything else routes around.</p>
+    </div>
+    <div class="tl-wrap reveal">
+      <div class="tl-track" id="tl-track"><!-- dots rendered by JS --></div>
+      <div class="tl-detail" id="tl-detail"><!-- rendered by JS --></div>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- CALENDAR -->
+  <section id="calendar">
+    <div class="section-head reveal">
+      <span class="eyebrow">The summer at a glance</span>
+      <h2 class="h2">June, July, August</h2>
+      <p class="lede measure">Every day runs the routine. The colored dots mark the highlights: trips, golf, and the standing Saturday rides. Tap any day to see it, then sync the highlights to Google Calendar below.</p>
+    </div>
+    <div class="cal-grid reveal" id="calendar-grid"><!-- rendered by JS --></div>
+    <div class="cal-detail reveal" id="cal-detail"><!-- rendered by JS --></div>
+    <div class="cal-legend reveal">
+      <span class="legend-item"><span class="legend-swatch" style="background:var(--trip-muted); border-color:var(--trip)"></span> Trip (Ocean City, Montana)</span>
+      <span class="legend-item"><span class="legend-swatch" style="background:var(--golf)"></span> Golf</span>
+      <span class="legend-item"><span class="legend-swatch" style="background:var(--slate)"></span> Saturday bike ride with Nicole</span>
+      <span class="legend-item"><span class="legend-swatch" style="background:var(--accent-muted); border-color:var(--accent)"></span> Milestone (Montana wedding, Aug 22)</span>
+      <span class="legend-item"><span class="legend-swatch" style="background:transparent; border:1px dashed var(--slate)"></span> Suggested (not yet booked)</span>
+    </div>
+    <div class="cal-sync reveal">
+      <div class="cal-sync-text">
+        <span class="eyebrow">Sync to Google Calendar</span>
+        <p class="body-sm" style="color:var(--graphite); margin-top:var(--xs)">Adds the summer highlights &mdash; trips, golf, the wedding, and Saturday rides &mdash; to your calendar. Download the file to import them all at once, or add the next one with a click.</p>
+      </div>
+      <div class="cal-sync-actions">
+        <button class="btn-primary" id="icsAll">Download all highlights (.ics)</button>
+        <a class="btn-ghost" id="gcalNext" target="_blank" rel="noopener">Add next highlight to Google</a>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- THIS WEEK -->
+  <section id="week">
+    <div class="section-head reveal">
+      <span class="eyebrow">Every day &middot; the plan as a real summer</span>
+      <h2 class="h2">Run the day, then run it again</h2>
+      <p class="lede measure">Every day from now to the end of August, mapped hour by hour. Weekdays carry the workday rhythm; weekends, trips, and golf take over where they land. Scroll the strip or tap any day to see it. It opens on today.</p>
+    </div>
+    <div class="week-head reveal">
+      <p class="caption" id="rangeLabel">Every day, Fri Jun 19 to Mon Aug 31, 2026</p>
+      <label class="protect">
+        <span>Show only the protect-these</span>
+        <input type="checkbox" class="toggle" id="protect" />
+      </label>
+    </div>
+    <div class="weekstrip" id="weekstrip" role="tablist" aria-label="Days">
+      <span class="week-ind" id="weekInd"></span>
+    </div>
+    <div class="daycanvas" id="daycanvas" role="tabpanel" aria-live="polite"><!-- rendered by JS --></div>
+
+    <div class="modules">
+      <div class="card reveal">
+        <span class="eyebrow">The weekly minimums</span>
+        <h3 class="serif-h3" style="margin:var(--sm) 0 var(--xs)">If only these are hit, the week was a success</h3>
+        <div id="minimums"></div>
+        <p class="track-note">These remember themselves between visits on this device. Tap the count anytime to start a fresh week.</p>
+      </div>
+      <div class="card reveal">
+        <span class="eyebrow">The Friday reset</span>
+        <h3 class="serif-h3" style="margin:var(--sm) 0 var(--xs)">Ten minutes, three questions, no self-flagellation</h3>
+        <div id="reset"></div>
+        <div class="reset-actions">
+          <button class="btn-primary" id="sendReset">Send to my email</button>
+          <span class="send-status" id="sendStatus"></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- NOTE TO NICOLE -->
+  <section id="nicole">
+    <div class="note reveal">
+      <span class="eyebrow">To Nicole</span>
+      <p>I am not asking you to believe a transformed version of me. I am asking you to watch me keep small promises, starting now, and to build this with me: the spirituality, the dates, being healthy for the family we want, goals we set together with a real plan and a way to hold each other to it.</p>
+      <p>There have been plenty of moments, Spain among them, that showed us both what we are like when I am calm and present. I want to get back to that on purpose, not by accident. A steady routine, a healthier life, a future we are building together, in work and in life, a home and a family. I am not going to give up, and I want to lean into the hard parts with you instead of away from them.</p>
+      <p class="sign">I love you, Nicole.</p>
+    </div>
+  </section>
+
+  </div>
+</main>
+
+<!-- lightbox -->
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Photo viewer">
+  <div class="lb-figure">
+    <div class="lb-slot"><img class="lb-img" id="lbA" alt="" /></div>
+    <div class="lb-slot"><img class="lb-img" id="lbB" alt="" style="opacity:0" /></div>
+    <button class="lb-btn lb-prev" id="lbPrev" aria-label="Previous photo">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+    </button>
+    <button class="lb-btn lb-next" id="lbNext" aria-label="Next photo">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+    </button>
+    <button class="lb-btn lb-close" id="lbClose" aria-label="Close">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <span class="lb-counter" id="lbCounter"></span>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   Data. Pure content, lifts into a Next.js loader.
+   ============================================================ */
+const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const HAS_STORE = (()=>{ try{ localStorage.setItem('_t','1'); localStorage.removeItem('_t'); return true; }catch(e){ return false; } })();
+const MY_EMAIL = "sozanskid@gmail.com";
+/* Form-to-email service key. Get a free one at web3forms.com (30 seconds),
+   paste it here, and the Friday reset sends straight to MY_EMAIL with no mail app. */
+const FORM_ACCESS_KEY = "";
+
+const PLAN = [
+  { name:"Body", items:[
+    { title:"Back routine with Eric", when:"Daily", desc:"The daily movements Eric gives me, scaled down on rough days instead of skipped." },
+    { title:"Move every day", when:"Daily", desc:"A walk, a bike, anything. Around twenty minutes, as long as the back is okay with it." },
+    { title:"Strength, reintroduced carefully", when:"Weekly", desc:"Just the pressing and back-extension work Eric and I agree on. Showing up beats going heavy." },
+    { title:"Food, awareness first", when:"Daily", desc:"Start by paying attention and logging honestly. Not a diet, just noticing." },
+  ]},
+  { name:"Mind", items:[
+    { title:"Nervous-system work (PRT)", when:"Daily", desc:"Five minutes with the guide I already have. Calmer mind, calmer back." },
+    { title:"Restart therapy", when:"This month", desc:"The highest-leverage thing on here. How I learn to handle stress and show up better." },
+    { title:"Explore the spirituality piece with Nicole", when:"Weekly", desc:"Something we do together, not a solo chore. A real connection point." },
+    { title:"Catch the spiral in the moment", when:"Ongoing", desc:"When I start catastrophizing, name it, then ask what is actually true right now." },
+  ]},
+  { name:"Us", items:[
+    { title:"One kept promise to Nicole", when:"Weekly", desc:"Say a small thing on Monday, do it by Sunday. Trust rebuilds one kept word at a time." },
+    { title:"Stay in the hard conversations", when:"Ongoing", desc:"When difficult feelings come up, stay present with her instead of shutting down." },
+    { title:"One real date a week", when:"Weekly", desc:"Not logistics, not wedding planning. Just us." },
+    { title:"Flirt on purpose", when:"Ongoing", desc:"Low stakes. A text, a compliment, initiating. The version of me from our best trips." },
+  ]},
+  { name:"Joy", items:[
+    { title:"Bike regularly", when:"Most Saturdays", desc:"A standing Saturday morning ride with Nicole, often out to a cafe like 260 Bridge in Phoenixville. Health and joy at once, and easy on the back." },
+    { title:"Pick the camera back up", when:"Monthly", desc:"One small photo outing, even just around Phoenixville." },
+    { title:"Get back on the golf course", when:"Weekly", desc:"Play whatever my back allows that day. Nine holes counts." },
+    { title:"Protect travel and friends", when:"Ongoing", desc:"Restorative, not optional." },
+  ]},
+];
+
+const TL_START = new Date(2026,5,15), TL_END = new Date(2026,9,31);
+const tlPos = d => (d - TL_START) / (TL_END - TL_START);
+const TIMELINE = [
+  { date:new Date(2026,5,22), when:"This week", title:"Book Montana travel", note:"Decide road trip versus fly, then book. The decision is the blocker, not the logistics." },
+  { date:new Date(2026,5,24), when:"This week", title:"Start the food log", note:"Loose awareness logging, not a diet. Just begin." },
+  { date:new Date(2026,5,26), when:"Next session", title:"Confirm the back plan with Eric", note:"Align on the daily version and how to scale it down on sore days." },
+  { date:new Date(2026,6,3), when:"Next two weeks", title:"Restart and book therapy", note:"Highest leverage on the page. Find a provider and make contact." },
+  { date:new Date(2026,6,15), when:"Set a check-in", title:"C&J decision with Jack", note:"Pick a date to follow up rather than waiting passively." },
+  { date:new Date(2026,6,20), when:"This summer", title:"Backyard structural engineer", note:"Get the engineer engaged so the backyard work can move." },
+  { date:new Date(2026,7,22), when:"Aug 22", title:"Friend's wedding in Montana", note:"The reason the travel booking matters. Lock it in early.", milestone:true },
+  { date:new Date(2026,9,17), when:"Oct 17", title:"Our wedding", note:"Keep the venue, tent, catering, and welcome-party threads moving all summer.", milestone:true },
+];
+
+const DOW = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+const DOWL = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+const MON = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+
+/* ============================================================
+   Summer highlights: trips, golf, and travel suggestions. Months
+   are 0-indexed (5=Jun, 6=Jul, 7=Aug). "booked" items come from
+   confirmed reservations; everything else is a suggestion to lock
+   in. These drive the calendar colors and overlay onto the routine.
+   ============================================================ */
+const TRIPS = [
+  { name:"Ocean City, NJ", m:6, from:2, to:5, booked:true,
+    blurb:"Airbnb on the shore, Thu Jul 2 to Sun Jul 5. Confirmation HMTKW4Q35F.",
+    plans:{
+      2:["Drive down to Ocean City, check in to the Airbnb","Easy first night, walk the boardwalk"],
+      3:["Beach day with Nicole","Dinner out on the boardwalk"],
+      4:["Fourth of July on the shore","Fireworks over the water"],
+      5:["Slow morning, then pack up","Drive home, gentle reset evening"],
+    }},
+  { name:"Montana wedding", m:7, from:21, to:23, booked:false, milestone:22,
+    blurb:"Friend's wedding Sat Aug 22. Travel days are a suggestion until flights are booked.",
+    plans:{
+      21:["Suggested: travel to Montana"],
+      22:["Friend's wedding in Montana"],
+      23:["Suggested: travel home"],
+    }},
+];
+const GOLF = [
+  { m:5, d:20, booked:true, time:"1:50pm", label:"Golf, 1:50pm tee time", place:"The Club at Shannondell, Norristown" },
+  { m:6, d:18, booked:false, time:"afternoon", label:"Golf (suggested), afternoon round" },
+  { m:7, d:8,  booked:false, time:"afternoon", label:"Golf (suggested), afternoon round" },
+];
+const TRAVEL_SUGGESTIONS = [
+  { m:6, from:25, to:26, label:"Suggested: overnight getaway (Cape May)" },
+];
+const tripFor = (m,d) => TRIPS.find(t=>t.m===m && d>=t.from && d<=t.to) || null;
+const golfFor = (m,d) => GOLF.find(g=>g.m===m && g.d===d) || null;
+const travelSuggFor = (m,d) => TRAVEL_SUGGESTIONS.find(t=>t.m===m && d>=t.from && d<=t.to) || null;
+
+/* item builders */
+const S = (t,time)=>({time, title:t, type:"standing"});
+const A = (o)=>Object.assign({type:"plan"}, o);
+const morningPlan = (extra) => ({
+  time:"5:30 to 7:00am", title:"Morning routine"+(extra?" ("+extra+")":""), type:"plan", anchor:true,
+  nest:{tag:"Back routine, inside", text:"Done first, before anything else. The one thing the day is built around."},
+  floor:"On a sore day: five minutes of the gentlest movements. It still counts. Never two skipped mornings in a row."
+});
+const gymMorning = () => ({ time:"6:30 to 8:30am", title:"Gym, strength session", type:"plan", anchor:true,
+  sub:"Pressing plus back-extension, Eric-approved only",
+  floor:"The lightest version still counts. Showing up is the win.",
+  note:"Replaces the morning back routine and Hen Care today." });
+const night = S("Night routine","9:00 to 9:45pm");
+const dinner = S("Dinner","6:00 to 7:00pm");
+const henCare = S("Hen Care","7:00 to 8:00am");
+const standup = S("Dillanski Standup","8:00am");
+const chiro = S("Chiro (Dr. Shvidko, KoP)","9:30 to 10:15am");
+const therapy = S("Therapy","3:00 to 4:00pm");
+
+/* per-day tweaks layered onto the generated routine */
+const BIKE_DEST = { "5-20":"to 260 Bridge Cafe, Phoenixville" };
+const DAY_NOTES = { "5-19":"Therapy (recurring Fri 3 to 4pm) starts next Friday, Jun 26, not this one." };
+const THERAPY_START = new Date(2026,5,26);
+
+/* ============================================================
+   The daily routine, generated for every day of the summer so the
+   whole stretch (Fri Jun 19 to Mon Aug 31) is a real day-by-day plan.
+   Weekdays carry the workday rhythm; weekends and trips override it.
+   ============================================================ */
+function buildDay(date){
+  const m = date.getMonth(), d = date.getDate(), dow = date.getDay();
+  const key = `${m}-${d}`;
+
+  // Trips replace the normal routine.
+  const trip = tripFor(m,d);
+  if(trip){
+    const plans = (trip.plans[d] || ["Travel / rest day"]).map((t,i)=>
+      A({ time:i===0?"daytime":"evening", title:t, suggested:!trip.booked && /^Suggested/.test(t) }));
+    return { date, theme:trip.name, trip:true, booked:trip.booked, items:[
+      A({time:"morning", title:"Light back mobility, 5 to 10 min",
+         floor:"Keep the streak alive even away from home. Five minutes counts."}),
+      ...plans,
+    ], note: trip.blurb };
+  }
+
+  const items = [];
+  const isWeekday = dow>=1 && dow<=5;
+  if(dow===3) items.push(gymMorning());
+  else items.push(morningPlan((dow===0||dow===6) ? "back routine plus easy movement" : ""));
+  if(isWeekday && dow!==3) items.push(henCare);
+  if(isWeekday) items.push(standup);
+
+  if(dow===1){               // Monday
+    items.push(A({time:"daytime", title:"20 min walk"}), dinner,
+      A({time:"evening", title:"Plan the week with Nicole, name this week's kept promise", theme:"Productive Night"}));
+  } else if(dow===2){        // Tuesday
+    items.push(A({time:"daytime", title:"Bike if the back allows"}), dinner,
+      A({time:"evening", title:"PRT 5 min, then a joy block (camera)", theme:"Self-Care Night"}));
+  } else if(dow===3){        // Wednesday (gym morning above)
+    items.push(dinner, A({time:"evening", title:"One action item for the week", theme:"Productive Night"}));
+  } else if(dow===4){        // Thursday
+    items.push(A({time:"daytime", title:"20 min walk"}), dinner,
+      { time:"evening", title:"A real date with Nicole, no logistics", type:"plan", anchor:true, theme:"Date Night",
+        floor:"If the day falls apart, ten minutes together with no phones still counts." });
+  } else if(dow===5){        // Friday
+    items.push(chiro);
+    if(date >= THERAPY_START) items.push(therapy);
+    items.push(A({time:"4:15pm", title:"Friday reset (10 min)"}), dinner, S("Social Night","evening"));
+  } else if(dow===6){        // Saturday
+    const dest = BIKE_DEST[key];
+    items.push(A({time:(m===5&&d===20)?"9:00am":"morning",
+      title:"Bike ride with Nicole"+(dest?` ${dest}`:""),
+      floor:"A short, flat loop still counts. The standing Saturday ride is the anchor."}), dinner);
+  } else {                   // Sunday
+    items.push(A({time:"daytime", title:"Food prep for the week"}), dinner);
+  }
+
+  // Golf (booked or suggested) sits before dinner so the day reads in order.
+  const golf = golfFor(m,d);
+  if(golf){
+    const gItem = A({time:golf.time, title:golf.label+(golf.place?` — ${golf.place}`:''), golf:true, suggested:!golf.booked,
+      floor:"Nine holes counts. Ride the cart and stretch between holes if the back is sore."});
+    const di = items.indexOf(dinner);
+    if(di>=0) items.splice(di, 0, gItem); else items.push(gItem);
+  }
+  const tsug = travelSuggFor(m,d);
+  if(tsug) items.push(A({time:"all day", title:tsug.label, suggested:true, trip:true}));
+
+  items.push(night);
+
+  let theme = dow===5 ? "Social Night" : (dow===1||dow===3) ? "Productive Night"
+            : dow===2 ? "Self-Care Night" : dow===4 ? "Date Night" : dow===6 ? "Weekend" : null;
+  if(golf && !theme) theme = "Weekend";
+  const day = { date, theme, items };
+  if(DAY_NOTES[key]) day.note = DAY_NOTES[key];
+  return day;
+}
+function buildDays(start, end){
+  const out = [];
+  for(let dt=new Date(start); dt<=end; dt.setDate(dt.getDate()+1)) out.push(buildDay(new Date(dt)));
+  return out;
+}
+const SUMMER_START = new Date(2026,5,19), SUMMER_END = new Date(2026,7,31);
+const DAYS = buildDays(SUMMER_START, SUMMER_END);
+const NOW = new Date();
+const sameDate = (a,b)=> a.getFullYear()===b.getFullYear() && a.getMonth()===b.getMonth() && a.getDate()===b.getDate();
+function todayIndex(){ const i = DAYS.findIndex(x=> sameDate(x.date, NOW)); return i<0 ? 0 : i; }
+
+/* calendar highlight category for a given month/day (drives dot color) */
+function highlightFor(m,d){
+  const trip = tripFor(m,d);
+  if(trip){
+    if(trip.milestone===d) return { kind:"milestone", label:"Friend's wedding in Montana" };
+    return { kind:"trip", label:trip.name, suggested:!trip.booked };
+  }
+  const golf = golfFor(m,d);
+  if(golf) return { kind:"golf", label:golf.label, suggested:!golf.booked };
+  const tsug = travelSuggFor(m,d);
+  if(tsug) return { kind:"trip", label:tsug.label, suggested:true };
+  if(m===7 && d===22) return { kind:"milestone", label:"Friend's wedding in Montana" };
+  const dt = new Date(2026,m,d);
+  if(dt>=SUMMER_START && dt<=SUMMER_END && dt.getDay()===6) return { kind:"bike", label:"Saturday bike ride with Nicole" };
+  return null;
+}
+
+const MINIMUMS = [
+  "Back routine at least 5 mornings. Never two skipped mornings in a row.",
+  "One protected strength session (Wednesday), even the lightest version.",
+  "One real date with Nicole, off the logistics treadmill.",
+  "One kept promise to Nicole, named Monday, delivered by Sunday.",
+  "One joy block (bike, camera, or golf) that is just for me.",
+];
+const RESET = [
+  { q:"What did I keep this week?", hint:"Name it, take the credit." },
+  { q:"What slipped, and why?", hint:"Pattern or one-off? Data, not a spiral." },
+  { q:"What is next week's one kept promise to Nicole?", hint:"" },
+];
+
+/* tiny persistence layer */
+const store = {
+  get(k,d){ if(!HAS_STORE) return d; try{ const v=localStorage.getItem('sp:'+k); return v==null?d:JSON.parse(v);}catch(e){return d;} },
+  set(k,v){ if(!HAS_STORE) return; try{ localStorage.setItem('sp:'+k, JSON.stringify(v)); }catch(e){} },
+};
+
+/* ============================================================
+   The plan (time-based, persistent checks)
+   ============================================================ */
+function renderPlan(){
+  const grid = document.getElementById('plan-grid');
+  const saved = store.get('plan', {});
+  grid.innerHTML = PLAN.map((group,gi)=>`
+    <div class="card reveal">
+      <div class="plan-head">
+        <span class="serif-h3">${group.name}</span>
+        <span class="plan-progress" id="pp-${gi}">0 / ${group.items.length}</span>
+      </div>
+      ${group.items.map((it,ii)=>{
+        const checked = saved[`${gi}-${ii}`] ? 'checked' : '';
+        return `<label class="commit ${checked?'done':''}">
+          <input type="checkbox" class="box commit-check" data-key="${gi}-${ii}" data-group="${gi}" ${checked} />
+          <span class="commit-body">
+            <span class="commit-row"><span class="commit-title">${it.title}</span><span class="when">${it.when}</span></span>
+            <span class="commit-desc">${it.desc}</span>
+          </span>
+        </label>`;
+      }).join('')}
+    </div>`).join('');
+  grid.querySelectorAll('.commit-check').forEach(box=>{
+    box.addEventListener('change', e=>{
+      const key = e.target.dataset.key, gi = +e.target.dataset.group;
+      const s = store.get('plan', {}); s[key] = e.target.checked; store.set('plan', s);
+      e.target.closest('.commit').classList.toggle('done', e.target.checked);
+      updatePlanCount(gi);
+    });
+  });
+  PLAN.forEach((_,gi)=>updatePlanCount(gi));
+}
+function updatePlanCount(gi){
+  const boxes = document.querySelectorAll(`.commit-check[data-group="${gi}"]`);
+  const done = [...boxes].filter(b=>b.checked).length;
+  document.getElementById('pp-'+gi).textContent = `${done} / ${boxes.length}`;
+}
+
+/* ============================================================
+   Summer timeline (no overlap, reveal one at a time)
+   ============================================================ */
+let tlActive = 0;
+function renderTimeline(){
+  const track = document.getElementById('tl-track');
+  const months = [{m:5,d:1},{m:6,d:1},{m:7,d:1},{m:8,d:1},{m:9,d:1}];
+  let html = `<div class="tl-axis"></div>`;
+  months.forEach(o=>{ const left = Math.max(2, Math.min(98, tlPos(new Date(2026,o.m,o.d))*100));
+    html += `<span class="tl-month" style="left:${left}%">${MON[o.m].slice(0,3)}</span>`; });
+  TIMELINE.forEach((it,i)=>{
+    const left = Math.max(2, Math.min(98, tlPos(it.date)*100));
+    html += `<button class="tl-dot ${it.milestone?'milestone':''}" data-i="${i}" style="left:${left}%"
+      aria-label="${it.title}"></button>`;
+  });
+  track.innerHTML = html;
+  track.querySelectorAll('.tl-dot').forEach(dot=>{
+    const i = +dot.dataset.i;
+    dot.addEventListener('mouseenter', ()=>setTL(i));
+    dot.addEventListener('focus', ()=>setTL(i));
+    dot.addEventListener('click', ()=>setTL(i));
+  });
+  setTL(0);
+}
+function setTL(i){
+  tlActive = i;
+  document.querySelectorAll('.tl-dot').forEach(d=> d.classList.toggle('active', +d.dataset.i===i));
+  const it = TIMELINE[i];
+  document.getElementById('tl-detail').innerHTML =
+    `<span class="when">${it.when}</span><div class="tl-title">${it.title}</div>
+     <p class="tl-note">${it.note}</p>`;
+}
+
+/* ============================================================
+   Calendar (clickable days reveal events)
+   ============================================================ */
+function dayData(m,d){
+  // returns {label, theme, items} from the generated routine, or null.
+  const match = DAYS.find(x=> x.date.getMonth()===m && x.date.getDate()===d);
+  if(!match) return null;
+  const plans = match.items.filter(it=>it.type==='plan').map(it=>it.title);
+  return { label:`${DOWL[match.date.getDay()]}, ${MON[m]} ${d}`, theme:match.theme,
+    items: plans.length?plans:["Morning routine and a quiet day"] };
+}
+function renderCalendar(){
+  const grid = document.getElementById('calendar-grid');
+  grid.innerHTML = [5,6,7].map(m=>{
+    const first = new Date(2026,m,1).getDay();
+    const days = new Date(2026,m+1,0).getDate();
+    let cells = "";
+    for(let i=0;i<first;i++) cells += `<div class="cal-cell empty"></div>`;
+    for(let d=1; d<=days; d++){
+      const hl = highlightFor(m,d);          // only highlights get a colored dot
+      const data = dayData(m,d);             // any planned day is clickable
+      let cls = "cal-cell";
+      if(hl){ cls += " "+hl.kind; if(hl.suggested) cls += " suggested"; }
+      if(data) cls += " clickable";
+      const dot = hl ? `<span class="dot"></span>` : "";
+      if(data){
+        cells += `<button class="${cls}" data-m="${m}" data-d="${d}"><span class="cal-num">${d}</span>${dot}</button>`;
+      } else {
+        cells += `<div class="${cls}"><span class="cal-num">${d}</span></div>`;
+      }
+    }
+    return `<div class="cal-month"><div class="cal-name">${MON[m]}</div>
+      <div class="cal-dow">${DOW.map(x=>`<span>${x[0]}</span>`).join('')}</div>
+      <div class="cal-days">${cells}</div></div>`;
+  }).join('');
+  grid.querySelectorAll('.cal-cell.clickable').forEach(c=>{
+    c.addEventListener('click', ()=>selectCalDay(c));
+  });
+  // default selection: today if in range, else the first highlighted day
+  const todayCell = grid.querySelector(`.cal-cell.clickable[data-m="${NOW.getMonth()}"][data-d="${NOW.getDate()}"]`);
+  const firstHL = grid.querySelector('.cal-cell.trip, .cal-cell.golf, .cal-cell.milestone, .cal-cell.bike');
+  const pick = todayCell || firstHL || grid.querySelector('.cal-cell.clickable');
+  if(pick) selectCalDay(pick);
+}
+function selectCalDay(cell){
+  document.querySelectorAll('.cal-cell.sel').forEach(c=>c.classList.remove('sel'));
+  cell.classList.add('sel');
+  const m = +cell.dataset.m, d = +cell.dataset.d;
+  const data = dayData(m,d);
+  if(!data) return;
+  const hl = highlightFor(m,d);
+  const theme = data.theme ? ` <span class="caption">&middot; ${data.theme}</span>` : "";
+  const tag = hl ? `<span class="cd-tag cd-${hl.kind}">${hl.kind==='bike'?'Bike ride':hl.kind==='golf'?'Golf':hl.kind==='trip'?'Trip':'Milestone'}${hl.suggested?' · suggested':''}</span>` : "";
+  document.getElementById('cal-detail').innerHTML =
+    `<div class="cd-date">${data.label}${theme} ${tag}</div>
+     <ul>${data.items.map(t=>`<li>${t}</li>`).join('')}</ul>`;
+}
+
+/* ============================================================
+   Interactive week (with staggered entrance)
+   ============================================================ */
+let activeDay = 0;
+let protectOn = false;
+function renderWeekstrip(){
+  const strip = document.getElementById('weekstrip');
+  const ind = document.getElementById('weekInd');
+  activeDay = todayIndex();
+  let lastMonth = -1;
+  DAYS.forEach((day,i)=>{
+    const b = document.createElement('button');
+    const newMonth = day.date.getMonth()!==lastMonth; lastMonth = day.date.getMonth();
+    b.className = 'daybtn'+(i===activeDay?' active':'')+(newMonth?' month-start':'');
+    b.setAttribute('role','tab'); b.setAttribute('aria-selected', i===activeDay?'true':'false');
+    b.innerHTML = `<span class="dmon">${newMonth ? MON[day.date.getMonth()].slice(0,3) : ''}</span><span class="dow">${DOW[day.date.getDay()]}</span><span class="dnum">${day.date.getDate()}</span>`;
+    b.addEventListener('click', ()=>selectDay(i));
+    strip.insertBefore(b, ind);
+  });
+  strip.addEventListener('keydown', e=>{
+    if(e.key==='ArrowRight'){ selectDay(Math.min(DAYS.length-1, activeDay+1)); focusDay(); }
+    if(e.key==='ArrowLeft'){ selectDay(Math.max(0, activeDay-1)); focusDay(); }
+  });
+  moveIndicator(); scrollActiveIntoView(false);
+}
+function focusDay(){ document.querySelectorAll('.daybtn')[activeDay].focus(); }
+function moveIndicator(){
+  const btn = document.querySelectorAll('.daybtn')[activeDay];
+  const ind = document.getElementById('weekInd');
+  ind.style.left = btn.offsetLeft+'px'; ind.style.width = btn.offsetWidth+'px';
+}
+function scrollActiveIntoView(smooth){
+  const strip = document.getElementById('weekstrip');
+  const btn = document.querySelectorAll('.daybtn')[activeDay];
+  if(!strip || !btn) return;
+  const target = btn.offsetLeft - strip.clientWidth/2 + btn.offsetWidth/2;
+  strip.scrollTo({ left:Math.max(0,target), behavior: smooth&&!REDUCED ? 'smooth' : 'auto' });
+}
+function selectDay(i){
+  activeDay = i;
+  document.querySelectorAll('.daybtn').forEach((b,idx)=>{
+    b.classList.toggle('active', idx===i); b.setAttribute('aria-selected', idx===i?'true':'false');
+  });
+  moveIndicator(); scrollActiveIntoView(true); renderDay(true);
+}
+function renderDay(animate){
+  const canvas = document.getElementById('daycanvas');
+  const day = DAYS[activeDay];
+  const dateStr = `${DOWL[day.date.getDay()]}, ${MON[day.date.getMonth()]} ${day.date.getDate()}`;
+  const rows = day.items.map((it,idx)=>{
+    const isPlan = it.type==='plan';
+    const dim = protectOn && !it.anchor;
+    const anchorTag = it.anchor ? `<span class="anchor-tag">Protect this</span>` : '';
+    const themeTag = it.theme ? `<span class="chip chip-outline">${it.theme}</span>` : '';
+    const sub = it.sub ? `<div class="caption" style="margin-top:2px">${it.sub}</div>` : '';
+    const nest = it.nest ? `<div class="item-nested"><span class="nest-tag">${it.nest.tag}</span><div class="caption" style="margin-top:2px">${it.nest.text}</div></div>` : '';
+    const note = it.note ? `<div class="caption" style="margin-top:var(--sm); color:var(--slate)">${it.note}</div>` : '';
+    let floor = '';
+    if(it.floor){
+      const fid = `floor-${activeDay}-${idx}`;
+      floor = `<button class="floor-toggle" aria-expanded="false" aria-controls="${fid}" onclick="toggleFloor(this,'${fid}')">
+          <span class="chev">&#9662;</span> If it is a hard day</button>
+        <div class="floor-panel" id="${fid}"><div><div class="floor-text">${it.floor}</div></div></div>`;
+    }
+    return `<div class="timerow ${dim?'dimmed':''}">
+      <div class="timelabel">${it.time}</div>
+      <div class="itemcard item-${it.type}">
+        <div class="item-title">${it.title}</div>${sub}
+        <div class="item-meta">${anchorTag}${themeTag}${isPlan?'':'<span class="caption">recurring</span>'}</div>
+        ${nest}${note}${floor}
+      </div></div>`;
+  }).join('');
+  const dayNote = day.note ? `<div class="callout" style="margin-top:var(--lg)"><p class="body-sm">${day.note}</p></div>` : '';
+  canvas.innerHTML = `<div class="day-head"><span class="day-title">${dateStr}</span>${day.theme?`<span class="day-theme">${day.theme}</span>`:''}</div>
+    <div style="margin-top:var(--lg)">${rows}</div>${dayNote}`;
+  if(animate && !REDUCED){
+    canvas.querySelectorAll('.timerow').forEach((row,i)=>{
+      if(row.animate) row.animate(
+        [{opacity:0, transform:'translateY(10px)'},{opacity:1, transform:'translateY(0)'}],
+        {duration:420, delay:i*45, easing:'cubic-bezier(.34,1.4,.5,1)', fill:'backwards'});
+    });
+  }
+}
+function toggleFloor(btn, id){
+  const panel = document.getElementById(id);
+  const open = panel.classList.toggle('open');
+  btn.setAttribute('aria-expanded', open?'true':'false');
+}
+
+/* ============================================================
+   Minimums (persistent) + Friday reset (persistent + email)
+   ============================================================ */
+function renderModules(){
+  const savedMin = store.get('min', {});
+  document.getElementById('minimums').innerHTML = MINIMUMS.map((m,i)=>`
+    <label class="minrow ${savedMin[i]?'done':''}" >
+      <input type="checkbox" class="box" data-i="${i}" style="margin-top:1px" ${savedMin[i]?'checked':''} />
+      <span class="min-text">${m}</span>
+    </label>`).join('');
+  document.querySelectorAll('#minimums .box').forEach(b=>{
+    b.addEventListener('change', e=>{
+      const s = store.get('min', {}); s[e.target.dataset.i] = e.target.checked; store.set('min', s);
+      e.target.closest('.minrow').classList.toggle('done', e.target.checked);
+    });
+  });
+  // tap the track-note count resets the week
+  const note = document.querySelector('.track-note');
+  if(note) note.addEventListener('click', ()=>{
+    store.set('min', {}); renderModules();
+  });
+
+  const savedReset = store.get('reset', {});
+  document.getElementById('reset').innerHTML = RESET.map((r,i)=>`
+    <div class="reset-q">
+      <span class="qn">0${i+1}</span>
+      <div class="qt">${r.q}${r.hint?` <span class="caption">${r.hint}</span>`:''}</div>
+      <textarea data-i="${i}" placeholder="Write here...">${savedReset[i]||''}</textarea>
+    </div>`).join('');
+  document.querySelectorAll('#reset textarea').forEach(t=>{
+    t.addEventListener('input', e=>{
+      const s = store.get('reset', {}); s[e.target.dataset.i] = e.target.value; store.set('reset', s);
+    });
+  });
+}
+
+async function sendReset(){
+  const btn = document.getElementById('sendReset');
+  const status = document.getElementById('sendStatus');
+  const answers = [...document.querySelectorAll('#reset textarea')].map(t=>t.value.trim());
+  if(answers.every(a=>!a)){ status.textContent = "Write something first."; return; }
+  const today = new Date();
+  const dateStr = `${MON[today.getMonth()]} ${today.getDate()}, ${today.getFullYear()}`;
+  const body = RESET.map((r,i)=>`${i+1}. ${r.q}\n${answers[i]||"(blank)"}`).join("\n\n");
+
+  if(FORM_ACCESS_KEY){
+    btn.disabled = true; status.textContent = "Sending...";
+    try{
+      const res = await fetch("https://api.web3forms.com/submit", {
+        method:"POST", headers:{"Content-Type":"application/json", "Accept":"application/json"},
+        body: JSON.stringify({ access_key:FORM_ACCESS_KEY, from_name:"Friday Reset",
+          subject:`Friday reset, ${dateStr}`, email:MY_EMAIL, message:body })
+      });
+      const out = await res.json();
+      if(out.success){ status.textContent = "Sent to your inbox."; }
+      else{ status.textContent = "Could not send. Check the form key."; }
+    }catch(e){ status.textContent = "Network error. Try again."; }
+    finally{ btn.disabled = false; }
+  } else {
+    // No key configured yet: open a prefilled email as the fallback so the button still works.
+    const mailto = `mailto:${MY_EMAIL}?subject=${encodeURIComponent(`Friday reset, ${dateStr}`)}&body=${encodeURIComponent(body)}`;
+    window.location.href = mailto;
+    status.textContent = "Opened your email. (Add a form key for true one-click send.)";
+  }
+}
+
+/* ============================================================
+   Nav + reveal
+   ============================================================ */
+function setupNav(){
+  const btn = document.getElementById('menuBtn');
+  const panel = document.getElementById('menuPanel');
+  const overlay = document.getElementById('menuOverlay');
+  const closeBtn = document.getElementById('menuClose');
+  const links = [...panel.querySelectorAll('.menu-links a')];
+  function openMenu(){
+    panel.classList.add('open'); overlay.classList.add('open');
+    panel.setAttribute('aria-hidden','false'); btn.setAttribute('aria-expanded','true');
+    document.body.style.overflow='hidden';
+    if(links[0]) links[0].focus();
+  }
+  function closeMenu(){
+    panel.classList.remove('open'); overlay.classList.remove('open');
+    panel.setAttribute('aria-hidden','true'); btn.setAttribute('aria-expanded','false');
+    document.body.style.overflow=''; btn.focus();
+  }
+  btn.addEventListener('click', openMenu);
+  closeBtn.addEventListener('click', closeMenu);
+  overlay.addEventListener('click', closeMenu);
+  links.forEach(a=> a.addEventListener('click', closeMenu));
+  document.addEventListener('keydown', e=>{ if(e.key==='Escape' && panel.classList.contains('open')) closeMenu(); });
+}
+function setupReveal(){
+  if(REDUCED || !('IntersectionObserver' in window)){ document.querySelectorAll('.reveal').forEach(r=>r.classList.add('in')); return; }
+  const io = new IntersectionObserver(es=>{ es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } }); }, {rootMargin:"0px 0px -8% 0px"});
+  document.querySelectorAll('.reveal').forEach(r=>io.observe(r));
+}
+
+/* ============================================================
+   Liquid-glass wordmark.
+   The .wordmark-glass layer already frosts the backdrop (the photo
+   sphere) through the Davinci letterforms. This adds true REFRACTION
+   in Chromium: an SVG feDisplacementMap bends the live backdrop, with
+   a displacement map generated from the same wordmark.png so the warp
+   is concentrated at the letter edges (a bevelled-glass look).
+   Safari/Firefox can't put a url() filter in backdrop-filter, so they
+   keep the frost-only fallback (no warp). Tune everything here:
+   ============================================================ */
+/* Figma's "Glass" effect knobs, same names/feel so values transfer 1:1 from Figma.
+   (Refraction 80, Depth 16, Dispersion 48, Frost 8, Splay 12, Light -45deg @ 80%.) */
+const GLASS = {
+  refraction: 48,     // how much the backdrop bends through the glass (0..100)
+  depth: 0,           // glass thickness: bevel width + rim relief (0..100)
+  dispersion: 0,      // chromatic split at the edges / prism (0..100)
+  frost: 4,           // frostiness = backdrop blur (0..100)
+  splay: 0,           // softness/spread of the refraction + rim (0..100)
+  lightAngle: -45,    // deg, direction of the edge light
+  lightIntensity: 100,// % strength of the lit bevel rim
+  tint: 10,           // % white pane fill (Figma Fill FFFFFF @ 10%)
+  saturate: 1.2,      // backdrop saturation
+  brightness: 1.32,   // backdrop brightness
+  shadowY: 64,        // px, Figma drop-shadow Y
+  shadowBlur: 80,     // px, Figma drop-shadow blur
+  shadowOpacity: 32,  // %, Figma drop-shadow #000 opacity
+};
+/* Calibration: Figma units -> CSS/SVG px & gains. Nudge if a Figma value doesn't land 1:1. */
+const CAL = {
+  refraction: 0.7,    // Figma refraction -> displacement px
+  frost: 0.6,         // Figma frost -> backdrop blur px
+  depth: 0.9,         // Figma depth -> bevel ramp px (canvas-native)
+  splay: 0.7,         // Figma splay -> extra ramp px
+  shadowBlur: 0.5,    // Figma drop-shadow blur -> CSS blur px
+  normal: 0.6,        // Figma depth -> rim tilt gain (highlight strength)
+  disp: 0.3,          // Figma dispersion -> R/B split as fraction of displacement
+};
+/* changing these requires regenerating the maps; the rest apply instantly */
+const GLASS_REBUILD = ['depth','splay','lightAngle'];
+
+/* Does this engine actually keep a url() filter in backdrop-filter? (Chromium yes, Safari/FF no) */
+function supportsBackdropUrlFilter(){
+  const el = document.createElement('div');
+  const set = v => { el.style.backdropFilter = v; el.style.webkitBackdropFilter = v; };
+  set('url(#liquidGlass) blur(1px)');
+  const v = el.style.backdropFilter || el.style.webkitBackdropFilter || '';
+  return v.indexOf('url(') !== -1;
+}
+
+/* Apply the cheap params (no map regen): frost, tint, shadow, displacement scale, light opacity. */
+function applyGlass(){
+  const glass = document.querySelector('.wordmark-glass');
+  const shadow = document.querySelector('.wordmark-shadow');
+  const light = document.querySelector('.wordmark-light');
+  if(!glass) return;
+  glass.style.setProperty('--g-blur', (GLASS.frost*CAL.frost) + 'px');
+  glass.style.setProperty('--g-sat', GLASS.saturate);
+  glass.style.setProperty('--g-bright', GLASS.brightness);
+  glass.style.setProperty('--g-tint', GLASS.tint/100);
+  if(shadow){
+    shadow.style.setProperty('--sh-y', GLASS.shadowY + 'px');
+    shadow.style.setProperty('--sh-blur', (GLASS.shadowBlur*CAL.shadowBlur) + 'px');
+    shadow.style.setProperty('--sh-op', GLASS.shadowOpacity/100);
+  }
+  if(light) light.style.setProperty('--lt-op', GLASS.lightIntensity/100);  // rim baked at full; intensity = opacity
+  const dR = document.getElementById('glassDispR'), dB = document.getElementById('glassDispB');
+  if(dR && dB){
+    const base = GLASS.refraction * CAL.refraction;
+    const split = base * (GLASS.dispersion/100) * CAL.disp;   // prism: red/blue bent slightly differently
+    dR.setAttribute('scale', String(base + split));
+    dB.setAttribute('scale', String(base - split));
+  }
+}
+
+/* Generate the displacement map (refraction) AND the lit-bevel rim (light) from wordmark.png. */
+function buildLiquidGlass(){
+  const glass = document.querySelector('.wordmark-glass');
+  if(!glass) return;
+  applyGlass();
+
+  const img = new Image();
+  img.decoding = 'async';
+  img.onload = ()=>{
+    const W = 1024, H = Math.max(1, Math.round(W * img.height / img.width));
+    const cv = document.createElement('canvas'); cv.width = W; cv.height = H;
+    const ctx = cv.getContext('2d', { willReadFrequently:true });
+    ctx.drawImage(img, 0, 0, W, H);
+    let src;
+    try{ src = ctx.getImageData(0, 0, W, H).data; }
+    catch(e){ return; }   // canvas tainted (e.g. opened over file://) -> keep frost fallback
+
+    // letter coverage -> soft ramp. Depth+Splay set how far the bevel reaches in from the edge.
+    const N = W*H, cov = new Float32Array(N);
+    for(let i=0;i<N;i++) cov[i] = src[i*4+3] / 255;
+    const sx = W/img.width;
+    const rad = Math.max(1, Math.round((GLASS.depth*CAL.depth + GLASS.splay*CAL.splay) * sx));
+    const ramp = boxBlur2D(cov, W, H, rad);
+
+    // light direction (screen space, y down). Baseline = response of a flat interior facet.
+    const la = GLASS.lightAngle * Math.PI/180;
+    let Lx = Math.cos(la), Ly = Math.sin(la), Lz = 0.6;
+    const Ll = Math.hypot(Lx,Ly,Lz); Lx/=Ll; Ly/=Ll; Lz/=Ll;
+    const baseDot = Lz;                         // flat normal (0,0,1) . L
+    const GN = GLASS.depth * CAL.normal;        // gradient -> normal tilt
+
+    const disp = ctx.createImageData(W, H), d = disp.data;   // RG displacement map
+    const rim  = ctx.createImageData(W, H), m = rim.data;    // overlay rim light
+    const K = 220;
+    for(let y=0;y<H;y++){
+      for(let x=0;x<W;x++){
+        const i = y*W + x;
+        const xl = x>0 ? i-1 : i, xr = x<W-1 ? i+1 : i;
+        const yt = y>0 ? i-W : i, yb = y<H-1 ? i+W : i;
+        const gx = ramp[xr]-ramp[xl], gy = ramp[yb]-ramp[yt];
+        const j = i*4;
+        // displacement: gradient packed around neutral 128
+        d[j]   = clamp255(128 + gx*K);
+        d[j+1] = clamp255(128 + gy*K);
+        d[j+2] = 128; d[j+3] = 255;
+        // rim light: normal from gradient, dot with light, minus flat baseline -> lighten/darken
+        let nx = -gx*GN, ny = -gy*GN, nz = 1;
+        const nl = Math.hypot(nx,ny,nz); nx/=nl; ny/=nl; nz/=nl;
+        const lit = (nx*Lx + ny*Ly + nz*Lz) - baseDot;   // ~0 on flat, +/- at edges
+        m[j] = m[j+1] = m[j+2] = clamp255(128 + lit*255);
+        m[j+3] = 255;
+      }
+    }
+
+    const r = glass.getBoundingClientRect();
+    if(supportsBackdropUrlFilter()){
+      ctx.putImageData(disp, 0, 0);
+      const map = document.getElementById('glassMap');
+      setHref(map, cv.toDataURL('image/png'));
+      map.setAttribute('x','0'); map.setAttribute('y','0');
+      map.setAttribute('width', String(Math.round(r.width)));
+      map.setAttribute('height', String(Math.round(r.height)));
+      glass.classList.add('glass-refract');
+    }
+    // rim light works on every browser (it's just an overlay image)
+    ctx.putImageData(rim, 0, 0);
+    const light = document.querySelector('.wordmark-light');
+    if(light) light.style.backgroundImage = `url(${cv.toDataURL('image/png')})`;
+
+    applyGlass();
+  };
+  img.onerror = ()=>{ /* keep frost fallback */ };
+  img.src = 'assets/wordmark.png';
+}
+function clamp255(v){ return v<0?0 : v>255?255 : v|0; }
+function setHref(node, url){ node.setAttribute('href', url); node.setAttributeNS('http://www.w3.org/1999/xlink','xlink:href', url); }
+/* simple separable box blur over a 2D Float32 field */
+function boxBlur2D(field, W, H, rad){
+  const tmp = new Float32Array(W*H), out = new Float32Array(W*H);
+  const win = rad*2 + 1;
+  // horizontal
+  for(let y=0;y<H;y++){
+    const row = y*W; let sum = 0;
+    for(let k=-rad;k<=rad;k++) sum += field[row + Math.max(0,Math.min(W-1,k))];
+    for(let x=0;x<W;x++){
+      tmp[row+x] = sum/win;
+      const add = field[row + Math.min(W-1, x+rad+1)];
+      const sub = field[row + Math.max(0, x-rad)];
+      sum += add - sub;
+    }
+  }
+  // vertical
+  for(let x=0;x<W;x++){
+    let sum = 0;
+    for(let k=-rad;k<=rad;k++) sum += tmp[Math.max(0,Math.min(H-1,k))*W + x];
+    for(let y=0;y<H;y++){
+      out[y*W+x] = sum/win;
+      const add = tmp[Math.min(H-1, y+rad+1)*W + x];
+      const sub = tmp[Math.max(0, y-rad)*W + x];
+      sum += add - sub;
+    }
+  }
+  return out;
+}
+
+/* ---- Glass tuner: live sliders. Shown when the URL has ?tune (or #tune), or when
+   you press "g". Drag a slider to update GLASS live; "Copy" puts the current values on
+   your clipboard so you can paste them into the GLASS config above. Dev-only; delete
+   this function + its CSS + the init call to remove. ---- */
+const GT_SLIDERS = [
+  ['refraction','Refraction',0,100,1],
+  ['depth','Depth',0,100,1],
+  ['dispersion','Dispersion',0,100,1],
+  ['frost','Frost',0,100,1],
+  ['splay','Splay',0,100,1],
+  ['lightAngle','Light angle',-180,180,1],
+  ['lightIntensity','Light',0,100,1],
+  ['tint','Tint %',0,40,1],
+  ['saturate','Saturation',1,3,0.05],
+  ['brightness','Brightness',0.7,1.5,0.01],
+  ['shadowY','Shadow Y',0,80,1],
+  ['shadowBlur','Shadow blur',0,120,1],
+  ['shadowOpacity','Shadow %',0,60,1],
+];
+function setupGlassTuner(){
+  const want = /[?&#]tune\b/.test(location.search + location.hash);
+  const panel = document.createElement('aside');
+  panel.className = 'gt'; panel.hidden = !want;
+  panel.innerHTML =
+    `<div class="gt-head"><b>Glass tuner</b><button class="gt-x" aria-label="Hide">&times;</button></div>` +
+    GT_SLIDERS.map(([k,label,min,max,step])=>
+      `<div class="gt-row"><label for="gt-${k}">${label}</label><span class="gv" id="gv-${k}">${GLASS[k]}</span>
+       <input type="range" id="gt-${k}" min="${min}" max="${max}" step="${step}" value="${GLASS[k]}" data-k="${k}"></div>`
+    ).join('') +
+    `<div class="gt-actions"><button id="gt-copy">Copy values</button>
+       <button class="ghost" id="gt-reset">Reset</button></div>
+     <div class="gt-note">Press <b>g</b> to toggle. Open with <b>?tune</b> to show on load.</div>`;
+  document.body.appendChild(panel);
+
+  const defaults = Object.assign({}, GLASS);
+  let rebuildTimer;
+  panel.querySelectorAll('input[type=range]').forEach(inp=>{
+    inp.addEventListener('input', e=>{
+      const k = e.target.dataset.k, v = parseFloat(e.target.value);
+      GLASS[k] = v;
+      document.getElementById('gv-'+k).textContent = v;
+      if(GLASS_REBUILD.includes(k)){ clearTimeout(rebuildTimer); rebuildTimer = setTimeout(buildLiquidGlass, 90); }
+      else applyGlass();
+    });
+  });
+  panel.querySelector('.gt-x').addEventListener('click', ()=> panel.hidden = true);
+  panel.querySelector('#gt-reset').addEventListener('click', ()=>{
+    Object.assign(GLASS, defaults);
+    panel.querySelectorAll('input[type=range]').forEach(inp=>{
+      const k = inp.dataset.k; inp.value = GLASS[k]; document.getElementById('gv-'+k).textContent = GLASS[k];
+    });
+    buildLiquidGlass();
+  });
+  panel.querySelector('#gt-copy').addEventListener('click', async ()=>{
+    const text = 'const GLASS = {\n' +
+      Object.keys(defaults).map(k=>`  ${k}: ${GLASS[k]},`).join('\n') + '\n};';
+    try{ await navigator.clipboard.writeText(text); }catch(e){}
+    console.log(text);
+    const btn = panel.querySelector('#gt-copy'); const old = btn.textContent;
+    btn.textContent = 'Copied!'; setTimeout(()=> btn.textContent = old, 1200);
+  });
+  document.addEventListener('keydown', e=>{
+    if(e.key === 'g' && !/^(INPUT|TEXTAREA)$/.test(document.activeElement.tagName)) panel.hidden = !panel.hidden;
+  });
+}
+
+/* ============================================================
+   Hero photo gallery + spring lightbox
+   Real second-order dynamics via a semi-implicit Euler spring
+   integrator, tuned with the design system's stiffness/damping/mass.
+   ============================================================ */
+const GALLERY = [
+  "002","004","006","008","010","012","014","016","019","021","023","025","027","029","031",
+  "033","035","037","039","041","043","046","048","050","052","054","056","058","060","062",
+  "064","066","068","070","072","074","076","078","080","082","084","086","088","090","092",
+  "094","096","098","100","102","104","106","108","110","112","114","116","118","120","122",
+  "124","126","128"
+].map(n => ({ thumb:`Love/thumbs/Dillanski_edit-${n}.jpg`, src:`Love/Dillanski_edit-${n}.jpg`, alt:"Dan and Nicole" }));
+
+/* ---- 3D photo sphere ----
+   Ported from the reference SphereImageGrid: Fibonacci distribution with a
+   pole bonus and slight randomization, depth + center-distance scaling, and
+   collision detection so images never overlap. Drag to rotate with momentum,
+   plus a slow auto-spin. Thumbnails on the sphere, full-res in the lightbox. */
+const D2R = Math.PI/180;
+const normAngle = a => { while(a>180) a-=360; while(a<-180) a+=360; return a; };
+const SPHERE = {
+  stage:null, nodes:[], pos:[], world:[], rot:{x:15,y:15}, vel:{x:0,y:0},
+  dragging:false, last:{x:0,y:0}, moved:0, raf:null, hovered:-1,
+  R:0, base:0, zoom:1, _g:1,
+  SENS:0.8, DECAY:0.96, MAX:6, AUTO:0.08, BASE_SCALE:0.15, HOVER:1.25,
+  ZMIN:0.6, ZMAX:2.6
+};
+
+function genPositions(n, R){
+  const pos=[]; const golden=(1+Math.sqrt(5))/2; const inc=2*Math.PI/golden;
+  for(let i=0;i<n;i++){
+    const t=i/n, incl=Math.acos(1-2*t), az=inc*i;
+    let phi=incl*(180/Math.PI), theta=(az*(180/Math.PI))%360;
+    const poleBonus=Math.pow(Math.abs(phi-90)/90,0.6)*35;
+    phi = phi<90 ? Math.max(5,phi-poleBonus) : Math.min(175,phi+poleBonus);
+    phi = 15 + (phi/180)*150;
+    theta = (theta + (Math.random()-0.5)*20) % 360;
+    phi = Math.max(0, Math.min(180, phi + (Math.random()-0.5)*10));
+    pos.push({theta, phi});
+  }
+  return pos;
+}
+function sizeSphere(){
+  const s = SPHERE.stage.clientWidth || 360;
+  const z = SPHERE.zoom || 1;
+  SPHERE.R = (s/3) * z;                     // reference: radius 200 in a 600 box, times pinch zoom
+  SPHERE.base = s*SPHERE.BASE_SCALE * z;
+  SPHERE.nodes.forEach(n=>{ n.style.width=SPHERE.base+'px'; n.style.height=SPHERE.base+'px'; });
+}
+function zoomSphere(factor){
+  SPHERE.zoom = Math.max(SPHERE.ZMIN, Math.min(SPHERE.ZMAX, SPHERE.zoom * factor));
+  sizeSphere(); renderSphereFrame();
+}
+function setupSphere(){
+  SPHERE.stage = document.getElementById('sphere');
+  SPHERE.pos = genPositions(GALLERY.length, 1);
+  SPHERE.stage.innerHTML = '';
+  GALLERY.forEach((img,i)=>{
+    const b = document.createElement('button');
+    b.className='sphere-node'; b.type='button'; b.tabIndex=-1; b.dataset.i=i;
+    b.setAttribute('aria-label', `Open photo ${i+1} of ${GALLERY.length}`);
+    b.innerHTML = `<img src="${img.thumb}" alt="${img.alt}" draggable="false" />`;
+    b.addEventListener('mouseenter', ()=>{ SPHERE.hovered=i; if(REDUCED) renderSphereFrame(); });
+    b.addEventListener('mouseleave', ()=>{ SPHERE.hovered=-1; if(REDUCED) renderSphereFrame(); });
+    SPHERE.nodes.push(b); SPHERE.stage.appendChild(b);
+  });
+  sizeSphere();
+
+  const clamp = v => Math.max(-SPHERE.MAX, Math.min(SPHERE.MAX, v));
+  // Tap vs drag is decided on pointer UP (no setPointerCapture, which would swallow the tap).
+  let tapNode=null, tapTime=0;
+  const down = e=>{
+    SPHERE.dragging=true; SPHERE.moved=0; SPHERE.vel.x=SPHERE.vel.y=0;
+    SPHERE.last={x:e.clientX,y:e.clientY};
+    tapNode = (e.target && e.target.closest) ? e.target.closest('.sphere-node') : null;
+    tapTime = Date.now();
+  };
+  const move = e=>{
+    if(!SPHERE.dragging) return;
+    const dx=e.clientX-SPHERE.last.x, dy=e.clientY-SPHERE.last.y;
+    SPHERE.moved += Math.abs(dx)+Math.abs(dy);
+    const rdx=-dy*SPHERE.SENS, rdy=dx*SPHERE.SENS;
+    SPHERE.rot.x = normAngle(SPHERE.rot.x + clamp(rdx));
+    SPHERE.rot.y = normAngle(SPHERE.rot.y + clamp(rdy));
+    SPHERE.vel.x = clamp(rdx); SPHERE.vel.y = clamp(rdy);
+    SPHERE.last = {x:e.clientX, y:e.clientY};
+    if(REDUCED) renderSphereFrame();
+  };
+  const up = ()=>{
+    if(!SPHERE.dragging) return;
+    SPHERE.dragging=false;
+    if(tapNode && SPHERE.moved < 6 && (Date.now()-tapTime) < 500){
+      openLightbox(+tapNode.dataset.i, tapNode);
+    }
+    tapNode=null;
+  };
+  SPHERE.stage.addEventListener('pointerdown', down);
+  window.addEventListener('pointermove', move);
+  window.addEventListener('pointerup', up);
+  window.addEventListener('pointercancel', up);
+  // two-finger trackpad pinch to zoom the sphere (ctrl+wheel) and Safari gesture events
+  SPHERE.stage.addEventListener('wheel', e=>{
+    if(!e.ctrlKey) return;             // a pinch on the trackpad arrives as ctrl+wheel
+    e.preventDefault();
+    zoomSphere(1 - e.deltaY*0.01);
+  }, {passive:false});
+  SPHERE.stage.addEventListener('gesturestart', e=>{ e.preventDefault(); SPHERE._g=SPHERE.zoom; });
+  SPHERE.stage.addEventListener('gesturechange', e=>{
+    e.preventDefault();
+    SPHERE.zoom = Math.max(SPHERE.ZMIN, Math.min(SPHERE.ZMAX, SPHERE._g * e.scale));
+    sizeSphere(); renderSphereFrame();
+  });
+  SPHERE.stage.addEventListener('keydown', e=>{
+    if(e.key==='Enter' || e.key===' '){ e.preventDefault();
+      let best=0, bz=-Infinity;
+      SPHERE.world.forEach((w,i)=>{ if(w && w.z>bz){ bz=w.z; best=i; } });
+      openLightbox(best, SPHERE.nodes[best]);
+    }
+  });
+
+  renderSphereFrame();
+  if(!REDUCED){
+    const tick=()=>{
+      if(!SPHERE.dragging){
+        SPHERE.vel.x*=SPHERE.DECAY; SPHERE.vel.y*=SPHERE.DECAY;
+        if(Math.abs(SPHERE.vel.x)<0.01) SPHERE.vel.x=0;
+        if(Math.abs(SPHERE.vel.y)<0.01) SPHERE.vel.y=0;
+        SPHERE.rot.y = normAngle(SPHERE.rot.y + SPHERE.AUTO + clamp(SPHERE.vel.y));
+        SPHERE.rot.x = normAngle(SPHERE.rot.x + clamp(SPHERE.vel.x));
+      }
+      renderSphereFrame();
+      SPHERE.raf = requestAnimationFrame(tick);
+    };
+    SPHERE.raf = requestAnimationFrame(tick);
+  }
+}
+function renderSphereFrame(){
+  const N=SPHERE.pos.length, R=SPHERE.R, base=SPHERE.base;
+  const cx=SPHERE.stage.clientWidth/2, cy=SPHERE.stage.clientHeight/2;
+  const rotX=SPHERE.rot.x*D2R, rotY=SPHERE.rot.y*D2R;
+  const fadeStart=-R*0.05, fadeEnd=-R*0.15;
+  const w=SPHERE.world;
+  for(let i=0;i<N;i++){
+    const p=SPHERE.pos[i], th=p.theta*D2R, ph=p.phi*D2R;
+    let x=R*Math.sin(ph)*Math.cos(th), y=R*Math.cos(ph), z=R*Math.sin(ph)*Math.sin(th);
+    const x1=x*Math.cos(rotY)+z*Math.sin(rotY), z1=-x*Math.sin(rotY)+z*Math.cos(rotY); x=x1; z=z1;
+    const y2=y*Math.cos(rotX)-z*Math.sin(rotX), z2=y*Math.sin(rotX)+z*Math.cos(rotX); y=y2; z=z2;
+    const visible = z > fadeEnd;
+    let fade = 1; if(z<=fadeStart) fade = Math.max(0,(z-fadeEnd)/(fadeStart-fadeEnd));
+    const isPole = p.phi<30 || p.phi>150;
+    const distRatio = Math.min(Math.sqrt(x*x+y*y)/R, 1);
+    const centerScale = Math.max(0.3, 1 - distRatio*(isPole?0.4:0.7));
+    const depthScale = (z+R)/(2*R);
+    let scale = centerScale * Math.max(0.5, 0.8 + depthScale*0.3);
+    w[i] = {x, y, z, scale, fade, visible};
+  }
+  // collision detection: shrink overlapping images
+  for(let i=0;i<N;i++){
+    const a=w[i]; if(!a.visible) continue;
+    let s=a.scale;
+    for(let j=0;j<N;j++){
+      if(i===j) continue; const b=w[j]; if(!b.visible) continue;
+      const dx=a.x-b.x, dy=a.y-b.y, dist=Math.sqrt(dx*dx+dy*dy);
+      const minDist=(base*s + base*b.scale)/2 + 14;
+      if(dist<minDist && dist>0){
+        const overlap=minDist-dist;
+        s = Math.min(s, s*Math.max(0.4, 1-(overlap/minDist)*0.6));
+      }
+    }
+    a.scale = Math.max(0.25, s);
+  }
+  // paint
+  for(let i=0;i<N;i++){
+    const a=w[i], n=SPHERE.nodes[i];
+    if(!a.visible){ n.style.opacity='0'; n.style.pointerEvents='none'; continue; }
+    let s=a.scale; if(SPHERE.hovered===i) s=Math.min(s*SPHERE.HOVER, SPHERE.HOVER);
+    n.style.pointerEvents='auto';
+    n.style.transform=`translate(${(cx+a.x-base/2).toFixed(1)}px, ${(cy-a.y-base/2).toFixed(1)}px) scale(${s.toFixed(3)})`;
+    n.style.opacity=a.fade.toFixed(3);
+    n.style.zIndex=String(Math.round(1000+a.z));
+  }
+}
+
+/* spring presets from DESIGN.md (stiffness, damping, mass) */
+const SPRINGS = { smooth:{s:300,d:28,m:1}, bouncy:{s:170,d:14,m:1} };
+function runSpring(preset, from, to, onUpdate, onRest){
+  const {s,d,m} = preset; let x=from, v=0; const dt=1/60; let raf;
+  function tick(){
+    const f = -s*(x-to) - d*v; v += (f/m)*dt; x += v*dt;
+    onUpdate(x);
+    if(Math.abs(to-x) < 0.001 && Math.abs(v) < 0.02){ onUpdate(to); if(onRest) onRest(); return; }
+    raf = requestAnimationFrame(tick);
+  }
+  tick();
+  return ()=>{ if(raf) cancelAnimationFrame(raf); };
+}
+
+/* lightbox state */
+const lb = {
+  el:null, slots:[], front:0, idx:0, origin:null, cancel:null, busy:false, pendingFront:1
+};
+function setupLightbox(){
+  lb.el = document.getElementById('lb');
+  lb.slots = [document.getElementById('lbA'), document.getElementById('lbB')];
+  document.getElementById('lbPrev').addEventListener('click', ()=>navLightbox(-1));
+  document.getElementById('lbNext').addEventListener('click', ()=>navLightbox(1));
+  document.getElementById('lbClose').addEventListener('click', closeLightbox);
+  lb.el.addEventListener('click', e=>{ if(e.target===lb.el) closeLightbox(); });
+  document.addEventListener('keydown', e=>{
+    if(!lb.el.classList.contains('open')) return;
+    if(e.key==='ArrowLeft'){ e.preventDefault(); navLightbox(-1); }
+    else if(e.key==='ArrowRight'){ e.preventDefault(); navLightbox(1); }
+    else if(e.key==='Escape'){ e.preventDefault(); closeLightbox(); }
+  });
+}
+function preload(i){ const im = new Image(); im.src = GALLERY[(i+GALLERY.length)%GALLERY.length].src; }
+function updateCounter(){ document.getElementById('lbCounter').textContent = `${lb.idx+1} / ${GALLERY.length}`; }
+
+function openLightbox(i, origin){
+  lb.idx = i; lb.origin = origin; lb.front = 0; lb.busy = false;
+  const f = lb.slots[0], b = lb.slots[1];
+  f.src = GALLERY[i].src; f.alt = GALLERY[i].alt;
+  b.style.opacity = 0; b.style.transform = 'none';
+  lb.el.classList.add('open');
+  updateCounter();
+  preload(i+1); preload(i-1);
+  document.getElementById('lbNext').focus();
+  if(lb.cancel) lb.cancel();
+  if(REDUCED){ f.style.opacity = 1; f.style.transform = 'none'; return; }
+  f.style.opacity = 0; f.style.transform = 'scale(.92)';
+  lb.cancel = runSpring(SPRINGS.bouncy, 0, 1, p=>{
+    f.style.opacity = Math.min(1, p);
+    f.style.transform = `scale(${0.92 + 0.08*p})`;
+  });
+}
+/* snap any in-flight crossfade to its finished state so rapid input stays responsive */
+function finalizeNav(){
+  if(!lb.busy) return;
+  if(lb.cancel) lb.cancel();
+  const inc = lb.slots[lb.pendingFront], out = lb.slots[1-lb.pendingFront];
+  inc.style.opacity = 1; inc.style.transform = 'none';
+  out.style.opacity = 0;
+  lb.front = lb.pendingFront; lb.busy = false;
+}
+function navLightbox(dir){
+  finalizeNav();
+  const next = (lb.idx + dir + GALLERY.length) % GALLERY.length;
+  lb.idx = next; updateCounter(); preload(next+dir);
+  const front = lb.slots[lb.front], back = lb.slots[1-lb.front];
+  back.src = GALLERY[next].src; back.alt = GALLERY[next].alt;
+  if(REDUCED){
+    front.style.opacity = 0; back.style.opacity = 1; back.style.transform = 'none';
+    lb.front = 1-lb.front; return;
+  }
+  lb.busy = true; lb.pendingFront = 1-lb.front;
+  back.style.opacity = 0; back.style.transform = `translateX(${dir*44}px) scale(.96)`;
+  lb.cancel = runSpring(SPRINGS.smooth, 0, 1, p=>{
+    const c = Math.max(0, Math.min(1, p));
+    back.style.opacity = c;
+    back.style.transform = `translateX(${(1-c)*dir*44}px) scale(${0.96 + 0.04*c})`;
+    front.style.opacity = Math.max(0, 1 - p*1.5);
+    front.style.transform = `translateX(${-c*dir*22}px) scale(${1 - 0.02*c})`;
+  }, ()=>{ lb.front = lb.pendingFront; lb.busy = false; });
+}
+function closeLightbox(){
+  if(lb.cancel) lb.cancel();
+  const f = lb.slots[lb.front];
+  const done = ()=>{ lb.el.classList.remove('open'); if(lb.origin) lb.origin.focus(); };
+  if(REDUCED){ done(); return; }
+  // exits never spring: quick opacity fade
+  lb.el.style.transition = 'opacity .15s ease-in'; lb.el.style.opacity = '1';
+  requestAnimationFrame(()=>{ lb.el.style.opacity = '0'; });
+  setTimeout(()=>{ lb.el.style.transition=''; lb.el.style.opacity=''; done(); }, 160);
+}
+
+/* ============================================================
+   Google Calendar sync. Builds the summer highlights (trips, golf,
+   the wedding, Saturday rides) into a standard .ics file the user
+   can import in one go, plus a one-click "add" link to Google for
+   the next upcoming highlight. No backend needed.
+   ============================================================ */
+function pad2(n){ return String(n).padStart(2,'0'); }
+function icsDate(d){ return d.getFullYear()+pad2(d.getMonth()+1)+pad2(d.getDate()); }
+function icsDateTime(d){ return icsDate(d)+'T'+pad2(d.getHours())+pad2(d.getMinutes())+'00'; }
+function icsStamp(){ const d=new Date(); return d.getUTCFullYear()+pad2(d.getUTCMonth()+1)+pad2(d.getUTCDate())+'T'+pad2(d.getUTCHours())+pad2(d.getUTCMinutes())+pad2(d.getUTCSeconds())+'Z'; }
+function icsEsc(s){ return String(s).replace(/[\\;,]/g, m=>'\\'+m).replace(/\n/g,'\\n'); }
+function syncEvents(){
+  const evs = [];
+  TRIPS.forEach(t=> evs.push({ title:(t.booked?'':'(Suggested) ')+t.name, allday:true,
+    start:new Date(2026,t.m,t.from), end:new Date(2026,t.m,t.to+1), desc:t.blurb }));
+  GOLF.forEach(g=>{
+    if(g.booked && /^\d/.test(g.time)){
+      evs.push({ title:'Golf — '+(g.place||'tee time'),
+        start:new Date(2026,g.m,g.d,13,50), end:new Date(2026,g.m,g.d,18,0),
+        desc:'1:50pm tee time. '+(g.place||'') });
+    } else {
+      evs.push({ title:(g.booked?'':'(Suggested) ')+'Golf', allday:true,
+        start:new Date(2026,g.m,g.d), end:new Date(2026,g.m,g.d+1) });
+    }
+  });
+  TRAVEL_SUGGESTIONS.forEach(t=> evs.push({ title:t.label, allday:true,
+    start:new Date(2026,t.m,t.from), end:new Date(2026,t.m,t.to+1) }));
+  for(let dt=new Date(SUMMER_START); dt<=SUMMER_END; dt.setDate(dt.getDate()+1)){
+    if(dt.getDay()===6 && !tripFor(dt.getMonth(), dt.getDate())){
+      const day = new Date(dt);
+      evs.push({ title:'Bike ride with Nicole', allday:true,
+        start:day, end:new Date(day.getFullYear(),day.getMonth(),day.getDate()+1) });
+    }
+  }
+  evs.sort((a,b)=> a.start-b.start);
+  return evs;
+}
+function buildICS(evs){
+  const out = ['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Summer Plan//EN','CALSCALE:GREGORIAN'];
+  evs.forEach((e,i)=>{
+    out.push('BEGIN:VEVENT', 'UID:summerplan-'+i+'-'+icsDate(e.start)+'@sozanski', 'DTSTAMP:'+icsStamp());
+    if(e.allday){ out.push('DTSTART;VALUE=DATE:'+icsDate(e.start), 'DTEND;VALUE=DATE:'+icsDate(e.end)); }
+    else { out.push('DTSTART:'+icsDateTime(e.start), 'DTEND:'+icsDateTime(e.end)); }
+    out.push('SUMMARY:'+icsEsc(e.title));
+    if(e.desc) out.push('DESCRIPTION:'+icsEsc(e.desc));
+    out.push('END:VEVENT');
+  });
+  out.push('END:VCALENDAR');
+  return out.join('\r\n');
+}
+function gcalLink(e){
+  const fmt = e.allday ? icsDate : icsDateTime;
+  return 'https://calendar.google.com/calendar/render?action=TEMPLATE'
+    + '&text=' + encodeURIComponent(e.title)
+    + '&dates=' + fmt(e.start) + '/' + fmt(e.end)
+    + (e.desc ? '&details=' + encodeURIComponent(e.desc) : '');
+}
+function setupCalSync(){
+  const dl = document.getElementById('icsAll');
+  if(dl) dl.addEventListener('click', ()=>{
+    const blob = new Blob([buildICS(syncEvents())], {type:'text/calendar;charset=utf-8'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a'); a.href=url; a.download='summer-plan-highlights.ics';
+    document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(url), 1000);
+  });
+  const link = document.getElementById('gcalNext');
+  if(link){
+    const evs = syncEvents();
+    const todayMidnight = new Date(NOW.getFullYear(),NOW.getMonth(),NOW.getDate());
+    const next = evs.find(e=> e.start >= todayMidnight) || evs[evs.length-1];
+    if(next){ link.href = gcalLink(next); link.textContent = 'Add next: '+next.title.replace(/^\(Suggested\)\s*/,''); }
+  }
+}
+
+/* init */
+renderPlan();
+renderTimeline();
+renderCalendar();
+renderWeekstrip();
+renderDay(false);
+renderModules();
+setupCalSync();
+setupSphere();
+buildLiquidGlass();
+setupGlassTuner();
+setupLightbox();
+setupNav();
+setupReveal();
+document.getElementById('protect').addEventListener('change', e=>{ protectOn = e.target.checked; renderDay(false); });
+document.getElementById('sendReset').addEventListener('click', sendReset);
+let _glassResize;
+window.addEventListener('resize', ()=>{
+  moveIndicator(); if(SPHERE.stage){ sizeSphere(); renderSphereFrame(); }
+  clearTimeout(_glassResize); _glassResize = setTimeout(buildLiquidGlass, 150);  // map rebuilds at the new glass size
+});
+</script>
+</body>
+</html>

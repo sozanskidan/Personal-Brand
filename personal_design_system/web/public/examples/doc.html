@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project Update: HN2B Spatial Vignettes · Week of June 1</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=DM+Sans:wght@400;500;600&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    /* Davinci sourcing:
+       - Adobe Fonts (Typekit): Davinci is not in the public Adobe Fonts library as of 2026.
+         If you have it via Creative Cloud, add your kit: <link rel="stylesheet" href="https://use.typekit.net/{kit-id}.css">
+       - Pangram Pangram: No "PP Davinci" found in their catalog (checked PP Editorial, PP Neue Machina, PP Agrandir).
+       - Resolution: @font-face below activates if Davinci.woff2 is placed at ../fonts/Davinci-Regular.woff2.
+         Until then, Instrument Serif (Google Fonts) handles display duties cleanly. */
+    @font-face {
+      font-family: 'Davinci';
+      src: local('Davinci'),
+           url('../fonts/Davinci-Regular.woff2') format('woff2'),
+           url('../fonts/Davinci.woff2') format('woff2'),
+           url('../fonts/DaVinci/TRJNDaVinci-Regular-Trial.otf') format('opentype');
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --ink: #0A0A0A;
+      --graphite: #3D3D3D;
+      --slate: #6B6B6B;
+      --rule: #E5E5E5;
+      --surface: #FAFAF7;
+      --surface-elevated: #FFFFFF;
+      --surface-sunken: #F2F1ED;
+      --accent: #9BB0C9;
+      --accent-muted: #E8EEF4;
+      --on-accent: #0A0A0A;
+      --font-serif: 'Davinci', 'Instrument Serif', Georgia, 'Times New Roman', serif;
+      --font-body: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'DM Sans', system-ui, sans-serif;
+      --font-mono: 'Roboto Mono', 'SF Mono', 'Fira Code', monospace;
+    }
+
+    html {
+      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    ::selection {
+      background: var(--accent-muted);
+      color: var(--ink);
+    }
+
+    body {
+      background-color: var(--surface);
+      color: var(--ink);
+      font-family: var(--font-body);
+      font-size: 1rem;
+      font-weight: 400;
+      line-height: 1.55;
+      padding: 64px 24px;
+      min-height: 100vh;
+    }
+
+    /* ── Document page card ── */
+    .doc-page {
+      max-width: 720px;
+      margin: 0 auto;
+      background: var(--surface-elevated);
+      border-radius: 8px;
+      padding: 64px;
+    }
+
+    /* ── Eyebrow ── */
+    .eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 500;
+      line-height: 1.2;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--slate);
+      margin-bottom: 16px;
+    }
+
+    /* ── Title ── */
+    .doc-title {
+      font-family: var(--font-serif);
+      font-size: 3rem;
+      font-weight: 400;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      margin-bottom: 8px;
+    }
+
+    .doc-subtitle {
+      font-family: var(--font-body);
+      font-size: 1.125rem;
+      font-weight: 400;
+      line-height: 1.55;
+      color: var(--graphite);
+      margin-bottom: 32px;
+    }
+
+    /* ── Callout / TL;DR ── */
+    .callout {
+      background-color: var(--accent-muted);
+      color: var(--ink);
+      border-radius: 8px;
+      padding: 16px 20px;
+      margin-bottom: 48px;
+    }
+
+    .callout-label {
+      font-family: var(--font-mono);
+      font-size: 0.6875rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 6px;
+    }
+
+    .callout p {
+      font-size: 0.9375rem;
+      line-height: 1.5;
+      color: var(--graphite);
+    }
+
+    /* ── Divider ── */
+    .divider {
+      height: 1px;
+      background: var(--rule);
+      border: none;
+      margin: 48px 0;
+    }
+
+    /* ── Section headings ── */
+    .section-heading {
+      font-family: var(--font-serif);
+      font-size: 2rem;
+      font-weight: 400;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      margin-bottom: 16px;
+    }
+
+    /* ── Body text ── */
+    .body-text {
+      font-size: 1rem;
+      line-height: 1.55;
+      color: var(--graphite);
+      margin-bottom: 16px;
+      max-width: 65ch;
+    }
+
+    .body-text:last-child { margin-bottom: 0; }
+
+    /* ── Inline table ── */
+    .inline-table-wrap {
+      margin: 24px 0 32px;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid var(--rule);
+    }
+
+    .inline-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .inline-table th {
+      background: var(--surface-sunken);
+      color: var(--graphite);
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-align: left;
+      padding: 8px 12px;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .inline-table th.num { text-align: right; }
+
+    .inline-table td {
+      background: var(--surface-elevated);
+      color: var(--ink);
+      font-family: var(--font-body);
+      font-size: 0.875rem;
+      line-height: 1.5;
+      padding: 8px 12px;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .inline-table td.num {
+      text-align: right;
+      font-family: var(--font-mono);
+      font-size: 0.8125rem;
+    }
+
+    .inline-table tr:last-child td { border-bottom: none; }
+
+    /* ── Link cluster ── */
+    .link-cluster {
+      margin: 24px 0;
+    }
+
+    .link-cluster-label {
+      font-family: var(--font-mono);
+      font-size: 0.6875rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--slate);
+      margin-bottom: 8px;
+    }
+
+    .link-cluster a {
+      display: block;
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 0.9375rem;
+      line-height: 1.6;
+      padding: 2px 0;
+    }
+
+    .link-cluster a:hover { text-decoration: underline; }
+
+    /* ── Footer ── */
+    .doc-footer {
+      margin-top: 48px;
+      padding-top: 24px;
+      border-top: 1px solid var(--rule);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .doc-footer-meta {
+      font-family: var(--font-mono);
+      font-size: 0.6875rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--slate);
+    }
+
+    /* ── System back-link ── */
+    .system-footer {
+      max-width: 720px;
+      margin: 48px auto 0;
+      text-align: center;
+    }
+
+    .system-footer a {
+      font-family: var(--font-mono);
+      font-size: 0.6875rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--slate);
+      text-decoration: none;
+    }
+
+    .system-footer a:hover { color: var(--accent); }
+
+    /* ── Spring buttons ── */
+    .spring-btn { will-change: transform; }
+
+    @media (max-width: 640px) {
+      body { padding: 24px 16px; }
+      .doc-page { padding: 32px 24px; }
+      .doc-title { font-size: 2.25rem; }
+      .section-heading { font-size: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <article class="doc-page">
+
+    <p class="eyebrow">Product Design · HN2B · June 2026</p>
+    <h1 class="doc-title">Spatial Vignettes: Week of June 1</h1>
+    <p class="doc-subtitle">Progress update on the vignette system, user research findings, and next steps for the prototype sprint.</p>
+
+    <div class="callout">
+      <p class="callout-label">TL;DR</p>
+      <p>Three of five vignettes are in high-fidelity prototype. User research surfaced a strong preference for the "arrival moment" transition (4.2/5 desirability). Remaining two vignettes are blocked on spatial audio API access. Sprint closes June 6.</p>
+    </div>
+
+    <hr class="divider">
+
+    <h2 class="section-heading">Prototype progress</h2>
+    <p class="body-text">The vignette system now covers three core scenarios: morning context (bedroom to kitchen), commute handoff (phone to headset), and workspace entry (hallway to desk). Each vignette runs 8 to 12 seconds and transitions between spatial zones using a shared easing curve.</p>
+    <p class="body-text">The arrival moment, where the environment audio fades in before the visual scene resolves, tested as the highest-rated interaction in the desirability study. Participants described it as "calming" and "intentional." We are treating this as the signature transition for the system.</p>
+
+    <div class="inline-table-wrap">
+      <table class="inline-table">
+        <thead>
+          <tr>
+            <th>Vignette</th>
+            <th>Status</th>
+            <th>Fidelity</th>
+            <th class="num">Desirability</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Morning context</td>
+            <td>Complete</td>
+            <td>High-fi prototype</td>
+            <td class="num">3.8</td>
+          </tr>
+          <tr>
+            <td>Commute handoff</td>
+            <td>Complete</td>
+            <td>High-fi prototype</td>
+            <td class="num">3.5</td>
+          </tr>
+          <tr>
+            <td>Workspace entry</td>
+            <td>Complete</td>
+            <td>High-fi prototype</td>
+            <td class="num">4.2</td>
+          </tr>
+          <tr>
+            <td>Focus session</td>
+            <td>Blocked</td>
+            <td>Wireframe</td>
+            <td class="num">—</td>
+          </tr>
+          <tr>
+            <td>Wind-down</td>
+            <td>Blocked</td>
+            <td>Wireframe</td>
+            <td class="num">—</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <hr class="divider">
+
+    <h2 class="section-heading">Research findings</h2>
+    <p class="body-text">We ran five moderated sessions with internal participants (mixed roles: engineering, design, PM). The protocol asked participants to experience each vignette, then rate desirability on a 5-point scale and describe the transition in their own words.</p>
+    <p class="body-text">Two patterns emerged. First, audio-first transitions were consistently preferred over visual-first ones. Participants said the sound "prepared" them for the space. Second, shorter vignettes (under 10 seconds) scored higher than longer ones, regardless of content complexity. People want to arrive, not watch a loading screen with better aesthetics.</p>
+    <p class="body-text">One participant noted: "It felt like walking into a room where someone already turned the lights on for you." That framing resonated with the team and we are using it as the internal design principle for the remaining two vignettes.</p>
+
+    <hr class="divider">
+
+    <h2 class="section-heading">Next steps</h2>
+    <p class="body-text">The remaining two vignettes (focus session, wind-down) require the spatial audio positioning API, which is in development by the platform team. We have a dependency on their June 3 milestone. If that lands on time, we can hit our June 6 sprint close.</p>
+    <p class="body-text">In parallel, we are refining the arrival moment curve and documenting the transition spec for the engineering handoff. The goal is a single, reusable transition component that any vignette can call.</p>
+
+    <div class="link-cluster">
+      <p class="link-cluster-label">Resources</p>
+      <a href="#">Figma prototype: Spatial Vignettes v3</a>
+      <a href="#">Research report: Desirability study, May 28</a>
+      <a href="#">Platform API tracker: Spatial audio positioning</a>
+    </div>
+
+    <div class="doc-footer">
+      <span class="doc-footer-meta">Dan Sozanski · Product Design</span>
+      <span class="doc-footer-meta">June 1, 2026</span>
+    </div>
+
+  </article>
+
+  <div class="system-footer">
+    <a href="../preview.html">Built with Dan Sozanski's design system ← back to system reference</a>
+  </div>
+
+<script>
+(function() {
+  'use strict';
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    var s = document.createElement('style');
+    s.textContent = '.spring-btn{transition:transform .15s ease}.spring-btn:hover{transform:scale(1.03)}.spring-btn:active{transform:scale(0.96)}';
+    document.head.appendChild(s);
+    return;
+  }
+  var PI = Math.PI;
+  function p(f,z,r){return{k1:z/(PI*f),k2:1/((2*PI*f)*(2*PI*f)),k3:r*z/(2*PI*f)};}
+  var HOVER=p(3.5,.7,1.5),ACTIVE=p(5,1,0),RELEASE=p(4,.55,2);
+  var springs=[],rafId=null,lastTime=0;
+  function Spring(el){
+    this.el=el;this.y=1;this.yd=0;this.x=1;this.p=HOVER;this.hovered=false;this.pressed=false;
+    var self=this;
+    el.addEventListener('mouseenter',function(){self.hovered=true;self.x=1.03;self.p=HOVER;wake();});
+    el.addEventListener('mouseleave',function(){self.hovered=false;if(!self.pressed){self.x=1;self.p=RELEASE;wake();}});
+    el.addEventListener('mousedown',function(){self.pressed=true;self.x=0.96;self.p=ACTIVE;wake();});
+    window.addEventListener('mouseup',function(){if(self.pressed){self.pressed=false;self.x=self.hovered?1.03:1;self.p=RELEASE;wake();}});
+  }
+  function wake(){if(!rafId){lastTime=performance.now();rafId=requestAnimationFrame(tick);}}
+  function tick(now){
+    var dt=Math.min((now-lastTime)/1000,0.02);lastTime=now;var any=false;
+    for(var i=0;i<springs.length;i++){
+      var s=springs[i],k1=s.p.k1,k2=s.p.k2,k3=s.p.k3;
+      s.yd=s.yd+dt*(k3*0+(s.x-s.y)-k1*s.yd)/k2;
+      s.y=s.y+dt*s.yd;
+      s.el.style.transform='scale('+s.y.toFixed(5)+')';
+      if(Math.abs(s.y-s.x)>0.0003||Math.abs(s.yd)>0.005){any=true;}
+      else{s.y=s.x;s.yd=0;s.el.style.transform=s.x===1?'':'scale('+s.x+')';}
+    }
+    rafId=any?requestAnimationFrame(tick):null;
+  }
+  document.addEventListener('DOMContentLoaded',function(){
+    var els=document.querySelectorAll('.spring-btn');
+    for(var i=0;i<els.length;i++) springs.push(new Spring(els[i]));
+  });
+})();
+</script>
+
+</body>
+</html>

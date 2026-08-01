@@ -1,0 +1,1300 @@
+<!doctype html>
+<html lang="en" data-theme="gallery">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Designing with AI · Dan Sozanski</title>
+  <meta name="description" content="Light editorial direction. Cover only, from the Figma Deck file." />
+  <link rel="stylesheet" href="../_shared/deck.css" />
+  <style>
+    /* ── Cover ──────────────────────────────────────────────────────
+       From Figma · Deck · Cover (node 1:2). The frame is 1920x1080;
+       every measurement below is that value scaled 2/3 onto the deck's
+       1280x720 canvas so DESIGN.md's rem scale keeps mapping to px.
+
+       This is a composition, not one of the eight layouts, so it lives
+       here in the deck head. It moves into deck.css only if it earns
+       reuse across decks.
+
+       One deliberate deviation from the frame: the Figma ground is pure
+       white, the system's surface is #FAFAF7 and says "never pure".
+       The system wins. */
+
+    :root {
+      /* SF Pro Rounded is a system font with no file to vendor; the
+         stack degrades to whatever light rounded sans the machine has. */
+      --rounded: "SF Pro Rounded", ui-rounded, "SF Pro Text", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    }
+
+    .slide[data-layout="cover"] { position: relative; padding: 0; overflow: hidden; }
+    .slide[data-layout="cover"] p { max-width: none; margin: 0; }
+
+    /* Selectors carry .reveal because .reveal p (0,1,1) outguns a lone
+       class (0,1,0) and would repaint everything graphite. */
+
+    /* Ghost letterform. 1000px type at 5% ink, centered, full height. */
+    .reveal .cover__ghost {
+      position: absolute;
+      left: 50%;
+      /* Not the frame's 0: CSS first-baseline placement differs from
+         Figma's text-box metrics, so tops below are trued against a
+         rendered screenshot of the frame, not copied from it. */
+      top: 61px;
+      transform: translateX(-50%);
+      height: 720px;
+      font-family: var(--serif);
+      font-size: 667px;
+      line-height: 667px;
+      color: color-mix(in srgb, var(--ink) 5%, transparent);
+      white-space: nowrap;
+      user-select: none;
+    }
+
+    /* The word. 360px serif, solid ink, sits across the ghost. */
+    .reveal .cover__title {
+      position: absolute;
+      left: 101px;
+      top: 231px;
+      font-family: var(--serif);
+      font-size: 240px;
+      line-height: 240px;
+      letter-spacing: 0;
+      color: var(--type);
+      white-space: nowrap;
+    }
+
+    /* The whisper. Letterspaced light rounded sans at 40% ink. */
+    .reveal .cover__with {
+      position: absolute;
+      left: calc(50% + 98px);
+      top: 483px;
+      transform: translateX(-50%);
+      font-family: var(--rounded);
+      font-weight: 300;
+      font-size: 32px;
+      line-height: normal;
+      letter-spacing: 3.84px;
+      color: color-mix(in srgb, var(--ink) 40%, transparent);
+      white-space: nowrap;
+    }
+
+    /* ── Agenda ─────────────────────────────────────────────────────
+       From Figma · Deck · Agenda (node 7:6), scaled 2/3. Serif word
+       centered in the left half, rounded list starting exactly at the
+       canvas midline. Row height 85px, gap 11px, number column 69px. */
+
+    .slide[data-layout="agenda"] {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      padding: 0;
+    }
+    .slide[data-layout="agenda"] p { max-width: none; margin: 0; }
+
+    /* The section word: one serif word carrying a whole slide. Shared
+       by agenda and about, positioned per layout. */
+    .reveal .agenda__title,
+    .reveal .about__word {
+      font-family: var(--serif);
+      font-size: 107px;
+      line-height: normal;
+      letter-spacing: -0.04em;
+      color: var(--type);
+    }
+    .reveal .agenda__title { justify-self: center; }
+
+    /* Characters of a split word. inline-block so each can transform;
+       pre so the space in "About me" keeps its width. */
+    .word__char { display: inline-block; white-space: pre; }
+
+    .agenda__list { display: flex; flex-direction: column; gap: 11px; }
+    .agenda__item { display: flex; gap: 21px; align-items: center; height: 85px; }
+
+    .reveal .agenda__num,
+    .reveal .agenda__label {
+      font-family: var(--rounded);
+      font-weight: 400;
+      font-size: 53px;
+      line-height: 43px;
+    }
+    .reveal .agenda__num { width: 69px; color: color-mix(in srgb, var(--ink) 40%, transparent); }
+    .reveal .agenda__label { color: var(--type); }
+    .agenda__label s { text-decoration: line-through; }
+
+    /* ── About ──────────────────────────────────────────────────────
+       From Figma · Deck · About me (node 1:76), scaled 2/3. Section
+       word centered on x=373, square photo at 427px. The shadow is the
+       one place this deck spends decoration, so nothing else on the
+       slide gets any.
+
+       The photo arrives through a WebGL liquid reveal (script
+       #about-liquid at the end of the file), cued automatically after
+       the word's entrance rather than as a fragment; tuned in
+       the liquid-reveal-lab artifact; its PARAMS block holds the chosen
+       values (radius 48 comes from there, superseding the frame's 43).
+       The canvas carries a drop-shadow instead of box-shadow so the
+       shadow is cast by the liquid itself while it grows — same values,
+       so the settled state matches. The img is the no-WebGL and PDF
+       fallback; the word's spring entrance stays with deck-anim. */
+
+    .slide[data-layout="about"] { position: relative; padding: 0; }
+    .slide[data-layout="about"] p { max-width: none; margin: 0; }
+
+    .reveal .about__word {
+      position: absolute;
+      left: 373px;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      white-space: nowrap;
+    }
+
+    .about__photo {
+      position: absolute;
+      left: 747px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 427px;
+      height: 427px;
+    }
+    .about__photo img {
+      width: 100%;
+      height: 100%;
+      border-radius: 48px;
+      object-fit: cover;
+      box-shadow: 16px 43px 80px 0 rgba(0, 0, 0, 0.2);
+    }
+    .about__photo canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      display: none;
+      filter: drop-shadow(16px 43px 80px rgba(0, 0, 0, 0.2));
+    }
+    /* fx-on flips from the img fallback to the shader canvas. Only set
+       from JS once a WebGL context and texture actually exist. */
+    .about__photo.fx-on img { visibility: hidden; }
+    .about__photo.fx-on canvas { display: block; }
+
+
+
+    /* ── Snapshots ────────────────────────────────────────────────
+       From Figma · About me - 2 (node 1:101) and Career (node 13:58),
+       scaled 2/3. Three 320px tilted cards per slide. Tilt uses the
+       `rotate` property so deck-anim's translate/scale never touch it.
+       Photo cards carry box-shadow; the two flat logo cards use
+       drop-shadow so the shadow follows the rounded alpha. */
+
+    .slide[data-layout="cards"] { position: relative; padding: 0; }
+
+    .snap {
+      position: absolute;
+      width: 320px;
+      height: 320px;
+      border-radius: 32px;
+    }
+    .snap > img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 32px;
+      display: block;
+    }
+    .snap--photo { box-shadow: 11px 16px 32px rgba(0, 0, 0, 0.25); }
+
+    /* Parking plan (Dan, 2026-08-01): cards present center-stage one
+       at a time; the first parks LEFT at 0.8, the second parks RIGHT
+       at 0.8, the third settles CENTER at full size. Parked scale 0.8
+       keeps every slot clear of the 1.5x hero box (400-880px). These
+       CSS values are the rest state the stage script returns to. */
+    .about2__p1 { left: 96px;  top: 200px; rotate: -6.96deg; scale: 0.8; }
+    .about2__p2 { left: 866px; top: 215px; rotate: 4.11deg;  scale: 0.8; }
+    .about2__p3 { left: 480px; top: 151px; }
+
+    .career__c1 {
+      left: 96px; top: 164px; rotate: 4.71deg; scale: 0.8;
+      background: #ffc600; overflow: hidden;
+      filter: drop-shadow(11px 16px 16px rgba(0, 0, 0, 0.25));
+    }
+    .career__c2 {
+      left: 866px; top: 158px; rotate: -7.48deg; scale: 0.8;
+      background: #060606; overflow: hidden;
+      filter: drop-shadow(11px 16px 16px rgba(0, 0, 0, 0.25));
+    }
+    /* Third card's asset carries its own ground and shadow bleed. */
+    .career__c3 { left: 480px; top: 254px; }
+    /* Explicit size, not inset alone: the SVG has no intrinsic
+       dimensions, so auto width/height would balloon. 120% covers the
+       frame's -5/-13.33/-15/-6.67% shadow bleed. */
+    .career__c3 img { position: absolute; left: -6.67%; top: -5%; width: 120%; height: 120%; object-fit: fill; max-width: none; border-radius: 0; }
+
+    .career__logo--drexel {
+      position: absolute; left: 50%; top: 50%;
+      width: 150px; height: 130px;
+      margin: -65px 0 0 -75px;
+      overflow: hidden;
+    }
+    .career__logo--drexel img { position: absolute; width: 157.8%; height: 170.17%; left: -28.9%; top: -35%; max-width: none; }
+    .career__logo--epam { position: absolute; inset: 42.19% 29% 42.19% 29.1%; }
+    .career__logo--epam img { width: 100%; height: 100%; display: block; }
+
+    /* ── Liquid media, generic ────────────────────────────────────
+       Any [data-liquid] wrapper gets the pour: JS paints the wrapper's
+       look (bg + imgs) into a texture, adds a canvas, and flips fx-on.
+       While fx is on the DOM look hides and shadows must follow the
+       liquid's alpha, not the box — so photo cards trade box-shadow
+       for drop-shadow and flat cards drop their bg (it lives in the
+       texture). No WebGL → fx-on never lands, nothing here matches. */
+    [data-liquid] canvas { display: none; }
+    [data-liquid].fx-on canvas { display: block; }
+    [data-liquid].fx-on img { visibility: hidden; }
+    .snap--photo.fx-on { box-shadow: none; filter: drop-shadow(11px 16px 32px rgba(0, 0, 0, 0.25)); }
+    .career__c1.fx-on, .career__c2.fx-on { background: none; }
+
+    /* Cards are fragments only for arrow-key bookkeeping; the stage
+       script owns every visual. (0,5,1) beats reveal.css's (0,3,1). */
+    .reveal .slides section .slide[data-layout="cards"] .fragment {
+      opacity: 1;
+      visibility: inherit;
+      transition: none;
+    }
+
+    /* ── Centered statement ── (node 13:205) two serif lines. ───── */
+    .slide[data-layout="statement-word"] {
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 0;
+    }
+    .slide[data-layout="statement-word"] p { max-width: none; margin: 0; }
+    .reveal .statement__line {
+      font-family: var(--serif);
+      font-size: 107px;
+      line-height: normal;
+      letter-spacing: -0.04em;
+      color: var(--type);
+      white-space: nowrap;
+    }
+
+    /* ── Tuner ───────────────────────────────────────────────────────
+       Dev cog for the word entrance, bottom right, quiet until opened.
+       Fixed to the viewport, outside .reveal, so reveal's scaling never
+       touches it. The panel is a lit card: ink-based text always. */
+
+    .tune { position: fixed; right: 16px; bottom: 16px; z-index: 40; font-family: var(--mono); }
+    .tune__cog {
+      background: none; border: 0; padding: 8px; cursor: pointer;
+      color: var(--type-faint); display: block;
+    }
+    .tune__cog:hover { color: var(--type); }
+    .tune__panel {
+      position: absolute; right: 0; bottom: 44px; width: 280px;
+      background: var(--surface-elevated); border: 1px solid var(--rule);
+      border-radius: var(--md); padding: var(--md);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+    }
+    .tune__title {
+      font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--slate); margin: 0 0 12px;
+    }
+    .tune__row {
+      display: grid; grid-template-columns: 64px 1fr 44px; gap: 8px;
+      align-items: center; margin-bottom: 8px;
+    }
+    .tune__row label {
+      font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--slate);
+    }
+    .tune__row input[type="range"] { width: 100%; accent-color: var(--accent); }
+    .tune__row output { font-size: 11px; color: var(--ink); text-align: right; }
+    .tune__actions { display: flex; gap: 8px; margin-top: 12px; }
+    .tune__btn {
+      flex: 1; font-family: var(--mono); font-size: 10px; font-weight: 500;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      padding: 8px; border: 1px solid var(--rule); border-radius: 8px;
+      background: none; color: var(--graphite); cursor: pointer;
+    }
+    .tune__btn:hover { background: var(--surface-sunken); }
+    @media print { .tune { display: none; } }
+  </style>
+</head>
+<body>
+<div class="reveal">
+  <div class="slides">
+
+    <!-- 01 · cover. Designing with AI, the ghost AI carrying the word.
+         Sequence: Designing sweeps in, then with, then the ghost AI
+         develops behind everything. DOM order stays ghost-first for
+         stacking; the data-anim-delay values carry the choreography. -->
+    <section>
+      <div class="slide" data-layout="cover">
+        <p class="cover__ghost" aria-hidden="true" data-anim="fade" data-anim-delay="1500">AI</p>
+        <p class="cover__title" data-anim="word" data-anim-delay="0">Designing</p>
+        <p class="cover__with" data-anim="rise" data-anim-delay="1000" data-anim-dy="12">with</p>
+        <aside class="notes">
+          Say nothing. Let the room read it. The slide is the whole
+          introduction.
+        </aside>
+      </div>
+    </section>
+
+    <!-- 02 · agenda. Serif word left, rounded list right, one strike. -->
+    <section>
+      <div class="slide" data-layout="agenda">
+        <p class="agenda__title" data-anim="word">Agenda</p>
+        <!-- The word lands first; the list follows (delays, scaled by
+             WORD.speed like every other delay). -->
+        <div class="agenda__list">
+          <div class="agenda__item" data-anim="rise" data-anim-delay="550"><p class="agenda__num">01</p><p class="agenda__label">About me</p></div>
+          <div class="agenda__item" data-anim="rise" data-anim-delay="640"><p class="agenda__num">02</p><p class="agenda__label">AI <s>design</s> slop</p></div>
+          <div class="agenda__item" data-anim="rise" data-anim-delay="730"><p class="agenda__num">03</p><p class="agenda__label">Solutions</p></div>
+          <div class="agenda__item" data-anim="rise" data-anim-delay="820"><p class="agenda__num">04</p><p class="agenda__label">Case study</p></div>
+          <div class="agenda__item" data-anim="rise" data-anim-delay="910"><p class="agenda__num">05</p><p class="agenda__label">Extras</p></div>
+        </div>
+        <aside class="notes">
+          The strike on design is the talk in one gesture: it is not AI
+          design slop, it is AI slop, and design is what fixes it.
+        </aside>
+      </div>
+    </section>
+
+    <!-- 03 · about. Section word springs in with the slide; the photo
+         follows on its own, no extra click: the liquid script cues the
+         pour right after the word lands. The data-anim pop is only the
+         no-WebGL fallback — deck-anim skips the wrapper once fx-on. -->
+    <section>
+      <div class="slide" data-layout="about">
+        <p class="about__word" data-anim="word">About me</p>
+        <div class="about__photo" id="about-fx" data-liquid data-liquid-size="427" data-liquid-auto="750" data-anim="pop" data-anim-delay="900">
+          <img src="dan.jpg" alt="Dan Sozanski" />
+          <canvas width="854" height="854" aria-hidden="true"></canvas>
+        </div>
+        <aside class="notes">
+          Slide enters with the word, and the photo pours itself in a
+          beat later — nothing to advance. Name, what you do, one line
+          on why you are the one giving this talk; the photo does the
+          introducing. r replays the slide.
+        </aside>
+      </div>
+    </section>
+
+    <!-- 04 · about-2. Three snapshots: family, the dog, the concert. -->
+    <section>
+      <div class="slide" data-layout="cards">
+        <div class="snap snap--photo about2__p1 fragment" data-liquid data-liquid-size="320" data-liquid-radius="32"><img src="about2-family.jpg" alt="Family snapshot" /></div>
+        <div class="snap snap--photo about2__p2 fragment" data-liquid data-liquid-size="320" data-liquid-radius="32"><img src="about2-dog.jpg" alt="Selfie with the dog" /></div>
+        <div class="snap snap--photo about2__p3 fragment" data-liquid data-liquid-size="320" data-liquid-radius="32"><img src="about2-concert.jpg" alt="Concert, black and white" /></div>
+        <aside class="notes">
+          Three photos, one line each. The room warms up when the dog
+          appears; let it.
+        </aside>
+      </div>
+    </section>
+
+    <!-- 05 · statement. Two lines, centered, swept per character. -->
+    <section>
+      <div class="slide" data-layout="statement-word">
+        <p class="statement__line" data-anim="word">Use tech to</p>
+        <p class="statement__line" data-anim="word" data-anim-delay="250">build things</p>
+        <aside class="notes">
+          The hinge from who you are to what you do. Say nothing until
+          both lines land.
+        </aside>
+      </div>
+    </section>
+
+    <!-- 06 · career. Three tilted logo cards: Drexel, EPAM, Pizza Hut. -->
+    <section>
+      <div class="slide" data-layout="cards">
+        <div class="snap career__c1 fragment" data-liquid data-liquid-size="320" data-liquid-radius="32" data-liquid-bg="#ffc600"><div class="career__logo--drexel"><img src="career-drexel.png" alt="Drexel University" data-ldraw="0.2656,0.2969,0.4688,0.4063" data-lcrop="-0.289,-0.35,1.578,1.7017" /></div></div>
+        <div class="snap career__c2 fragment" data-liquid data-liquid-size="320" data-liquid-radius="32" data-liquid-bg="#060606"><div class="career__logo--epam"><img src="career-epam.svg" alt="EPAM" data-ldraw="0.291,0.4219,0.419,0.1562" /></div></div>
+        <div class="snap career__c3 fragment" data-liquid data-liquid-size="320" data-liquid-radius="0" data-liquid-bleed="-0.0667,-0.05,1.2,1.2"><img src="career-pizzahut.svg" alt="Pizza Hut" /></div>
+        <aside class="notes">
+          School, consulting, product at scale. One sentence per card,
+          then move — the talk is not a resume.
+        </aside>
+      </div>
+    </section>
+
+
+  </div>
+</div>
+<script src="../_shared/deck-boot.js"></script>
+<script id="deck-anim">
+/* Second-order dynamics on slide load.
+   The canonical model: y'' = (x + k3·x' − y − k1·y') / k2, integrated
+   per frame with the stability clamp on k2. Real springs, not eased
+   keyframes, so the settle carries actual physics. Slide transitions
+   stay hard cuts per the system; only a slide's contents arrive.
+
+   Elements opt in with data-anim="rise|pop|fade"; stagger defaults to
+   DOM order at 90ms and data-anim-delay overrides it. Motion writes
+   the individual `translate`/`scale` properties, never `transform`,
+   so the layout transforms above stay untouched. Rest state is pure
+   CSS: every inline style is cleared when a spring settles. */
+(function () {
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+  /* ── The word entrance, tunable ─────────────────────────────────
+     For the big serif words (Designing, Agenda, About me): split into
+     characters, one spring per character, starts staggered left to
+     right so the blur clears across the word as a sweep. Each glyph
+     blurs in, scales 120% → 100%, arrives from the left and — via
+     spring overshoot — settles back right-to-left. The sweep is the
+     stagger; the settle-back is physics, not a second animation.
+
+       f        spring frequency in Hz. Speed of the whole move.
+                Try 1.2 (floaty) … 2.5 (snappy).
+       z        damping. Under 1 overshoots — that IS the right-to-left
+                settle. Try 0.4 (bouncier) … 0.8 (barely). At 1 the
+                settle-back disappears entirely.
+       dx       start offset in px. Negative arrives from the left.
+                Try -40 … -120. Flip the sign to arrive from the right.
+       scale    start scale. 1.2 = your 120%. Try 1.1 … 1.3.
+       blur     start blur in px. "Heavy" is 20+. Try 12 … 40.
+       blurPow  how the blur clears along the way. 1 = linear with the
+                travel; higher clears sooner. Try 1 … 2.5.
+       fadePow  how fast it becomes opaque. Higher = visible sooner.
+                Try 1 … 3.
+       duration total sweep window in ms: character starts are spread
+                evenly across it, so every word sweeps in the same
+                time regardless of length. Try 300 (a ripple) … 1000
+                (a deliberate read). 0 collapses to a whole-word move.
+       speed    master clock for ALL slide animations — springs,
+                staggers and delays together. 1 = as tuned, 0.5 = half
+                speed, 2 = double. The one knob that makes everything
+                slower or faster without changing its character.
+
+     Every knob can also be tried live from the URL without editing:
+       index.html?word-f=2.2&word-z=0.45&word-blur=32#/
+     (query before the #hash). */
+  /* Tuned for grace: low frequency so nothing hurries, damping near 1
+     so the settle is a breath rather than a bounce, short travel, a
+     long blur dissolve, and a slow sweep. */
+  /* Dan's tuned values, 2026-08-01: heavier blur, barely-there scale,
+     three-quarter speed. */
+  var WORD = { f: 1.05, z: 0.85, dx: -30, scale: 1.05, blur: 50, blurPow: 1.25, fadePow: 2.25, duration: 250, speed: 1.25 };
+
+  var q = new URLSearchParams(location.search);
+  Object.keys(WORD).forEach(function (k) {
+    var v = q.get("word-" + k);
+    if (v !== null && !isNaN(+v)) WORD[k] = +v;
+  });
+
+  function Spring(f, z, r, y0) {
+    var w = 2 * Math.PI * f;
+    this.k1 = z / (Math.PI * f);
+    this.k2 = 1 / (w * w);
+    this.k3 = (r * z) / w;
+    this.xp = y0; this.y = y0; this.yd = 0;
+  }
+  Spring.prototype.update = function (x, dt) {
+    var xd = (x - this.xp) / dt; this.xp = x;
+    var k2 = Math.max(this.k2, dt * dt / 2 + dt * this.k1 / 2, dt * this.k1);
+    this.y += dt * this.yd;
+    this.yd += dt * (x + this.k3 * xd - this.y - this.k1 * this.yd) / k2;
+    return this.y;
+  };
+
+  /* v runs 1 → 0. f in Hz, z is damping: under 1 overshoots, 1 settles clean. */
+  var PRESETS = {
+    /* Rise distance defaults to 40px; data-anim-dy on the element
+       overrides it (cached as __dy in show). */
+    rise: { f: 1.7, z: 0.55, r: 0, apply: function (el, v) {
+      el.style.translate = "0 " + v * (el.__dy == null ? 40 : el.__dy) + "px";
+      el.style.opacity = Math.min(1, Math.max(0, 1 - v));
+    } },
+    pop: { f: 1.9, z: 0.45, r: 0, apply: function (el, v) {
+      el.style.scale = String(1 - v * 0.08);
+      el.style.opacity = Math.min(1, Math.max(0, 1 - v));
+    } },
+    /* The ghost's develop: slow critically-damped dissolve with a soft
+       blur that clears as it arrives — a photograph developing, not a
+       fade-in. */
+    fade: { f: 0.55, z: 1, r: 0, apply: function (el, v) {
+      var vc = Math.min(1, Math.max(0, v));
+      el.style.opacity = 1 - Math.pow(vc, 1.5);
+      el.style.filter = "blur(" + 10 * vc + "px)";
+    } },
+    /* Applied per character. v runs 1 → 0 and overshoots negative.
+       Raw v drives x, so the overshoot is the settle-back; the clamped
+       copy drives scale, blur and opacity so they land at rest and
+       stay there. Springs for this preset are built from WORD directly
+       so the tuner's f and z take effect on the next replay. */
+    word: { apply: function (el, v) {
+      var vc = Math.min(1, Math.max(0, v));
+      el.style.translate = v * WORD.dx + "px 0";
+      el.style.scale = String(1 + vc * (WORD.scale - 1));
+      el.style.filter = "blur(" + WORD.blur * Math.pow(vc, WORD.blurPow) + "px)";
+      el.style.opacity = 1 - Math.pow(vc, WORD.fadePow);
+    } }
+  };
+
+  /* Split a word element into character spans, once. inline-block so
+     translate/scale/filter apply; white-space:pre keeps real spaces.
+     Costs the kerning between glyph pairs — acceptable at this size,
+     and the only way each character can carry its own spring. */
+  function splitChars(el) {
+    if (el.__chars) return el.__chars;
+    var text = el.textContent;
+    el.textContent = "";
+    el.__chars = [];
+    Array.from(text).forEach(function (ch) {
+      var s = document.createElement("span");
+      s.className = "word__char";
+      s.textContent = ch;
+      el.appendChild(s);
+      el.__chars.push(s);
+    });
+    return el.__chars;
+  }
+
+  function clear(el) {
+    el.style.translate = el.style.scale = el.style.opacity = el.style.filter = "";
+  }
+
+  var raf = null, anims = [];
+
+  function cancel() {
+    if (raf) cancelAnimationFrame(raf);
+    raf = null;
+    anims.forEach(function (a) { clear(a.el); });
+    anims = [];
+  }
+
+  function show(slide) {
+    cancel();
+    var els = slide.querySelectorAll("[data-anim]");
+    if (!els.length) return;
+    var t0 = performance.now();
+    els.forEach(function (el, i) {
+      /* The liquid script owns any element it has claimed. */
+      if (el.classList.contains("fx-on")) return;
+      var name = el.getAttribute("data-anim");
+      var preset = PRESETS[name] || PRESETS.rise;
+      var delay = el.hasAttribute("data-anim-delay")
+        ? +el.getAttribute("data-anim-delay") : i * 90;
+      if (name === "word") {
+        var chars = splitChars(el);
+        var stag = chars.length > 1 ? WORD.duration / (chars.length - 1) : 0;
+        chars.forEach(function (ch, j) {
+          preset.apply(ch, 1);
+          anims.push({ el: ch, preset: preset, spring: new Spring(WORD.f, WORD.z, 0, 1),
+                       start: t0 + (delay + j * stag) / WORD.speed, last: null, done: false });
+        });
+      } else {
+        el.__dy = el.hasAttribute("data-anim-dy") ? +el.getAttribute("data-anim-dy") : null;
+        preset.apply(el, 1);
+        anims.push({ el: el, preset: preset, spring: new Spring(preset.f, preset.z, preset.r, 1),
+                     start: t0 + delay / WORD.speed, last: null, done: false });
+      }
+    });
+    raf = requestAnimationFrame(tick);
+  }
+
+  function tick(now) {
+    var live = false;
+    anims.forEach(function (a) {
+      if (a.done) return;
+      if (now < a.start) { live = true; return; }
+      var dt = a.last == null ? 1 / 60 : Math.min((now - a.last) / 1000, 1 / 30);
+      a.last = now;
+      /* The master clock: scaling integration time scales every
+         spring identically, so speed changes pace, never character. */
+      var v = a.spring.update(0, dt * WORD.speed);
+      if (Math.abs(v) < 0.001 && Math.abs(a.spring.yd) < 0.01) {
+        clear(a.el);
+        a.done = true;
+      } else {
+        a.preset.apply(a.el, v);
+        live = true;
+      }
+    });
+    raf = live ? requestAnimationFrame(tick) : null;
+  }
+
+  /* ── Tuner ──────────────────────────────────────────────────────
+     The cog. Sliders write straight into WORD, replay the current
+     slide so every nudge is felt immediately, and Copy puts the
+     one-liner on the clipboard ready to paste over the WORD line. */
+
+  var PARAMS = [
+    { k: "f",       min: 0.5,  max: 3,   step: 0.05 },
+    { k: "z",       min: 0.2,  max: 1,   step: 0.01 },
+    { k: "dx",      min: -200, max: 200, step: 5 },
+    { k: "scale",   min: 1,    max: 1.5, step: 0.01 },
+    { k: "blur",    min: 0,    max: 60,  step: 1 },
+    { k: "blurPow",  min: 0.5,  max: 3,    step: 0.05 },
+    { k: "fadePow",  min: 0.5,  max: 3,    step: 0.05 },
+    { k: "duration", min: 0,    max: 1500, step: 25 },
+    { k: "speed",    min: 0.25, max: 2,    step: 0.05 }
+  ];
+
+  function replay() { show(Reveal.getCurrentSlide()); }
+
+  function configLine() {
+    return "var WORD = { " + PARAMS.map(function (p) {
+      return p.k + ": " + WORD[p.k];
+    }).join(", ") + " };";
+  }
+
+  function buildTuner() {
+    var wrap = document.createElement("div");
+    wrap.className = "tune";
+    wrap.innerHTML =
+      '<button class="tune__cog" aria-label="Animation settings" aria-expanded="false">' +
+      '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.2"></circle><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.87-.34 1.7 1.7 0 0 0-1.03 1.56V21a2 2 0 1 1-4 0v-.09a1.7 1.7 0 0 0-1.05-1.51 1.7 1.7 0 0 0-1.87.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.7 1.7 0 0 0 .34-1.87 1.7 1.7 0 0 0-1.56-1.03H3a2 2 0 1 1 0-4h.09a1.7 1.7 0 0 0 1.51-1.05 1.7 1.7 0 0 0-.34-1.87l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.7 1.7 0 0 0 1.87.34h.04a1.7 1.7 0 0 0 1-1.55V3a2 2 0 1 1 4 0v.09c0 .68.4 1.3 1.03 1.56a1.7 1.7 0 0 0 1.87-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.7 1.7 0 0 0-.34 1.87v.04c.26.62.88 1.02 1.55 1.02H21a2 2 0 1 1 0 4h-.09a1.7 1.7 0 0 0-1.51 1.03z"></path></svg>' +
+      '</button><div class="tune__panel" hidden><p class="tune__title">Word entrance</p></div>';
+
+    var cog = wrap.querySelector(".tune__cog");
+    var panel = wrap.querySelector(".tune__panel");
+    var t = null;
+
+    PARAMS.forEach(function (p) {
+      var row = document.createElement("div");
+      row.className = "tune__row";
+      row.innerHTML = "<label>" + p.k + "</label>" +
+        '<input type="range" min="' + p.min + '" max="' + p.max + '" step="' + p.step + '" value="' + WORD[p.k] + '">' +
+        "<output>" + WORD[p.k] + "</output>";
+      var input = row.querySelector("input");
+      var out = row.querySelector("output");
+      input.addEventListener("input", function () {
+        WORD[p.k] = +input.value;
+        out.textContent = input.value;
+        clearTimeout(t);
+        t = setTimeout(replay, 120);
+      });
+      panel.appendChild(row);
+    });
+
+    var actions = document.createElement("div");
+    actions.className = "tune__actions";
+    actions.innerHTML = '<button class="tune__btn" data-act="replay">Replay</button>' +
+      '<button class="tune__btn" data-act="copy">Copy config</button>';
+    actions.querySelector('[data-act="replay"]').addEventListener("click", replay);
+    var copyBtn = actions.querySelector('[data-act="copy"]');
+    copyBtn.addEventListener("click", function () {
+      var line = configLine();
+      var flash = function () {
+        copyBtn.textContent = "Copied";
+        setTimeout(function () { copyBtn.textContent = "Copy config"; }, 1200);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(line).then(flash, function () { prompt("Copy:", line); });
+      } else prompt("Copy:", line);
+    });
+    panel.appendChild(actions);
+
+    cog.addEventListener("click", function () {
+      panel.hidden = !panel.hidden;
+      cog.setAttribute("aria-expanded", String(!panel.hidden));
+    });
+
+    /* Keep slider keystrokes out of reveal's keyboard navigation. */
+    wrap.addEventListener("keydown", function (e) { e.stopPropagation(); });
+    wrap.addEventListener("keyup", function (e) { e.stopPropagation(); });
+
+    document.body.appendChild(wrap);
+  }
+
+  (function wait() {
+    if (window.Reveal && Reveal.isReady && Reveal.isReady()) {
+      Reveal.on("slidechanged", function (e) { show(e.currentSlide); });
+      show(Reveal.getCurrentSlide());
+      buildTuner();
+      /* r replays the current slide's entrance. The liquid script
+         listens for the same key to re-pour the About photo. */
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "r" && !e.metaKey && !e.ctrlKey && !e.altKey) replay();
+      });
+    } else setTimeout(wait, 60);
+  })();
+})();
+</script>
+<script id="liquid-media">
+/* ── Liquid media, generic ─────────────────────────────────────────
+   One shader, every image. Grown out of the About-photo reveal (the
+   engine — PARAMS, GLSL, geometry — is unchanged and still tuned via
+   the liquid-reveal-lab artifact); the delivery is now a factory:
+   every [data-liquid] wrapper gets its own canvas, texture, and pour.
+
+   The texture is painted, not sampled from one <img>: bg color
+   (data-liquid-bg) plus each child img at its data-ldraw box
+   (fractions of the wrapper; data-lcrop places a crop inside that
+   box; no attrs = object-fit cover). So a flat brand card pours as
+   the finished card, and the DOM under it stays the no-WebGL and PDF
+   fallback.
+
+   Per-wrapper attrs:
+     data-liquid-size    css px of the square wrapper (required)
+     data-liquid-radius  corner radius css px (default PARAMS.radius)
+     data-liquid-bleed   "x,y,w,h" fractions to oversize the canvas
+                         (assets that carry their own shadow)
+     data-liquid-auto    pour this many ms after arriving on its
+                         slide, and again on r (the About headshot)
+   Elements without data-liquid-auto are poured by whoever stages
+   them (see #cards-stage). API on the element: __liquid.pour(delay),
+   .snapTo(v), .cancel(). */
+(function () {
+  "use strict";
+
+  var PARAMS = {
+    duration: 2000,   // ms, forward
+    ease: 2.0,        // ease-out power
+    mode: 0,          // 0 radial, 1 center wipe, 2 directional wipe
+    exp: 6.4,         // p-norm roundness: 1 diamond, 2 circle, 8 square
+    angle: 90,        // wipe angle, screen degrees (unused in mode 0)
+    cx: 0.5, cy: 0,   // origin, screen space (top center)
+    edge: 0.06,       // settled edge blur
+    edgeSettle: 0.25, // extra blur while wet
+    wobAmp: 0.04,     // edge wobble amount
+    wobFreq: 4.8,     // wobble scale
+    wobSpeed: 2.0,    // wobble time multiplier
+    refr: 0.16,       // refraction at the front
+    band: 0.24,       // meniscus width
+    rim: 0.08,        // rim light
+    zoom: 1.20,       // surface-tension start zoom
+    radius: 48,       // corner radius, css px
+  };
+
+  /* Default auto-pour delay when data-liquid-auto has no value. */
+  var AUTO_DELAY_MS = 750;
+
+  var VERT =
+    "attribute vec2 a_pos; varying vec2 v_uv;" +
+    "void main(){ v_uv = a_pos * 0.5 + 0.5; gl_Position = vec4(a_pos, 0.0, 1.0); }";
+
+  var FRAG = [
+    "precision highp float;",
+    "uniform sampler2D u_tex;",
+    "uniform float u_reveal;",
+    "uniform float u_t;",
+    "uniform vec2  u_size;",
+    "uniform float u_mode;",
+    "uniform float u_exp;",
+    "uniform vec2  u_center;",
+    "uniform float u_angle;",
+    "uniform float u_maxR;",
+    "uniform float u_dmin;",
+    "uniform float u_edge;",
+    "uniform float u_edgeSettle;",
+    "uniform float u_wobAmp;",
+    "uniform float u_wobFreq;",
+    "uniform float u_refr;",
+    "uniform float u_band;",
+    "uniform float u_rim;",
+    "uniform float u_zoom;",
+    "uniform float u_radius;",
+    "varying vec2 v_uv;",
+
+    "float hash(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453123); }",
+    "float vnoise(vec2 p){",
+    "  vec2 i = floor(p), f = fract(p);",
+    "  vec2 u = f * f * (3.0 - 2.0 * f);",
+    "  return mix(mix(hash(i), hash(i + vec2(1.0, 0.0)), u.x),",
+    "             mix(hash(i + vec2(0.0, 1.0)), hash(i + vec2(1.0, 1.0)), u.x), u.y);",
+    "}",
+    "float fbm(vec2 p){",
+    "  float s = 0.0, a = 0.5;",
+    "  for (int i = 0; i < 3; i++){ s += a * vnoise(p); p = p * 2.13 + 7.7; a *= 0.5; }",
+    "  return s;",
+    "}",
+    "float pnorm(vec2 q, float e){",
+    "  q = abs(q) + 1e-6;",
+    "  return pow(pow(q.x, e) + pow(q.y, e), 1.0 / e);",
+    "}",
+
+    "void main(){",
+    "  vec2 q = v_uv - u_center;",
+    "  vec2 av = vec2(cos(u_angle), sin(u_angle));",
+    "  vec2 pv = vec2(-av.y, av.x);",
+
+    "  float d; vec2 dir; float across;",
+    "  if (u_mode < 0.5) {",
+    "    d = pnorm(q, u_exp);",
+    "    dir = length(q) > 0.0001 ? normalize(q) : vec2(0.0, 1.0);",
+    "    across = 0.0;",
+    "  } else if (u_mode < 1.5) {",
+    "    float t = dot(q, av);",
+    "    d = abs(t);",
+    "    dir = av * sign(t == 0.0 ? 1.0 : t);",
+    "    across = dot(q, pv);",
+    "  } else {",
+    "    d = dot(q, av) - u_dmin;",
+    "    dir = av;",
+    "    across = dot(q, pv);",
+    "  }",
+
+    "  float settle = 1.0 - u_reveal;",
+    "  float R = u_reveal * u_maxR;",
+
+    "  float n;",
+    "  if (u_mode < 0.5) n = fbm(dir * u_wobFreq + u_t * 0.45 + 3.1);",
+    "  else n = fbm(vec2(across * u_wobFreq * 2.0, u_t * 0.35) + 3.1);",
+    "  float wobble = (n - 0.5) * u_wobAmp * settle;",
+
+    "  float e = 0.002 + u_edge + u_edgeSettle * settle;",
+    "  float sd = d + wobble - R;",
+    "  float mask = 1.0 - smoothstep(-e, e, sd);",
+
+    "  float band = exp(-sd * sd / (2.0 * u_band * u_band));",
+
+    "  vec2 cuv = 0.5 + (v_uv - 0.5) * mix(u_zoom, 1.0, u_reveal);",
+    "  cuv -= dir * band * u_refr * settle;",
+    "  vec4 tex = texture2D(u_tex, clamp(cuv, 0.0, 1.0));",
+    "  tex.rgb += band * u_rim * settle;",
+
+    "  vec2 rq = abs(v_uv - 0.5) * u_size;",
+    "  vec2 h = u_size * 0.5 - u_radius;",
+    "  float rb = length(max(rq - h, vec2(0.0))) - u_radius;",
+    "  float corner = 1.0 - smoothstep(-0.75, 0.75, rb);",
+
+    // wobble can push pixels past R=0; gate on progress so an
+    // untriggered fragment is truly blank
+    /* tex.a matters: painted textures with transparency (an SVG's
+       baked shadow, rounded assets) must not render as opaque gray. */
+    "  float a = mask * corner * smoothstep(0.0, 0.02, u_reveal) * tex.a;",
+    "  gl_FragColor = vec4(tex.rgb * a, a);",
+    "}",
+  ].join("\n");
+
+  var reduced = window.matchMedia &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var printing = /print-pdf/gi.test(window.location.search);
+
+  function geometry() {
+    var P = PARAMS;
+    var corners = [[0, 0], [1, 0], [0, 1], [1, 1]];
+    var glCy = 1 - P.cy;
+    var a = (-P.angle * Math.PI) / 180;
+    var av = [Math.cos(a), Math.sin(a)];
+    var head = P.wobAmp * 0.55 + P.edge + P.edgeSettle + 0.015;
+    var maxR = 0, dmin = 0;
+    if (P.mode === 0) {
+      corners.forEach(function (c) {
+        var x = Math.abs(c[0] - P.cx), y = Math.abs(c[1] - glCy);
+        var d = Math.pow(Math.pow(x + 1e-6, P.exp) + Math.pow(y + 1e-6, P.exp), 1 / P.exp);
+        if (d > maxR) maxR = d;
+      });
+    } else if (P.mode === 1) {
+      corners.forEach(function (c) {
+        var d = Math.abs((c[0] - P.cx) * av[0] + (c[1] - glCy) * av[1]);
+        if (d > maxR) maxR = d;
+      });
+    } else {
+      var dots = corners.map(function (c) {
+        return (c[0] - P.cx) * av[0] + (c[1] - glCy) * av[1];
+      });
+      dmin = Math.min.apply(null, dots) - head;
+      maxR = Math.max.apply(null, dots) - dmin;
+    }
+    return { maxR: maxR + head, dmin: dmin, angle: a, glCy: glCy };
+  }
+  var G = geometry();
+
+  function fracs(v, fb) {
+    if (!v) return fb;
+    var p = v.split(",").map(Number);
+    return p.length === 4 && p.every(isFinite) ? p : fb;
+  }
+
+  function paint(ctx, W, H, wrap) {
+    var bg = wrap.getAttribute("data-liquid-bg");
+    if (bg) { ctx.fillStyle = bg; ctx.fillRect(0, 0, W, H); }
+    wrap.querySelectorAll("img").forEach(function (im) {
+      var d = fracs(im.getAttribute("data-ldraw"), [0, 0, 1, 1]);
+      var dx = d[0] * W, dy = d[1] * H, dw = d[2] * W, dh = d[3] * H;
+      var crop = fracs(im.getAttribute("data-lcrop"), null);
+      if (crop) {
+        ctx.save(); ctx.beginPath(); ctx.rect(dx, dy, dw, dh); ctx.clip();
+        ctx.drawImage(im, dx + crop[0] * dw, dy + crop[1] * dh, crop[2] * dw, crop[3] * dh);
+        ctx.restore();
+      } else if (im.naturalWidth && im.naturalHeight) {
+        /* object-fit: cover */
+        var sc = Math.max(dw / im.naturalWidth, dh / im.naturalHeight);
+        var sw = dw / sc, sh = dh / sc;
+        ctx.drawImage(im, (im.naturalWidth - sw) / 2, (im.naturalHeight - sh) / 2,
+                      sw, sh, dx, dy, dw, dh);
+      } else {
+        /* SVG with no intrinsic size: rasterize straight into the box */
+        ctx.drawImage(im, dx, dy, dw, dh);
+      }
+    });
+  }
+
+  function sh(gl, type, src) {
+    var x = gl.createShader(type);
+    gl.shaderSource(x, src);
+    gl.compileShader(x);
+    if (!gl.getShaderParameter(x, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(x));
+    return x;
+  }
+
+  function attach(wrap) {
+    var size = parseFloat(wrap.getAttribute("data-liquid-size"));
+    if (!size) return;
+    var bleed = fracs(wrap.getAttribute("data-liquid-bleed"), [0, 0, 1, 1]);
+    var radius = wrap.hasAttribute("data-liquid-radius")
+      ? parseFloat(wrap.getAttribute("data-liquid-radius")) : PARAMS.radius;
+    var cssW = size * bleed[2], cssH = size * bleed[3];
+    var W = Math.round(cssW * 2), H = Math.round(cssH * 2);
+
+    var canvas = wrap.querySelector("canvas");
+    if (!canvas) {
+      canvas = document.createElement("canvas");
+      canvas.setAttribute("aria-hidden", "true");
+      wrap.appendChild(canvas);
+    }
+    canvas.width = W; canvas.height = H;
+    canvas.style.position = "absolute";
+    canvas.style.left = (bleed[0] * 100) + "%";
+    canvas.style.top = (bleed[1] * 100) + "%";
+    canvas.style.width = (bleed[2] * 100) + "%";
+    canvas.style.height = (bleed[3] * 100) + "%";
+
+    var gl = canvas.getContext("webgl", { alpha: true, premultipliedAlpha: true });
+    if (!gl) return;
+
+    var prog;
+    try {
+      prog = gl.createProgram();
+      gl.attachShader(prog, sh(gl, gl.VERTEX_SHADER, VERT));
+      gl.attachShader(prog, sh(gl, gl.FRAGMENT_SHADER, FRAG));
+      gl.linkProgram(prog);
+      if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(prog));
+    } catch (err) {
+      return; /* fx-on never set; DOM fallback stands */
+    }
+    gl.useProgram(prog);
+
+    var buf = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
+    var aPos = gl.getAttribLocation(prog, "a_pos");
+    gl.enableVertexAttribArray(aPos);
+    gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 0, 0);
+
+    var U = {};
+    ["u_tex","u_reveal","u_t","u_size","u_mode","u_exp","u_center","u_angle","u_maxR","u_dmin",
+     "u_edge","u_edgeSettle","u_wobAmp","u_wobFreq","u_refr","u_band","u_rim","u_zoom","u_radius"
+    ].forEach(function (n) { U[n] = gl.getUniformLocation(prog, n); });
+
+    gl.uniform1i(U.u_tex, 0);
+    gl.uniform2f(U.u_size, cssW, cssH);
+    gl.uniform1f(U.u_mode, PARAMS.mode);
+    gl.uniform1f(U.u_exp, PARAMS.exp);
+    gl.uniform2f(U.u_center, PARAMS.cx, G.glCy);
+    gl.uniform1f(U.u_angle, G.angle);
+    gl.uniform1f(U.u_maxR, G.maxR);
+    gl.uniform1f(U.u_dmin, G.dmin);
+    gl.uniform1f(U.u_edge, PARAMS.edge);
+    gl.uniform1f(U.u_edgeSettle, PARAMS.edgeSettle);
+    gl.uniform1f(U.u_wobAmp, PARAMS.wobAmp);
+    gl.uniform1f(U.u_wobFreq, PARAMS.wobFreq);
+    gl.uniform1f(U.u_refr, PARAMS.refr);
+    gl.uniform1f(U.u_band, PARAMS.band);
+    gl.uniform1f(U.u_rim, PARAMS.rim);
+    gl.uniform1f(U.u_zoom, PARAMS.zoom);
+    /* Radius 0 would put the corner field's boundary (rb = 0) across
+       the whole interior and halve every pixel's alpha; 1px is
+       visually zero and keeps the interior at rb = -1 → mask 1. */
+    gl.uniform1f(U.u_radius, Math.max(radius, 1));
+
+    gl.viewport(0, 0, W, H);
+    gl.clearColor(0, 0, 0, 0);
+
+    var value = 0, wobT = 0, raf = null, cueTimer = null;
+    var armed = false, pendingPour = null;
+
+    function draw() {
+      gl.clear(gl.COLOR_BUFFER_BIT);
+      gl.uniform1f(U.u_reveal, value);
+      gl.uniform1f(U.u_t, wobT);
+      gl.drawArrays(gl.TRIANGLES, 0, 3);
+    }
+    function easeOut(t) { return 1 - Math.pow(1 - t, PARAMS.ease); }
+    function easeIn(t) { return Math.pow(t, PARAMS.ease * 0.7); }
+    function animateTo(target) {
+      if (raf) cancelAnimationFrame(raf);
+      var from = value, forward = target > from;
+      var dur = reduced ? 0
+        : forward ? PARAMS.duration * Math.abs(target - from)
+        : Math.min(600, PARAMS.duration * 0.4);
+      var start = null, last = null;
+      function tick(now) {
+        if (start === null) { start = now; last = now; }
+        wobT += ((now - last) / 1000) * PARAMS.wobSpeed;
+        last = now;
+        var t = dur === 0 ? 1 : Math.min((now - start) / dur, 1);
+        value = from + (target - from) * (forward ? easeOut(t) : easeIn(t));
+        draw();
+        raf = t < 1 ? requestAnimationFrame(tick) : null;
+      }
+      raf = requestAnimationFrame(tick);
+    }
+    function snapTo(target) {
+      if (raf) { cancelAnimationFrame(raf); raf = null; }
+      clearTimeout(cueTimer);
+      value = target;
+      requestAnimationFrame(draw);
+    }
+
+    wrap.__liquid = {
+      snapTo: function (v) { snapTo(Math.max(0, Math.min(1, v))); },
+      pour: function (delay) {
+        if (!armed) { pendingPour = delay || 0; return; }
+        clearTimeout(cueTimer);
+        snapTo(0);
+        cueTimer = setTimeout(function () { value = 0; animateTo(1); }, delay || 0);
+      },
+      cancel: function () { clearTimeout(cueTimer); }
+    };
+
+    var imgs = Array.prototype.slice.call(wrap.querySelectorAll("img"));
+    Promise.all(imgs.map(function (im) {
+      if (im.complete && im.naturalWidth) return Promise.resolve();
+      return im.decode ? im.decode().catch(function () {}) : Promise.resolve();
+    })).then(function () {
+      var off = document.createElement("canvas");
+      off.width = W; off.height = H;
+      paint(off.getContext("2d"), W, H, wrap);
+      var tex = gl.createTexture();
+      gl.bindTexture(gl.TEXTURE_2D, tex);
+      gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, off);
+      wrap.classList.add("fx-on");
+      armed = true;
+      snapTo(printing ? 1 : 0);
+      if (!printing && pendingPour !== null) { var d = pendingPour; pendingPour = null; wrap.__liquid.pour(d); }
+    });
+  }
+
+  var wraps = Array.prototype.slice.call(document.querySelectorAll("[data-liquid]"));
+  wraps.forEach(attach);
+
+  /* Compat shim for the lab workflow. */
+  var aboutEl = document.getElementById("about-fx");
+  if (aboutEl) {
+    window.__aboutFx = {
+      set: function (p) { if (aboutEl.__liquid) aboutEl.__liquid.snapTo(p); },
+      play: function () { if (aboutEl.__liquid) aboutEl.__liquid.pour(0); }
+    };
+  }
+
+  /* Self-cueing elements (data-liquid-auto): pour on arriving at
+     their slide, re-pour on r, drain when the slide is left. */
+  var autos = wraps.filter(function (w) { return w.hasAttribute("data-liquid-auto"); });
+  if (!autos.length || printing) return;
+
+  function onSlide(w) {
+    var sec = window.Reveal.getCurrentSlide();
+    return !!(sec && sec.contains(w));
+  }
+  function delayOf(w) {
+    return parseFloat(w.getAttribute("data-liquid-auto")) || AUTO_DELAY_MS;
+  }
+  var iv = setInterval(function () {
+    if (!(window.Reveal && window.Reveal.isReady && window.Reveal.isReady())) return;
+    clearInterval(iv);
+    function cueAll() {
+      autos.forEach(function (w) {
+        if (!w.__liquid) return;
+        if (onSlide(w)) w.__liquid.pour(delayOf(w));
+        else { w.__liquid.cancel(); w.__liquid.snapTo(0); }
+      });
+    }
+    window.Reveal.on("slidechanged", cueAll);
+    document.addEventListener("keydown", function (ev) {
+      if (ev.key === "r" && !ev.metaKey && !ev.ctrlKey && !ev.altKey) {
+        autos.forEach(function (w) {
+          if (w.__liquid && onSlide(w)) w.__liquid.pour(delayOf(w));
+        });
+      }
+    });
+    cueAll();
+  }, 60);
+})();
+</script>
+<script id="cards-stage">
+/* ── Staged three-card slides ──────────────────────────────────────
+   Snapshots and Career present one card at a time: each card takes
+   the center at 1.5x, untilted, and pours in through the liquid; the
+   right arrow tucks it into its home position (springs on translate/
+   scale/rotate — the individual properties, never transform) while
+   the next card takes the center. Left arrow reverses. Cards are
+   reveal fragments purely for the arrow bookkeeping; a CSS override
+   disables reveal's own fragment fade.
+
+   Rest state is pure CSS: inline styles clear when a card settles
+   home. r restages the whole slide. print-pdf shows the finished
+   composition untouched. */
+(function () {
+  "use strict";
+  if (/print-pdf/gi.test(window.location.search)) return;
+  var reduce = window.matchMedia &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  var HERO = { x: 640, y: 360, scale: 1.5 };  /* center stage, 1.5x */
+  var POS = { f: 1.15, z: 0.8 };              /* the tuck */
+  var FADE = { f: 1.6, z: 1 };                /* no-WebGL fallback fade */
+  var POUR_BEAT = 120;                        /* ms before a hero pours */
+
+  function Spring(f, z, y0) {
+    var w = 2 * Math.PI * f;
+    this.k1 = z / (Math.PI * f);
+    this.k2 = 1 / (w * w);
+    this.y = y0; this.yd = 0; this.t = y0;
+  }
+  Spring.prototype.step = function (dt) {
+    var k2 = Math.max(this.k2, dt * dt / 2 + dt * this.k1 / 2, dt * this.k1);
+    this.y += dt * this.yd;
+    this.yd += dt * (this.t - this.y - this.k1 * this.yd) / k2;
+  };
+  Spring.prototype.settled = function () {
+    return Math.abs(this.y - this.t) < 0.001 && Math.abs(this.yd) < 0.01;
+  };
+  Spring.prototype.snap = function (v) { this.y = v; this.t = v; this.yd = 0; };
+
+  var cards = [];
+  document.querySelectorAll('.slide[data-layout="cards"]').forEach(function (slide) {
+    var sec = slide.closest("section");
+    slide.querySelectorAll(".snap").forEach(function (el) {
+      cards.push({
+        el: el, sec: sec,
+        /* Computed left/top/width, not offset*: the section may be
+           display:none under reveal.css by the time this runs, where
+           offsets read 0 but specified values still resolve. */
+        home: (function () {
+          var cs = getComputedStyle(el);
+          return {
+            x: parseFloat(cs.left) + parseFloat(cs.width) / 2,
+            y: parseFloat(cs.top) + parseFloat(cs.height) / 2,
+            rot: parseFloat(cs.rotate) || 0,
+            s: parseFloat(cs.scale) || 1
+          };
+        })(),
+        h: new Spring(POS.f, POS.z, 1),   /* 0 hero … 1 home */
+        a: new Spring(FADE.f, FADE.z, 1),
+        state: "home"
+      });
+    });
+  });
+  if (!cards.length) return;
+
+  function render(c) {
+    var h = c.h.y, inv = 1 - h;
+    c.el.style.translate = ((HERO.x - c.home.x) * inv) + "px " + ((HERO.y - c.home.y) * inv) + "px";
+    c.el.style.scale = String(c.home.s + (HERO.scale - c.home.s) * inv);
+    c.el.style.rotate = (c.home.rot * h) + "deg";
+    if (!c.el.__liquid) c.el.style.opacity = Math.max(0, Math.min(1, c.a.y));
+  }
+  function rest(c) {
+    if (c.state !== "home") return;
+    c.el.style.translate = c.el.style.scale = c.el.style.rotate = "";
+    c.el.style.opacity = "";
+    c.el.style.zIndex = "";
+  }
+
+  var raf = null, lastT = null;
+  function kick() { if (!raf) raf = requestAnimationFrame(tick); }
+  function tick(now) {
+    raf = null;
+    var dt = lastT == null ? 1 / 60 : Math.min((now - lastT) / 1000, 1 / 30);
+    lastT = now;
+    var live = false;
+    cards.forEach(function (c) {
+      if (c.h.settled() && c.a.settled()) return;
+      c.h.step(dt); c.a.step(dt);
+      render(c);
+      if (c.h.settled() && c.a.settled()) rest(c); else live = true;
+    });
+    if (live) raf = requestAnimationFrame(tick); else lastT = null;
+  }
+
+  function setState(c, s, instant) {
+    var was = c.state;
+    if (was === s && !instant) return;
+    c.state = s;
+    c.el.style.zIndex = s === "hero" ? "3" : s === "home" ? "2" : "1";
+    var L = c.el.__liquid;
+    if (s === "hidden") {
+      if (L) { L.cancel(); L.snapTo(0); }
+      c.h.snap(0);  /* park at center for its next arrival */
+      if (instant || reduce) c.a.snap(0); else c.a.t = 0;
+      render(c);
+    } else if (s === "hero") {
+      if (was === "hidden" || instant || reduce) c.h.snap(0); else c.h.t = 0;
+      c.a.snap(1);
+      render(c);
+      if (L) {
+        if (instant || reduce) L.snapTo(1);
+        else if (was === "hidden") L.pour(POUR_BEAT);
+      }
+    } else { /* home */
+      c.a.snap(1);
+      if (L && (was === "hidden" || instant || reduce)) L.snapTo(1);
+      if (instant || reduce) { c.h.snap(1); render(c); rest(c); }
+      else c.h.t = 1;
+    }
+    kick();
+  }
+
+  function group(sec) { return cards.filter(function (c) { return c.sec === sec; }); }
+  function visCount(g) {
+    return g.filter(function (c) { return c.el.classList.contains("visible"); }).length;
+  }
+  function sync(sec, instant) {
+    var g = group(sec);
+    if (!g.length) return;
+    var v = visCount(g);
+    g.forEach(function (c, i) {
+      setState(c, i < v ? "home" : i === v ? "hero" : "hidden", instant);
+    });
+  }
+  function restage(sec) {
+    var g = group(sec);
+    g.forEach(function (c) { setState(c, "hidden", true); });
+    sync(sec, false);
+  }
+
+  var iv = setInterval(function () {
+    if (!(window.Reveal && window.Reveal.isReady && window.Reveal.isReady())) return;
+    clearInterval(iv);
+
+    window.Reveal.on("fragmentshown", function (e) {
+      if (e.fragment.classList.contains("snap")) sync(e.fragment.closest("section"), false);
+    });
+    window.Reveal.on("fragmenthidden", function (e) {
+      if (e.fragment.classList.contains("snap")) sync(e.fragment.closest("section"), false);
+    });
+    window.Reveal.on("slidechanged", function (e) {
+      var g = group(e.currentSlide);
+      if (!g.length) return;
+      /* Forward arrival: fresh stage. Backward arrival (fragments
+         already shown): finished composition, instantly. */
+      if (visCount(g) === 0) restage(e.currentSlide);
+      else sync(e.currentSlide, true);
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key !== "r" || e.metaKey || e.ctrlKey || e.altKey) return;
+      var sec = window.Reveal.getCurrentSlide();
+      if (!group(sec).length) return;
+      var idx = window.Reveal.getIndices();
+      window.Reveal.slide(idx.h, idx.v, -1);
+      restage(sec);
+    });
+
+    var sec = window.Reveal.getCurrentSlide();
+    if (group(sec).length) {
+      if (visCount(group(sec)) === 0) restage(sec);
+      else sync(sec, true);
+    }
+  }, 60);
+})();
+</script>
+</body>
+</html>

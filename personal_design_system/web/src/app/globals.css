@@ -18,6 +18,15 @@
   --color-accent-muted: #e8eef4;
   --color-on-accent: #0a0a0a;
 
+  /* Stage variant — projection only. DESIGN.md is light-mode only;
+     this is the documented exception for a projector, where warm
+     off-white glows and 1px hairlines disappear. The stage is dark,
+     the work stays light: artifacts sit in surface-elevated cards on
+     the ink ground. Never used on a page that is read, only shown. */
+  --color-stage: #0a0a0a;
+  --color-on-stage: #fafaf7;
+  --color-rule-stage: rgba(229, 229, 229, 0.16);
+
   /* Radii — gentle but never round */
   --radius-sm: 4px;
   --radius-md: 8px;

@@ -1,0 +1,388 @@
+/* ═══════════════════════════════════════════════════════════════════
+   Deck theme — generated from personal_design_system/DESIGN.md
+
+   Two grounds, one system.
+
+   [data-theme="gallery"]  warm off-white, the canonical surface.
+   [data-theme="stage"]    ink ground, off-white type. Projection only.
+
+   The stage variant is a documented exception to the light-mode-only
+   rule. A projector turns #FAFAF7 into a glowing rectangle and erases
+   1px hairlines. The fix keeps the spirit and inverts the ground: the
+   stage is dark, the work is light. Artifacts never invert. They sit in
+   surface-elevated cards so the ink field frames them, gallery-style.
+
+   Canvas is 1280x720 so DESIGN.md's rem scale maps 1:1 to px.
+   ═══════════════════════════════════════════════════════════════════ */
+
+@font-face {
+  font-family: "Davinci";
+  src: url("/vendor/fonts/TRJNDaVinci-Regular-Trial.otf") format("opentype");
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Instrument Serif";
+  src: url("/vendor/fonts/InstrumentSerif-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-display: swap;
+}
+
+:root {
+  --ink: #0a0a0a;
+  --graphite: #3d3d3d;
+  --slate: #6b6b6b;
+  --rule: #e5e5e5;
+  --surface: #fafaf7;
+  --surface-elevated: #ffffff;
+  --surface-sunken: #f2f1ed;
+  --accent: #9bb0c9;
+  --accent-muted: #e8eef4;
+
+  --stage: #0a0a0a;
+  --on-stage: #fafaf7;
+  --rule-stage: rgba(229, 229, 229, 0.16);
+
+  --serif: "Davinci", "Instrument Serif", Georgia, "Times New Roman", serif;
+  --sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "DM Sans", system-ui, sans-serif;
+  --mono: "Roboto Mono", "SF Mono", ui-monospace, monospace;
+
+  --xs: 4px;  --sm: 8px;  --md: 16px;
+  --lg: 24px; --xl: 32px; --xxl: 48px; --xxxl: 64px;
+
+  /* Resolved per theme below. */
+  --ground: var(--surface);
+  --type: var(--ink);
+  --type-quiet: var(--graphite);
+  --type-faint: var(--slate);
+  --hair: var(--rule);
+}
+
+[data-theme="stage"] {
+  --ground: var(--stage);
+  --type: var(--on-stage);
+  --type-quiet: rgba(250, 250, 247, 0.72);
+  --type-faint: rgba(250, 250, 247, 0.48);
+  --hair: var(--rule-stage);
+}
+
+/* ── Canvas ──────────────────────────────────────────────────────── */
+
+html, body { background: var(--ground); }
+
+.reveal {
+  font-family: var(--sans);
+  font-size: 18px;
+  line-height: 1.55;
+  color: var(--type);
+  background: var(--ground);
+}
+
+.reveal .slides { text-align: left; }
+
+/* The section belongs to reveal: it owns `display` (none when hidden,
+   block when present) and we must not touch it. Sizing is safe. */
+.reveal .slides section {
+  height: 720px;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Border-box everywhere inside a slide. Without this, any element with
+   width:100% plus padding (pre, .placeholder, .artifact) overflows the
+   48px edge margin by exactly its padding, which is subtle enough to miss
+   on screen and obvious on a projector. */
+.slide, .slide * { box-sizing: border-box; }
+
+/* The layout lives on an inner element, out of reveal's way. */
+.slide {
+  height: 100%;
+  padding: var(--xxl);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Headings are tight and never bold. Weight comes from size and serif. */
+.reveal h1, .reveal h2, .reveal h3 {
+  font-family: var(--serif);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  color: var(--type);
+  margin: 0;
+  text-transform: none;
+}
+.reveal h1 { font-size: 3.5rem; line-height: 1.05; }
+.reveal h2 { font-size: 2.5rem; line-height: 1.15; }
+.reveal h3 { font-family: var(--sans); font-size: 1.25rem; font-weight: 600; letter-spacing: -0.01em; }
+
+.reveal p { margin: 0; max-width: 62ch; color: var(--type-quiet); }
+.reveal strong { font-weight: 600; color: var(--type); }
+.reveal a { color: var(--accent); text-decoration: none; }
+.reveal a:hover { text-decoration: underline; text-underline-offset: 4px; }
+
+/* All-caps is reserved for the eyebrow. Never body, never headings. */
+.eyebrow {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--type-faint);
+  margin: 0;
+}
+.eyebrow--accent { color: var(--accent); }
+
+.measure { max-width: 62ch; }
+.quiet { color: var(--type-faint); }
+.accent { color: var(--accent); }
+
+/* Hairline, the system's main piece of decoration. */
+.rule { height: 1px; background: var(--hair); border: 0; margin: 0; }
+
+/* ── Layout: title-only ──────────────────────────────────────────── */
+/* Serif headline, bottom-left. Act openers. */
+.slide[data-layout="title-only"] { justify-content: flex-end; }
+.slide[data-layout="title-only"] .eyebrow { margin-bottom: var(--md); }
+
+/* ── Layout: statement ───────────────────────────────────────────── */
+/* One line and nothing else. Left-aligned, never centered. */
+.slide[data-layout="statement"] { justify-content: center; }
+.slide[data-layout="statement"] h1 {
+  font-size: 4.5rem;
+  line-height: 1.05;
+  max-width: 26ch;
+}
+.slide[data-layout="statement"] .stack > * + * { margin-top: var(--lg); }
+
+/* ── Layout: split-half ──────────────────────────────────────────── */
+.slide[data-layout="split-half"] {
+  display: grid;
+  grid-template-columns: 40fr 60fr;
+  gap: var(--xxl);
+  align-items: center;
+}
+.slide[data-layout="split-half"][data-flip="true"] {
+  grid-template-columns: 60fr 40fr;
+}
+.slide[data-layout="split-half"] .pane { min-width: 0; }
+
+/* ── Layout: side-by-side ────────────────────────────────────────── */
+.slide[data-layout="side-by-side"] {
+  display: grid;
+  grid-template-columns: 1fr 1px 1fr;
+  gap: var(--xl);
+  align-items: center;
+}
+.slide[data-layout="side-by-side"] .gutter { background: var(--hair); height: 100%; }
+.slide[data-layout="side-by-side"] .panel { min-width: 0; }
+.slide[data-layout="side-by-side"] .panel .eyebrow { margin-bottom: var(--md); }
+
+/* ── Layout: three-col ──────────────────────────────────────────── */
+.slide[data-layout="three-col"] { justify-content: center; }
+.slide[data-layout="three-col"] .cols {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--lg);
+  margin-top: var(--xl);
+}
+.slide[data-layout="three-col"] .col { min-width: 0; }
+.slide[data-layout="three-col"] .col .eyebrow { margin-bottom: var(--sm); }
+.slide[data-layout="three-col"] .col h3 { margin-bottom: var(--sm); }
+
+/* ── Layout: full-bleed ─────────────────────────────────────────── */
+/* Visual to all four edges. The eyebrow floats, everything else goes. */
+.slide[data-layout="full-bleed"] { padding: 0; position: relative; }
+.slide[data-layout="full-bleed"] img,
+.slide[data-layout="full-bleed"] video,
+.slide[data-layout="full-bleed"] .bleed {
+  width: 100%; height: 100%; object-fit: cover; display: block; margin: 0;
+  border: 0; box-shadow: none; border-radius: 0;
+}
+.slide[data-layout="full-bleed"] .float {
+  position: absolute; left: var(--xxl); bottom: var(--xxl);
+  background: color-mix(in srgb, var(--ground) 88%, transparent);
+  padding: var(--sm) var(--md); border-radius: var(--sm);
+}
+
+/* ── Layout: code ───────────────────────────────────────────────── */
+.slide[data-layout="code"] { justify-content: center; }
+.reveal pre {
+  font-family: var(--mono);
+  font-size: 0.875rem;
+  line-height: 1.6;
+  background: var(--surface-sunken);
+  color: var(--ink);
+  border: 1px solid var(--rule);
+  border-radius: var(--md);
+  padding: var(--lg);
+  margin: var(--xl) 0 0;
+  width: 100%;
+  box-shadow: none;
+  overflow: auto;
+  white-space: pre;
+  text-align: left;
+}
+.reveal pre .cmt { color: var(--slate); }
+.reveal pre .key { color: var(--graphite); }
+
+/* ── Layout: demo ───────────────────────────────────────────────── */
+/* Empty ground, one label. The room looks at you, not the screen. */
+.slide[data-layout="demo"] { justify-content: space-between; }
+.slide[data-layout="demo"] .cue {
+  font-family: var(--serif); font-size: 2rem; color: var(--type-faint);
+  max-width: 30ch;
+}
+
+/* ── Artifacts ──────────────────────────────────────────────────── */
+/* The work never inverts. On the stage it becomes a lit card. */
+.artifact {
+  background: var(--surface-elevated);
+  border-radius: var(--lg);
+  padding: var(--lg);
+  color: var(--ink);
+  overflow: hidden;
+}
+.artifact img { display: block; width: 100%; border-radius: var(--sm); margin: 0; }
+.artifact--bare { padding: 0; }
+/* Anything inside a .artifact is on the light surface, whatever the deck's
+   ground is. Text there must resolve to ink-based colors, not the stage's
+   inverted ones, or a label goes white-on-white. Caught by screenshotting
+   the stage theme, which is the only way this class of bug shows up. */
+.artifact .placeholder { border-color: var(--rule); }
+.artifact .placeholder p { color: var(--slate); }
+.artifact .caption { color: var(--slate); }
+.artifact p { color: var(--graphite); }
+.artifact h1, .artifact h2, .artifact h3 { color: var(--ink); }
+
+
+.frame { border: 1px solid var(--hair); border-radius: var(--md); padding: var(--md); }
+
+.card {
+  background: color-mix(in srgb, var(--type) 4%, transparent);
+  border: 1px solid var(--hair);
+  border-radius: var(--md);
+  padding: var(--md);
+}
+
+.caption { font-size: 0.8125rem; line-height: 1.4; color: var(--type-faint); margin-top: var(--sm); }
+
+/* Placeholder for art that has not been produced yet. Dashed hairline,
+   quiet label. Empty is calm, not an error. */
+.placeholder {
+  box-sizing: border-box;
+  border: 1px dashed var(--hair);
+  border-radius: var(--md);
+  display: flex; align-items: center; justify-content: center;
+  min-height: 240px; padding: var(--lg);
+  text-align: center;
+}
+.placeholder p { font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--type-faint); max-width: 34ch; }
+.placeholder--bleed { min-height: 0; height: 100%; border-radius: 0; border-width: 1px; }
+
+/* ── Chrome ─────────────────────────────────────────────────────── */
+.reveal .controls { color: var(--type-faint); }
+.reveal .progress { color: var(--accent); height: 2px; }
+.reveal .slide-number { background: transparent; font-family: var(--mono); color: var(--type-faint); }
+
+/* Focus is the one place the accent may repeat. Never remove it. */
+.reveal :focus-visible { outline: 3px solid color-mix(in srgb, var(--accent) 50%, transparent); outline-offset: 3px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal .slides section { transition: none !important; }
+}
+
+/* ── Pattern: resources ─────────────────────────────────────────────
+   A closing slide of places to go next, as cards. Two-up so each card
+   keeps a real measure, hairline-bordered rather than filled, because a
+   grid of filled cards reads as a dashboard and this is a reading list.
+   The accent appears once, on the card worth opening first. */
+
+.slide[data-layout="resources"] { justify-content: center; }
+
+.resources {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--md);
+  margin-top: var(--xl);
+}
+
+.resource {
+  display: flex;
+  flex-direction: column;
+  gap: var(--xs);
+  padding: var(--md);
+  border: 1px solid var(--hair);
+  border-radius: var(--md);
+  min-width: 0;
+  text-decoration: none;
+  transition: none;
+}
+.resource:hover { background: color-mix(in srgb, var(--type) 4%, transparent); }
+.resource:hover .resource__name { text-decoration: none; }
+
+.resource__kind {
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--type-faint);
+}
+.resource__name {
+  font-family: var(--serif);
+  font-size: 1.5rem;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--type);
+}
+.resource__desc {
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  color: var(--type-quiet);
+  max-width: 40ch;
+}
+.resource__url {
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  color: var(--type-faint);
+  margin-top: var(--xs);
+}
+.resource--accent { border-color: color-mix(in srgb, var(--accent) 55%, transparent); }
+.resource--accent .resource__url { color: var(--accent); }
+
+/* Speaker notes are hidden by reveal's own CSS. Repeated here so a deck
+   never leaks its notes onto a projector if the plugin fails to load. */
+.reveal aside.notes { display: none; }
+
+/* ── Talk additions ─────────────────────────────────────────────────── */
+
+/* A code excerpt inside a half-width panel needs to give up some size. */
+.panel pre, .pane pre { margin-top: var(--md); font-size: 0.75rem; padding: var(--md); }
+
+/* The tells: a fast mono list, read aloud as comedy. Not a bulleted list,
+   because markers would slow the read down. */
+.tells { display: flex; flex-direction: column; gap: var(--sm); margin-top: var(--md); }
+.tell {
+  font-family: var(--mono);
+  font-size: 0.8125rem;
+  letter-spacing: 0.04em;
+  color: var(--type-quiet);
+}
+.tell--accent { color: var(--accent); }
+
+/* Timeline frames: three captures of the same thing, identical crops. */
+.frames { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--md); margin-top: var(--xl); }
+.frames .year { margin-bottom: var(--sm); }
+
+/* The QR wants a real quiet zone and nothing else near it. */
+.qr {
+  background: var(--surface-elevated);
+  border-radius: var(--md);
+  padding: var(--lg);
+  display: flex; align-items: center; justify-content: center;
+  aspect-ratio: 1;
+  max-width: 320px;
+}

@@ -2,8 +2,10 @@
 
 import * as React from "react"
 import { RadioGroup as RadioGroupPrimitive } from "radix-ui"
+import { motion } from "motion/react"
 
 import { cn } from "@/lib/utils"
+import { useSpringToken, useTokenNumber } from "@/lib/token-context"
 
 function RadioGroup({
   className,
@@ -22,6 +24,8 @@ function RadioGroupItem({
   className,
   ...props
 }: React.ComponentProps<typeof RadioGroupPrimitive.Item>) {
+  const spring = useSpringToken("radio")
+  const popScale = useTokenNumber("radio.popScale")
   return (
     <RadioGroupPrimitive.Item
       data-slot="radio-group-item"
@@ -33,9 +37,13 @@ function RadioGroupItem({
     >
       <RadioGroupPrimitive.Indicator
         data-slot="radio-group-indicator"
-        className="flex size-4 items-center justify-center"
+        className="absolute inset-0 flex items-center justify-center"
       >
-        <span className="absolute top-1/2 left-1/2 size-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary-foreground" />
+        <motion.span
+          initial={{ scale: popScale, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1, transition: spring }}
+          className="size-2 rounded-full bg-primary-foreground"
+        />
       </RadioGroupPrimitive.Indicator>
     </RadioGroupPrimitive.Item>
   )

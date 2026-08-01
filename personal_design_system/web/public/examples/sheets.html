@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Design Review Tracker · Sheets Example</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=DM+Sans:wght@400;500;600&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    /* Davinci sourcing: see ../preview.html for details. Drop Davinci-Regular.woff2 at ../fonts/ to activate. */
+    @font-face {
+      font-family: 'Davinci';
+      src: local('Davinci'),
+           url('../fonts/Davinci-Regular.woff2') format('woff2'),
+           url('../fonts/Davinci.woff2') format('woff2'),
+           url('../fonts/DaVinci/TRJNDaVinci-Regular-Trial.otf') format('opentype');
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --ink: #0A0A0A;
+      --graphite: #3D3D3D;
+      --slate: #6B6B6B;
+      --rule: #E5E5E5;
+      --surface: #FAFAF7;
+      --surface-elevated: #FFFFFF;
+      --surface-sunken: #F2F1ED;
+      --accent: #9BB0C9;
+      --accent-muted: #E8EEF4;
+      --on-accent: #0A0A0A;
+      --font-serif: 'Davinci', 'Instrument Serif', Georgia, 'Times New Roman', serif;
+      --font-body: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'DM Sans', system-ui, sans-serif;
+      --font-mono: 'Roboto Mono', 'SF Mono', 'Fira Code', monospace;
+    }
+
+    html {
+      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    ::selection {
+      background: var(--accent-muted);
+      color: var(--ink);
+    }
+
+    body {
+      background-color: var(--surface);
+      color: var(--ink);
+      font-family: var(--font-body);
+      padding: 64px 24px;
+      min-height: 100vh;
+    }
+
+    /* ── Sheet container ── */
+    .sheet-page {
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    .sheet-header {
+      margin-bottom: 32px;
+    }
+
+    .sheet-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--slate);
+      margin-bottom: 8px;
+    }
+
+    .sheet-title {
+      font-family: var(--font-serif);
+      font-size: 2rem;
+      font-weight: 400;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      margin-bottom: 4px;
+    }
+
+    .sheet-subtitle {
+      font-family: var(--font-body);
+      font-size: 0.875rem;
+      color: var(--slate);
+    }
+
+    /* ── Table ── */
+    .sheet-table-wrap {
+      background: var(--surface-elevated);
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid var(--rule);
+    }
+
+    .sheet-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .sheet-table th {
+      background: var(--surface-sunken);
+      color: var(--graphite);
+      font-family: var(--font-mono);
+      font-size: 0.6875rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-align: left;
+      padding: 10px 16px;
+      border-bottom: 1px solid var(--rule);
+      white-space: nowrap;
+    }
+
+    .sheet-table th.num {
+      text-align: right;
+    }
+
+    .sheet-table td {
+      background: var(--surface-elevated);
+      color: var(--ink);
+      font-family: var(--font-body);
+      font-size: 0.875rem;
+      font-weight: 400;
+      line-height: 1.5;
+      padding: 10px 16px;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .sheet-table td.num {
+      text-align: right;
+      font-family: var(--font-mono);
+      font-size: 0.8125rem;
+      color: var(--graphite);
+    }
+
+    .sheet-table td.status {
+      font-family: var(--font-body);
+      font-size: 0.8125rem;
+    }
+
+    .sheet-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    /* Conditional format: accent highlight on a single row */
+    .sheet-table tr.row-highlight td {
+      background: var(--accent-muted);
+    }
+
+    /* Status colors (text only, restrained) */
+    .status-approved { color: #2D7D46; }
+    .status-in-review { color: var(--accent); }
+    .status-pending { color: var(--slate); }
+    .status-blocked { color: #B85C3A; }
+
+    /* ── Legend ── */
+    .sheet-legend {
+      margin-top: 16px;
+      display: flex;
+      gap: 24px;
+      align-items: center;
+    }
+
+    .sheet-legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--font-mono);
+      font-size: 0.6875rem;
+      letter-spacing: 0.04em;
+      color: var(--slate);
+    }
+
+    .legend-swatch {
+      width: 8px;
+      height: 8px;
+      border-radius: 2px;
+    }
+
+    /* ── System footer ── */
+    .system-footer {
+      max-width: 960px;
+      margin: 48px auto 0;
+      text-align: center;
+    }
+
+    .system-footer a {
+      font-family: var(--font-mono);
+      font-size: 0.6875rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--slate);
+      text-decoration: none;
+    }
+
+    .system-footer a:hover { color: var(--accent); }
+
+    /* ── Spring buttons ── */
+    .spring-btn { will-change: transform; }
+
+    /* ── Responsive ── */
+    @media (max-width: 640px) {
+      body { padding: 24px 16px; }
+      .sheet-title { font-size: 1.5rem; }
+      .sheet-table-wrap { overflow-x: auto; }
+      .sheet-table { min-width: 640px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="sheet-page">
+
+    <div class="sheet-header">
+      <p class="sheet-eyebrow">Product Design · Q2 2026</p>
+      <h1 class="sheet-title">Design Review Tracker</h1>
+      <p class="sheet-subtitle">Review status for all HN2B workstreams. Updated weekly.</p>
+    </div>
+
+    <div class="sheet-table-wrap">
+      <table class="sheet-table">
+        <thead>
+          <tr>
+            <th>Workstream</th>
+            <th>Owner</th>
+            <th>Review Date</th>
+            <th>Status</th>
+            <th class="num">Confidence</th>
+            <th class="num">Open Issues</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Onboarding flow</td>
+            <td>Kira M.</td>
+            <td>May 20</td>
+            <td class="status"><span class="status-approved">Approved</span></td>
+            <td class="num">95%</td>
+            <td class="num">0</td>
+          </tr>
+          <tr>
+            <td>Notification tray</td>
+            <td>James L.</td>
+            <td>May 22</td>
+            <td class="status"><span class="status-approved">Approved</span></td>
+            <td class="num">88%</td>
+            <td class="num">1</td>
+          </tr>
+          <tr>
+            <td>Settings architecture</td>
+            <td>Priya R.</td>
+            <td>May 27</td>
+            <td class="status"><span class="status-in-review">In review</span></td>
+            <td class="num">72%</td>
+            <td class="num">3</td>
+          </tr>
+          <tr class="row-highlight">
+            <td>Spatial vignettes</td>
+            <td>Dan S.</td>
+            <td>June 3</td>
+            <td class="status"><span class="status-in-review">In review</span></td>
+            <td class="num">80%</td>
+            <td class="num">2</td>
+          </tr>
+          <tr>
+            <td>Media playback</td>
+            <td>Alex T.</td>
+            <td>June 5</td>
+            <td class="status"><span class="status-pending">Pending</span></td>
+            <td class="num">60%</td>
+            <td class="num">4</td>
+          </tr>
+          <tr>
+            <td>Sharing flow</td>
+            <td>Maya K.</td>
+            <td>June 10</td>
+            <td class="status"><span class="status-pending">Pending</span></td>
+            <td class="num">55%</td>
+            <td class="num">5</td>
+          </tr>
+          <tr>
+            <td>Accessibility audit</td>
+            <td>Sam W.</td>
+            <td>June 12</td>
+            <td class="status"><span class="status-pending">Pending</span></td>
+            <td class="num">—</td>
+            <td class="num">—</td>
+          </tr>
+          <tr>
+            <td>Performance budget</td>
+            <td>Lena C.</td>
+            <td>June 12</td>
+            <td class="status"><span class="status-blocked">Blocked</span></td>
+            <td class="num">40%</td>
+            <td class="num">7</td>
+          </tr>
+          <tr>
+            <td>Dark mode (deferred)</td>
+            <td>—</td>
+            <td>TBD</td>
+            <td class="status"><span class="status-blocked">Blocked</span></td>
+            <td class="num">—</td>
+            <td class="num">—</td>
+          </tr>
+          <tr>
+            <td>Launch checklist</td>
+            <td>Dan S.</td>
+            <td>June 15</td>
+            <td class="status"><span class="status-pending">Pending</span></td>
+            <td class="num">—</td>
+            <td class="num">—</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="sheet-legend">
+      <div class="sheet-legend-item">
+        <div class="legend-swatch" style="background: var(--accent-muted);"></div>
+        Highlighted row = current focus
+      </div>
+    </div>
+
+  </div>
+
+  <div class="system-footer">
+    <a href="../preview.html">Built with Dan Sozanski's design system ← back to system reference</a>
+  </div>
+
+<script>
+(function() {
+  'use strict';
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    var s = document.createElement('style');
+    s.textContent = '.spring-btn{transition:transform .15s ease}.spring-btn:hover{transform:scale(1.03)}.spring-btn:active{transform:scale(0.96)}';
+    document.head.appendChild(s);
+    return;
+  }
+  var PI = Math.PI;
+  function p(f,z,r){return{k1:z/(PI*f),k2:1/((2*PI*f)*(2*PI*f)),k3:r*z/(2*PI*f)};}
+  var HOVER=p(3.5,.7,1.5),ACTIVE=p(5,1,0),RELEASE=p(4,.55,2);
+  var springs=[],rafId=null,lastTime=0;
+  function Spring(el){
+    this.el=el;this.y=1;this.yd=0;this.x=1;this.p=HOVER;this.hovered=false;this.pressed=false;
+    var self=this;
+    el.addEventListener('mouseenter',function(){self.hovered=true;self.x=1.03;self.p=HOVER;wake();});
+    el.addEventListener('mouseleave',function(){self.hovered=false;if(!self.pressed){self.x=1;self.p=RELEASE;wake();}});
+    el.addEventListener('mousedown',function(){self.pressed=true;self.x=0.96;self.p=ACTIVE;wake();});
+    window.addEventListener('mouseup',function(){if(self.pressed){self.pressed=false;self.x=self.hovered?1.03:1;self.p=RELEASE;wake();}});
+  }
+  function wake(){if(!rafId){lastTime=performance.now();rafId=requestAnimationFrame(tick);}}
+  function tick(now){
+    var dt=Math.min((now-lastTime)/1000,0.02);lastTime=now;var any=false;
+    for(var i=0;i<springs.length;i++){
+      var s=springs[i],k1=s.p.k1,k2=s.p.k2,k3=s.p.k3;
+      s.yd=s.yd+dt*(k3*0+(s.x-s.y)-k1*s.yd)/k2;
+      s.y=s.y+dt*s.yd;
+      s.el.style.transform='scale('+s.y.toFixed(5)+')';
+      if(Math.abs(s.y-s.x)>0.0003||Math.abs(s.yd)>0.005){any=true;}
+      else{s.y=s.x;s.yd=0;s.el.style.transform=s.x===1?'':'scale('+s.x+')';}
+    }
+    rafId=any?requestAnimationFrame(tick):null;
+  }
+  document.addEventListener('DOMContentLoaded',function(){
+    var els=document.querySelectorAll('.spring-btn');
+    for(var i=0;i<els.length;i++) springs.push(new Spring(els[i]));
+  });
+})();
+</script>
+
+</body>
+</html>

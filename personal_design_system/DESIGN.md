@@ -17,6 +17,11 @@ colors:
   accent: "#9BB0C9"           # pastel grey-blue — used sparingly, for one thing per view
   accent-muted: "#E8EEF4"     # accent tint for fills, highlights
   on-accent: "#0A0A0A"        # text on accent fills (ink; the pastel is too light for white)
+  # Stage variant. Projection only, see Presentations under Surface
+  # Conventions. This is the one documented exception to light-mode-only.
+  surface-stage: "#0A0A0A"                # projection ground
+  on-stage: "#FAFAF7"                     # type on the stage ground
+  rule-stage: "rgba(229, 229, 229, 0.16)" # hairlines that survive a projector
 typography:
   display:
     fontFamily: Davinci, Instrument Serif, serif
@@ -250,6 +255,10 @@ data point, or a CTA.
 - **Accent muted (#E8EEF4)** — Callout fills and highlight backgrounds.
 
 **Dark mode is not supported.** This system lives in light surfaces only.
+The single exception is the **stage variant** used for projected decks,
+documented under Presentations in Surface Conventions. It inverts the
+ground and nothing else, and it never applies to anything that is read
+rather than shown.
 
 ## Typography
 
@@ -567,6 +576,44 @@ the body face on Docs / Slides / Sheets.
 - One accent color use per deck section, max.
 - No transitions. No bullet animations. Cuts only.
 
+**Presentations (reveal.js)**
+
+A separate surface from Google Slides, not a replacement for it. Slides is a
+shared, editable artifact inside Workspace. A reveal deck is a self-contained
+web page you present from and hand over as a link: keyboard navigation,
+speaker notes, an overview grid, and PDF export.
+
+- Canvas is **1280x720**, so this file's rem scale maps to px with no math.
+  Edge padding is `xxl` (48px).
+- **Eight layouts, and no more.** `title-only`, `statement`, `split-half`,
+  `side-by-side`, `three-col`, `full-bleed`, `code`, `demo`. Variety comes
+  from proportion, never decoration. If a slide fits none of them, the slide
+  is usually the problem.
+- One **pattern** so far: `resources`, the closing reading-list slide.
+  Hairline cards two-up, each with a kind, a name, one line of why, and the
+  bare URL. One accent, on the card to open first.
+- Same twenty-word ceiling as Slides. Transitions are `none`; cuts only.
+- Implemented in `personal_design_system/web/public/decks/`. Shared theme at
+  `_shared/deck.css`, boot at `_shared/deck-boot.js`. Decks are plain static
+  HTML and are not bundled by Next, so a deck keeps working when the app does
+  not. Run `npm run vendor:reveal` once to present with the network off.
+
+*The stage variant*
+
+DESIGN.md is light-mode only, and a projector is the one place that rule
+fights itself. At 4000 lumens `#FAFAF7` becomes a glowing rectangle and 1px
+`rule` hairlines disappear. The fix keeps the spirit and inverts the ground:
+**the stage is dark, the work is light.** Gallery walls, lit pieces.
+
+- Type inverts (`on-stage` on `surface-stage`). Nothing else does.
+- **Artifacts never invert.** Screenshots, docs, sites and Figma frames stay
+  exactly as this file specifies and sit in `surface-elevated` cards at `lg`
+  corners, so the ink field frames them.
+- The accent `#9BB0C9` is unchanged, still at most once per view.
+- Hairlines move to `rule-stage`. `#E5E5E5` on ink is a glare line.
+- Projection only. Anything that leaves the room (a shared link, an export,
+  the repo) uses the `gallery` theme on the normal light surface.
+
 **Google Sheets**
 - Minimal: no banded rows, no color-coded headers beyond `surface-sunken`.
 - Header row uses `label-caps` (Roboto Mono uppercase, 0.08em tracking).
@@ -633,6 +680,14 @@ building artifacts in Dan's system, follow this guide.
 > bottom corner. Cuts only, no transitions, no bullet animations. One
 > accent color use per section, max.
 
+*Deck (reveal.js)*
+> Build a reveal.js deck using Dan's design system. Copy
+> `personal_design_system/web/public/decks/stage-dark/` and edit the slides.
+> 1280x720, 48px edges, only the eight documented layouts, under twenty words
+> per slide. `data-theme="stage"` for a projector, `gallery` for anything
+> shared as a link. Transitions none. Artifacts go in `.artifact` cards and
+> never invert. One accent per section. No em-dashes.
+
 *Web page or prototype*
 > Build a web page using the tokens and rules in
 > `~/gdrive/02_areas/personal_design_system/DESIGN.md`. Load Davinci if
@@ -650,7 +705,10 @@ building artifacts in Dan's system, follow this guide.
 - [ ] No em-dashes in any copy.
 - [ ] Tables have no banded rows. Numbers right-aligned.
 - [ ] Body measure capped near 65-75 characters.
-- [ ] Light mode only. No dark theme variants.
+- [ ] Light mode only. No dark theme variants, except a projected deck on
+      the documented stage variant.
+- [ ] On the stage variant: type inverted, artifacts not inverted, hairlines
+      on `rule-stage`, and the deck reverts to `gallery` when shared.
 - [ ] Every list item has `12pt` space-above and `12pt` space-below
       (Docs) or `margin: 16px 0` (web). No first/last edge cases.
 - [ ] List items use `1.15` line spacing inside each bullet so wraps
